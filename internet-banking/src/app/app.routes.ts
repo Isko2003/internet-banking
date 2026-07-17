@@ -16,7 +16,6 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard', title: 'Dashboard', loadComponent: () => import('./pages/dashboard/dashboard').then(m => m.Dashboard) },
-      // digər page-lər eyni qaydada
     ]
   },
   { path: '**', loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFound) }
