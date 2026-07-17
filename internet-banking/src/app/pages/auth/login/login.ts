@@ -52,24 +52,24 @@ export class Login {
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
-    setTimeout(() => {
-      const { email, password } = this.loginForm.value;
+    const email = this.loginForm.value.email!;
+    const password = this.loginForm.value.password!;
 
-      if (email === 'test@mybank.com' && password === "Test1234") {
-        this.authService.login('mock-jwt-token');
+    this.authService.login(email, password).subscribe({
+      next: () => {
         this.isLoading.set(false);
         this.router.navigate(['/dashboard']);
-      } else {
+      },
+      error: () => {
         this.isLoading.set(false);
         this.errorMessage.set('Email və ya şifrə yanlışdır');
-        this.failedAttempts.update(v => v + 1);
-
+        this.failedAttempts.update((v) => v + 1);
         if (this.failedAttempts() >= 3) {
           this.startLockout();
         }
-      }
-    }, 1000)
-  }
+      },
+    });
+}
 
   private startLockout() {
     this.isLocked.set(true);
