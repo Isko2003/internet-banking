@@ -1,12 +1,7 @@
 {
   "users": [
-    {
-      "id": 1,
-      "email": "test@mybank.com",
-      "password": "Test1234",
-      "firstName": "Elvin",
-      "lastName": "Məmmədov"
-    }
+    { "id": 1, "email": "test@mybank.com", "password": "Test1234", "firstName": "Elvin", "lastName": "Məmmədov" },
+    { "id": 2, "email": "ismayil@mybank.com", "password": "Ismayil1234", "firstName": "Ismayil", "lastName": "Ismayilov" }
   ],
   "accounts": [
     { "id": 1, "userId": 1, "name": "Əsas hesab", "iban": "AZ21NABZ00000000137010001944", "balance": 4520.75, "currency": "AZN" },

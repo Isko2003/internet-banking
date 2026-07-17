@@ -1,1 +1,36 @@
-<p>dashboard works!</p>
+<div class="flex flex-col gap-6 font-body">
+
+  <div class="relative overflow-hidden rounded-2xl bg-navy text-white p-8">
+    <div class="absolute -right-10 -top-10 w-56 h-56 rounded-full bg-mint/20 blur-2xl"></div>
+    <div class="relative">
+      <p class="text-sm text-white/70">Xoş gəldin,</p>
+      <h1 class="font-display text-2xl font-bold mt-1">{{ displayName() }}</h1>
+      <div class="mt-6">
+        <p class="text-sm text-white/70">Ümumi balans</p>
+        <p class="font-display text-4xl font-bold tabular-nums mt-1">
+          16 520.75 <span class="text-lg text-mint">AZN</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+      <h2 class="font-display font-semibold text-navy mb-3">Hesablar</h2>
+      <p class="text-sm text-gray-400">Yüklənir...</p>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+      <h2 class="font-display font-semibold text-navy mb-3">Kartlar</h2>
+      <p class="text-sm text-gray-400">Yüklənir...</p>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+      <h2 class="font-display font-semibold text-navy mb-3">Son əməliyyatlar</h2>
+      <p class="text-sm text-gray-400">Yüklənir...</p>
+    </div>
+
+  </div>
+
+</div>
