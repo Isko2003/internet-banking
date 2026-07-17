@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "test@mybank.com",
+      "password": "Test1234",
+      "firstName": "Elvin",
+      "lastName": "Məmmədov"
+    }
+  ],
+  "accounts": [
+    { "id": 1, "userId": 1, "name": "Əsas hesab", "iban": "AZ21NABZ00000000137010001944", "balance": 4520.75, "currency": "AZN" },
+    { "id": 2, "userId": 1, "name": "Əmanət hesabı", "iban": "AZ21NABZ00000000137010001945", "balance": 12000, "currency": "AZN" }
+  ],
+  "cards": [
+    { "id": 1, "userId": 1, "accountId": 1, "number": "4169 **** **** 1234", "type": "Visa Debit", "expiry": "08/28", "status": "active" }
+  ],
+  "transactions": [
+    { "id": 1, "accountId": 1, "type": "expense", "amount": 45.50, "category": "Market", "description": "Bravo", "date": "2026-07-15" },
+    { "id": 2, "accountId": 1, "type": "income", "amount": 1200, "category": "Maaş", "description": "İş yeri", "date": "2026-07-10" }
+  ],
+  "notifications": [
+    { "id": 1, "userId": 1, "message": "Kartınıza 1200 AZN köçürüldü", "read": false, "date": "2026-07-10" }
+  ]
+}
