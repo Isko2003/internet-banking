@@ -26,6 +26,57 @@
     </div>
   }
 
+  <app-dashboard-panel title="Sürətli əməliyyatlar" [isLoading]="false" [isEmpty]="false">
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+
+    <a routerLink="/transfers" class="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-mint-light transition-colors">
+      <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4M16 17H4m0 0l4 4m-4-4l4-4" />
+        </svg>
+      </div>
+      <span class="text-xs text-gray-700 text-center">Hesablar arası köçürmə</span>
+    </a>
+
+    <a routerLink="/transfers" [queryParams]="{ type: 'external' }" class="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-mint-light transition-colors">
+      <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </div>
+      <span class="text-xs text-gray-700 text-center">Başqa istifadəçiyə köçürmə</span>
+    </a>
+
+    <a routerLink="/payments" class="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-mint-light transition-colors">
+      <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      </div>
+      <span class="text-xs text-gray-700 text-center">Mobil ödəniş</span>
+    </a>
+
+    <a routerLink="/templates" class="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-mint-light transition-colors">
+      <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+      </div>
+      <span class="text-xs text-gray-700 text-center">Şablon yarat</span>
+    </a>
+
+    <a routerLink="/transactions" class="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-mint-light transition-colors">
+      <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+        </svg>
+      </div>
+      <span class="text-xs text-gray-700 text-center">Bütün əməliyyatlar</span>
+    </a>
+
+  </div>
+</app-dashboard-panel>
+
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
     <app-dashboard-panel title="Hesablar" [isLoading]="isLoading()" [isEmpty]="accounts().length === 0" emptyMessage="Hesab tapılmadı">
@@ -48,6 +99,14 @@
       <div class="flex flex-col gap-2">
         @for (tx of transactions(); track tx.id) {
           <app-transaction-row [transaction]="tx" />
+        }
+      </div>
+    </app-dashboard-panel>
+
+    <app-dashboard-panel title="Bildirişlər" [isLoading]="isLoading()" [isEmpty]="notifications().length === 0" emptyMessage="Bildiriş yoxdur">
+      <div class="flex flex-col gap-3">
+        @for (n of notifications(); track n.id) {
+          <app-notification-row [notification]="n" />
         }
       </div>
     </app-dashboard-panel>

@@ -12,17 +12,23 @@ import { DashboardPanel } from "../../shared/components/dashboard-panel/dashboar
 import { AccountRow } from "../../shared/components/account-row/account-row";
 import { CardRow } from "../../shared/components/card-row/card-row";
 import { TransactionRow } from "../../shared/components/transaction-row/transaction-row";
+import { RouterLink } from '@angular/router';
+import { NotificationService } from '../../core/services/notification.service';
+import { AppNotification } from '../../core/models/notification.model';
+import { NotificationRow } from "../../shared/components/notification-row/notification-row";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe, DashboardPanel, AccountRow, CardRow, TransactionRow],
+  imports: [CommonModule, CurrencyPipe, DashboardPanel, AccountRow, CardRow, TransactionRow, RouterLink, NotificationRow],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
   private accountService = inject(AccountService);
   private cardService = inject(CardService);
   private transactionService = inject(TransactionService);
+  private notificationService = inject(NotificationService);
+
   authService = inject(AuthService);
 
   displayName = this.authService.currentUser;
@@ -30,6 +36,7 @@ export class Dashboard {
   accounts = signal<Account[]>([]);
   cards = signal<Card[]>([]);
   transactions = signal<Transaction[]>([]);
+  notifications = signal<AppNotification[]>([]);
 
   isLoading = signal(true);
   hasError = signal(false);
@@ -48,22 +55,25 @@ export class Dashboard {
     accounts: this.accountService.getAccounts(),
     cards: this.cardService.getCards(),
     transactions: this.transactionService.getRecent(5),
+    notifications: this.notificationService.getNotifications(),
   })
-    .pipe( // 
+    .pipe(
       catchError(() => {
         this.hasError.set(true);
         return of({
           accounts: [] as Account[],
           cards: [] as Card[],
           transactions: [] as Transaction[],
+          notifications: [] as AppNotification[],
         });
       }),
       finalize(() => this.isLoading.set(false))
     )
-    .subscribe(({ accounts, cards, transactions }) => {
+    .subscribe(({ accounts, cards, transactions, notifications }) => {
       this.accounts.set(accounts);
       this.cards.set(cards);
       this.transactions.set(transactions);
+      this.notifications.set(notifications);
       this.totalBalance.set(accounts.reduce((sum: number, a: Account) => sum + a.balance, 0));
     });
 }
