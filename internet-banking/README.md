@@ -30,52 +30,6 @@ The frontend infrastructure relies on the latest stable versions of the Angular 
 
 - **Local REST API:** `json-server` (for local API simulation and state retention)
 
----
-
-## 🏗️ Architecture & Directory Structure
-
-The project follows a clean, modular **Core/Shared/Pages** architectural pattern designed to enforce separation of concerns, scalability, and ease of collaboration:
-
-```text
-src/
-  app/
-    core/                   # Global, non-reusable infrastructure layer
-      guards/               # Navigation guards (AuthGuard, GuestGuard, CanDeactivate)
-      interceptors/         # HTTP interceptors (Token injection, Error handling, Loader)
-      services/             # Global singleton services (AuthService, NotificationService)
-      models/               # Global type definitions (Interfaces, Types)
-      constants/            # Global constants and configuration
-      tokens/               # Dependency Injection (DI) tokens
-    shared/                 # Globally reusable resources (Can be imported by any feature)
-      components/           # Reusable atomic UI components (Button, Input, Table, Modal, etc.)
-      directives/           # Custom helper directives (CopyToClipboard, ClickOutside, Autofocus)
-      pipes/                # Data transforming pipes (MaskCardNumber, MaskIban, TransactionSign)
-      validators/           # Custom reactive form validators (Luhn validator, Cross-field validator)
-      utils/                # Pure helper and mapper functions
-    layout/                 # Global application structural shell
-      components/           # Header, Sidebar, Footer, Breadcrumbs
-    pages/                  # Isolated feature-based route pages
-      auth/                 # Authentication & login page
-      dashboard/            # Overview panel containing account stats and quick actions
-      accounts/             # Checking/savings accounts list & account statements
-      cards/                # Card limits management, PIN settings, and blocking
-      transactions/         # Paginated and filterable transaction history ledger
-      transfers/            # Internal transfers and cross-user payments
-      payments/             # Utility, internet, and mobile service payments
-      templates/            # Payment template management
-      analytics/            # Chart-driven financial expense breakdown
-      notifications/        # Informative notifications feed
-      profile/              # User profile details and avatar uploader
-      settings/             # Dark/Light mode, language preference, and security toggles
-    app.component.ts        # Bootstrapped root component
-    app.config.ts           # Global application providers and configurations
-    app.routes.ts           # Lazy loaded routing map
-  assets/                   # Static assets (images, icons, global styles)
-  environments/             # Environment configuration files containing server APIs
-```
-
----
-
 ## 🎯 Main Application Features & Sections
 
 The application is structured around 16 critical sections:
@@ -107,7 +61,7 @@ Follow these simple steps to run the application in your local development envir
 
 ```bash
 git clone https://github.com/your-username/mybank-internet-banking.git
-cd mybank-internet-banking
+cd internet-banking
 ```
 
 ### **Step 2. Install dependencies**
