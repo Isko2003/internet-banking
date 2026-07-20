@@ -115,6 +115,10 @@
        <app-expense-chart [transactions]="allTransactions()" />
     </app-dashboard-panel>
 
+    <app-dashboard-panel title="Valyuta məzənnələri" [isLoading]="false" [isEmpty]="false">
+      <app-exchange-rates />
+    </app-dashboard-panel>
+
   </div>
 
 </div>

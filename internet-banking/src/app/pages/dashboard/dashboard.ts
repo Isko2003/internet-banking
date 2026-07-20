@@ -17,11 +17,12 @@ import { NotificationService } from '../../core/services/notification.service';
 import { AppNotification } from '../../core/models/notification.model';
 import { NotificationRow } from "../../shared/components/notification-row/notification-row";
 import { ExpenseChart } from '../../shared/components/expense-chart/expense-chart';
+import { ExchangeRates } from '../../shared/components/exchange-rates/exchange-rates';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe, DashboardPanel, AccountRow, CardRow, TransactionRow, RouterLink, NotificationRow, ExpenseChart],
+  imports: [CommonModule, CurrencyPipe, DashboardPanel, AccountRow, CardRow, TransactionRow, RouterLink, NotificationRow, ExpenseChart, ExchangeRates],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
