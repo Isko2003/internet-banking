@@ -47,6 +47,7 @@
       "currency": "AZN",
       "type": "checking",
       "status": "active",
+      "blockedAmount": 300,
       "openedDate": "2021-05-14"
     },
     {
@@ -58,6 +59,7 @@
       "currency": "AZN",
       "type": "savings",
       "status": "active",
+      "blockedAmount": 100,
       "openedDate": "2022-02-01"
     },
     {
@@ -69,6 +71,7 @@
       "currency": "USD",
       "type": "checking",
       "status": "active",
+      "blockedAmount": 200,
       "openedDate": "2023-09-10"
     }
   ],
