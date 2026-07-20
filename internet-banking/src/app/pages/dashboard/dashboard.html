@@ -111,6 +111,10 @@
       </div>
     </app-dashboard-panel>
 
+    <app-dashboard-panel title="Xərclərin bölgüsü" [isLoading]="isLoading()" [isEmpty]="allTransactions().length === 0">
+       <app-expense-chart [transactions]="allTransactions()" />
+    </app-dashboard-panel>
+
   </div>
 
 </div>
