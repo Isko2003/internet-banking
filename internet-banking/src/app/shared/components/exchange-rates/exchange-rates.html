@@ -1,0 +1,38 @@
+<div class="flex flex-col gap-4">
+
+  <div class="flex items-center justify-between">
+    <div class="flex gap-2">
+      @for (currency of currencies; track currency) {
+        <button
+          (click)="onCurrencyChange(currency)"
+          class="px-3 py-1 text-xs rounded-full border transition-colors"
+          [class.bg-navy]="rateData()?.base === currency"
+          [class.text-white]="rateData()?.base === currency"
+          [class.border-navy]="rateData()?.base === currency"
+          [class.border-gray-200]="rateData()?.base !== currency"
+          [class.text-gray-600]="rateData()?.base !== currency"
+        >
+          {{ currency }}
+        </button>
+      }
+    </div>
+
+    <button (click)="onRefresh()" class="text-xs text-mint hover:text-navy transition-colors">
+      Yenilə
+    </button>
+  </div>
+
+  @if (!rateData()) {
+    <p class="text-sm text-gray-400">Yüklənir...</p>
+  } @else {
+    <div class="flex flex-col gap-2">
+      @for (entry of (rateData()!.rates | keyvalue); track entry.key) {
+        <div class="flex justify-between text-sm">
+          <span class="text-gray-600">1 {{ rateData()!.base }} =</span>
+          <span class="font-medium tabular-nums text-navy">{{ entry.value }} {{ entry.key }}</span>
+        </div>
+      }
+    </div>
+  }
+
+</div>
