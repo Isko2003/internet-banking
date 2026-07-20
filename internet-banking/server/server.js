@@ -39,6 +39,16 @@ const server = http.createServer((req, res) => {
   const query = parsedUrl.query; 
 
   const db = readDb();
+  
+  if (resourceName === "rates") {
+    const base = query.base || "AZN";
+    const rates = db.rates[base];
+    if(!rates) {
+      sendJson(res, 404, { message: `'${base}' üçün məzənnə tapılmadı` });
+    }
+    sendJson(res, 200, {base, rates});
+    return;
+  }
 
   if (!db[resourceName]) {
     sendJson(res, 404, { message: `Resource '${resourceName}' tapılmadı` });
