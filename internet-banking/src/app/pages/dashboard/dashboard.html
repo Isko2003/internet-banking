@@ -1,1 +1,116 @@
-<p>dashboard works!</p>
+<div class="flex flex-col gap-6 font-body">
+
+  <div class="relative overflow-hidden rounded-2xl bg-navy text-white p-8">
+    <div class="absolute -right-10 -top-10 w-56 h-56 rounded-full bg-mint/20 blur-2xl"></div>
+    <div class="relative">
+      <p class="text-sm text-white/70">Xoş gəldin,</p>
+      <h1 class="font-display text-2xl font-bold mt-1">
+        {{ displayName()?.firstName }} {{ displayName()?.lastName }}
+      </h1>
+      <div class="mt-6">
+        <p class="text-sm text-white/70">Ümumi balans</p>
+        @if (isLoading()) {
+          <div class="h-9 w-40 bg-white/10 rounded animate-pulse mt-2"></div>
+        } @else {
+          <p class="font-display text-4xl font-bold tabular-nums mt-1">
+            {{ totalBalance() | currency:'AZN':'symbol':'1.2-2' }}
+          </p>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (hasError()) {
+    <div class="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 text-sm">
+      Məlumatları yükləmək mümkün olmadı. Yenidən cəhd edin.
+    </div>
+  }
+
+  <app-dashboard-panel title="Sürətli əməliyyatlar" [isLoading]="false" [isEmpty]="false">
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+
+    <a routerLink="/transfers" class="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-mint-light transition-colors">
+      <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4M16 17H4m0 0l4 4m-4-4l4-4" />
+        </svg>
+      </div>
+      <span class="text-xs text-gray-700 text-center">Hesablar arası köçürmə</span>
+    </a>
+
+    <a routerLink="/transfers" [queryParams]="{ type: 'external' }" class="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-mint-light transition-colors">
+      <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </div>
+      <span class="text-xs text-gray-700 text-center">Başqa istifadəçiyə köçürmə</span>
+    </a>
+
+    <a routerLink="/payments" class="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-mint-light transition-colors">
+      <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      </div>
+      <span class="text-xs text-gray-700 text-center">Mobil ödəniş</span>
+    </a>
+
+    <a routerLink="/templates" class="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-mint-light transition-colors">
+      <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+      </div>
+      <span class="text-xs text-gray-700 text-center">Şablon yarat</span>
+    </a>
+
+    <a routerLink="/transactions" class="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-mint-light transition-colors">
+      <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+        </svg>
+      </div>
+      <span class="text-xs text-gray-700 text-center">Bütün əməliyyatlar</span>
+    </a>
+
+  </div>
+</app-dashboard-panel>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+    <app-dashboard-panel title="Hesablar" [isLoading]="isLoading()" [isEmpty]="accounts().length === 0" emptyMessage="Hesab tapılmadı">
+      <div class="flex flex-col gap-2">
+        @for (account of accounts(); track account.id) {
+          <app-account-row [account]="account" />
+        }
+      </div>
+    </app-dashboard-panel>
+
+    <app-dashboard-panel title="Kartlar" [isLoading]="isLoading()" [isEmpty]="cards().length === 0" emptyMessage="Kart tapılmadı">
+      <div class="flex flex-col gap-2">
+        @for (card of cards(); track card.id) {
+          <app-card-row [card]="card" />
+        }
+      </div>
+    </app-dashboard-panel>
+
+    <app-dashboard-panel title="Son əməliyyatlar" [isLoading]="isLoading()" [isEmpty]="transactions().length === 0" emptyMessage="Əməliyyat tapılmadı">
+      <div class="flex flex-col gap-2">
+        @for (tx of transactions(); track tx.id) {
+          <app-transaction-row [transaction]="tx" />
+        }
+      </div>
+    </app-dashboard-panel>
+
+    <app-dashboard-panel title="Bildirişlər" [isLoading]="isLoading()" [isEmpty]="notifications().length === 0" emptyMessage="Bildiriş yoxdur">
+      <div class="flex flex-col gap-3">
+        @for (n of notifications(); track n.id) {
+          <app-notification-row [notification]="n" />
+        }
+      </div>
+    </app-dashboard-panel>
+
+  </div>
+
+</div>
