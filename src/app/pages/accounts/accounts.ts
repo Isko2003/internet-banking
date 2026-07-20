@@ -1,10 +1,10 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Account } from '../../core/models/account.model';
 import { AccountService } from '../../core/services/account.service';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CopyToClipboard } from "../../shared/directives/copy-to-clipboard";
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-accounts',
@@ -14,6 +14,8 @@ import { RouterLink } from "@angular/router";
 })
 export class Accounts {
   private accountService = inject(AccountService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   accounts = signal<Account[]>([]);
   isLoading = signal(true);
@@ -25,6 +27,18 @@ export class Accounts {
   visibleBalances = signal<Set<string | number>>(new Set());
 
   constructor() {
+    effect(() => {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          search: this.searchTerm() || null,
+          currency: this.selectedCurrency() !== 'all' ? this.selectedCurrency() : null,
+          status: this.selectedStatus() !== 'all' ? this.selectedStatus() : null,
+        },
+        queryParamsHandling: 'merge',
+    });
+  });
+  
     this.loadAccountsData();
   }
 
