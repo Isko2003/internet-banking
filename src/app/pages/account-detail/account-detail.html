@@ -1,0 +1,67 @@
+@if (isLoading()) {
+    <p>Yuklenir...</p>
+} @else if(hasError()) {
+    <p>Hesab tapilmadi... </p>
+} @else if (account(); as acc) {
+    <div class="flex flex-col gap-4">
+    <a routerLink="/accounts" class="text-mint hover:underline text-sm">← Hesablara qayıt</a>
+    
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+      <h1 class="font-display text-xl font-bold text-navy">{{ acc.name }}</h1>
+      <p class="text-sm text-gray-500 font-mono mt-1">{{ acc.iban }}</p>
+      <span
+        class="text-xs px-2 py-0.5 rounded-full"
+        [class.bg-mint-light]="acc.status === 'active'"
+        [class.text-mint]="acc.status === 'active'"
+        [class.bg-red-50]="acc.status === 'blocked'"
+        [class.text-expense]="acc.status === 'blocked'"
+        [class.bg-gray-100]="acc.status === 'closed'"
+        [class.text-gray-500]="acc.status === 'closed'">{{ acc.status }}</span>    
+    </div>
+
+    <div class="bg-navy text-white rounded-xl p-6">
+      <p class="text-sm text-white/70">Balans</p>
+      <p class="font-display text-3xl font-bold tabular-nums mt-1">
+        {{ acc.balance | currency:acc.currency:'symbol':'1.2-2' }}
+      </p>
+      <p class="text-sm text-white/70 mt-3">Bloklanmış məbləğ: {{ acc.blockedAmount | currency:acc.currency:'symbol':'1.2-2' }}</p>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col gap-2 text-sm">
+      <div class="flex justify-between">
+        <span class="text-gray-500">Valyuta</span>
+        <span class="font-medium">{{acc.currency}}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-gray-500">Açılış tarixi</span>
+        <span class="font-medium">{{acc.openedDate}}</span>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        <h2 class="font-display font-semibold text-navy mb-3">Son əməliyyatlar</h2>
+
+        <div class="flex gap-9 mb-4 pb-4 border-b border-gray-100">
+            <div>
+                <p class="text-xs text-gray-500">Gələn</p>
+                <p class="text-mint font-medium tabular-nums">{{ totalIncoming() | currency:'AZN':'symbol':'1.2-2' }}</p>
+            </div>
+            <div>
+                <p class="text-xs text-gray-500">Gedən</p>
+                <p class="text-expense font-medium tabular-nums">{{ totalOutgoing() | currency:'AZN':'symbol':'1.2-2' }}</p>
+            </div>
+        </div>
+
+        @if (transactions().length === 0) {
+            <p>Tranzaksiya yoxdur.</p>
+        } @else {
+        <div class="flex flex-col gap-2">
+            @for (transaction of transactions(); track transaction.id) {
+                <app-transaction-row [transaction]="transaction" />
+            }
+        </div>
+        }
+    </div>
+
+  </div>
+}
