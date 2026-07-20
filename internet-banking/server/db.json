@@ -1,20 +1,446 @@
 {
   "users": [
-    { "id": 1, "email": "test@mybank.com", "password": "Test1234", "firstName": "Elvin", "lastName": "Məmmədov" },
-    { "id": 2, "email": "ismayil@mybank.com", "password": "Ismayil1234", "firstName": "Ismayil", "lastName": "Ismayilov" }
+    {
+      "id": 1,
+      "email": "test@mybank.com",
+      "password": "Test1234",
+      "firstName": "Elvin",
+      "lastName": "Məmmədov",
+      "phone": "+994505551234",
+      "birthDate": "1995-03-12"
+    },
+    {
+      "id": 2,
+      "email": "ismayil@mybank.com",
+      "password": "Ismayil1234",
+      "firstName": "Ismayil",
+      "lastName": "Ismayilov",
+      "phone": "+994555123456",
+      "birthDate": "1990-11-02"
+    },
+    {
+      "id": 3,
+      "email": "leyla@mybank.com",
+      "password": "Leyla12345",
+      "firstName": "Leyla",
+      "lastName": "Əliyeva",
+      "phone": "+994709998877",
+      "birthDate": "1998-07-21"
+    },
+    {
+      "id": 4,
+      "email": "rashad@mybank.com",
+      "password": "Rashad2024",
+      "firstName": "Rəşad",
+      "lastName": "Hüseynov",
+      "phone": "+994774561230",
+      "birthDate": "1988-01-30"
+    }
   ],
   "accounts": [
-    { "id": 1, "userId": 1, "name": "Əsas hesab", "iban": "AZ21NABZ00000000137010001944", "balance": 4520.75, "currency": "AZN" },
-    { "id": 2, "userId": 1, "name": "Əmanət hesabı", "iban": "AZ21NABZ00000000137010001945", "balance": 12000, "currency": "AZN" }
+    {
+      "id": 1,
+      "userId": 1,
+      "name": "Əsas hesab",
+      "iban": "AZ21NABZ00000000137010001944",
+      "balance": 4520.75,
+      "currency": "AZN",
+      "type": "checking",
+      "status": "active",
+      "openedDate": "2021-05-14"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "name": "Əmanət hesabı",
+      "iban": "AZ21NABZ00000000137010001945",
+      "balance": 12000,
+      "currency": "AZN",
+      "type": "savings",
+      "status": "active",
+      "openedDate": "2022-02-01"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "name": "Dollar hesabı",
+      "iban": "AZ45NABZ00000000137010009981",
+      "balance": 850.2,
+      "currency": "USD",
+      "type": "checking",
+      "status": "active",
+      "openedDate": "2023-09-10"
+    }
   ],
   "cards": [
-    { "id": 1, "userId": 1, "accountId": 1, "number": "4169 **** **** 1234", "type": "Visa Debit", "expiry": "08/28", "status": "active" }
+    {
+      "id": 1,
+      "userId": 1,
+      "accountId": 1,
+      "number": "4169 **** **** 1234",
+      "type": "Visa Debit",
+      "expiry": "08/28",
+      "status": "active",
+      "holderName": "ELVIN MAMMADOV",
+      "contactless": true
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "accountId": 2,
+      "number": "5412 **** **** 5678",
+      "type": "Mastercard Debit",
+      "expiry": "11/27",
+      "status": "active",
+      "holderName": "ELVIN MAMMADOV",
+      "contactless": true
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "accountId": 3,
+      "number": "4169 **** **** 9021",
+      "type": "Visa Debit",
+      "expiry": "03/29",
+      "status": "active",
+      "holderName": "ELVIN MAMMADOV",
+      "contactless": false
+    },
+    {
+      "id": 4,
+      "userId": 2,
+      "accountId": 4,
+      "number": "4169 **** **** 3344",
+      "type": "Visa Debit",
+      "expiry": "05/26",
+      "status": "active",
+      "holderName": "ISMAYIL ISMAYILOV",
+      "contactless": true
+    },
+    {
+      "id": 5,
+      "userId": 2,
+      "accountId": 4,
+      "number": "5412 **** **** 7788",
+      "type": "Mastercard Credit",
+      "expiry": "09/27",
+      "status": "blocked",
+      "holderName": "ISMAYIL ISMAYILOV",
+      "contactless": true
+    }
   ],
   "transactions": [
-    { "id": 1, "accountId": 1, "type": "expense", "amount": 45.50, "category": "Market", "description": "Bravo", "date": "2026-07-15" },
-    { "id": 2, "accountId": 1, "type": "income", "amount": 1200, "category": "Maaş", "description": "İş yeri", "date": "2026-07-10" }
+    {
+      "id": 1,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 64.36,
+      "category": "Geyim",
+      "description": "Koton",
+      "date": "2026-07-20",
+      "currency": "AZN"
+    },
+    {
+      "id": 2,
+      "accountId": 3,
+      "type": "income",
+      "amount": 1603.49,
+      "category": "Maaş",
+      "description": "İş yeri - Unibank",
+      "date": "2026-07-20",
+      "currency": "USD"
+    },
+    {
+      "id": 3,
+      "accountId": 3,
+      "type": "expense",
+      "amount": 229.15,
+      "category": "Kommunal",
+      "description": "Azərsu",
+      "date": "2026-07-17",
+      "currency": "USD"
+    },
+    {
+      "id": 4,
+      "accountId": 2,
+      "type": "expense",
+      "amount": 310.85,
+      "category": "Rabitə",
+      "description": "Azercell",
+      "date": "2026-07-16",
+      "currency": "AZN"
+    },
+    {
+      "id": 5,
+      "accountId": 3,
+      "type": "expense",
+      "amount": 297.56,
+      "category": "Market",
+      "description": "Bravo",
+      "date": "2026-07-16",
+      "currency": "USD"
+    },
+    {
+      "id": 6,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 45.5,
+      "category": "Market",
+      "description": "Bravo",
+      "date": "2026-07-15",
+      "currency": "AZN"
+    },
+    {
+      "id": 7,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 224.46,
+      "category": "Market",
+      "description": "Araz Market",
+      "date": "2026-07-15",
+      "currency": "AZN"
+    },
+    {
+      "id": 8,
+      "accountId": 3,
+      "type": "expense",
+      "amount": 5.78,
+      "category": "Aptek",
+      "description": "Apteka 36.6",
+      "date": "2026-07-15",
+      "currency": "USD"
+    },
+    {
+      "id": 9,
+      "accountId": 6,
+      "type": "expense",
+      "amount": 16.74,
+      "category": "Sağlamlıq",
+      "description": "Mediclub",
+      "date": "2026-07-14",
+      "currency": "AZN"
+    },
+    {
+      "id": 10,
+      "accountId": 4,
+      "type": "expense",
+      "amount": 63.6,
+      "category": "Təhsil",
+      "description": "Baku Engineering University",
+      "date": "2026-07-11",
+      "currency": "AZN"
+    },
+    {
+      "id": 11,
+      "accountId": 1,
+      "type": "income",
+      "amount": 1200,
+      "category": "Maaş",
+      "description": "İş yeri",
+      "date": "2026-07-10",
+      "currency": "AZN"
+    },
+    {
+      "id": 12,
+      "accountId": 4,
+      "type": "income",
+      "amount": 1696.91,
+      "category": "Maaş",
+      "description": "İş yeri - Alievs Space MMC",
+      "date": "2026-07-10",
+      "currency": "AZN"
+    },
+    {
+      "id": 13,
+      "accountId": 6,
+      "type": "expense",
+      "amount": 87.2,
+      "category": "Restoran",
+      "description": "Bereket Restoran",
+      "date": "2026-07-10",
+      "currency": "AZN"
+    },
+    {
+      "id": 14,
+      "accountId": 4,
+      "type": "expense",
+      "amount": 91.66,
+      "category": "Sağlamlıq",
+      "description": "Mediclub",
+      "date": "2026-07-08",
+      "currency": "AZN"
+    },
+    {
+      "id": 15,
+      "accountId": 7,
+      "type": "expense",
+      "amount": 281.08,
+      "category": "Market",
+      "description": "Bravo",
+      "date": "2026-07-08",
+      "currency": "AZN"
+    },
+    {
+      "id": 16,
+      "accountId": 5,
+      "type": "income",
+      "amount": 1233.05,
+      "category": "Bonus",
+      "description": "İllik bonus",
+      "date": "2026-07-05",
+      "currency": "EUR"
+    },
+    {
+      "id": 17,
+      "accountId": 8,
+      "type": "income",
+      "amount": 462.14,
+      "category": "Bonus",
+      "description": "Layihə bonusu",
+      "date": "2026-07-05",
+      "currency": "AZN"
+    },
+    {
+      "id": 18,
+      "accountId": 5,
+      "type": "expense",
+      "amount": 281.79,
+      "category": "Geyim",
+      "description": "LC Waikiki",
+      "date": "2026-07-04",
+      "currency": "EUR"
+    },
+    {
+      "id": 19,
+      "accountId": 2,
+      "type": "expense",
+      "amount": 87.33,
+      "category": "Təhsil",
+      "description": "Baku Engineering University",
+      "date": "2026-07-03",
+      "currency": "AZN"
+    },
+    {
+      "id": 20,
+      "accountId": 3,
+      "type": "expense",
+      "amount": 44.14,
+      "category": "Rabitə",
+      "description": "Bakcell",
+      "date": "2026-07-02",
+      "currency": "USD"
+    },
+    {
+      "id": 21,
+      "accountId": 3,
+      "type": "expense",
+      "amount": 170.51,
+      "category": "Nəqliyyat",
+      "description": "Yanacaq doldurma",
+      "date": "2026-06-30",
+      "currency": "USD"
+    },
+    {
+      "id": 22,
+      "accountId": 4,
+      "type": "expense",
+      "amount": 34.18,
+      "category": "Kommunal",
+      "description": "Azərişıq",
+      "date": "2026-06-30",
+      "currency": "AZN"
+    },
+    {
+      "id": 23,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 178.22,
+      "category": "Sağlamlıq",
+      "description": "Mediclub",
+      "date": "2026-06-28",
+      "currency": "AZN"
+    },
+    {
+      "id": 24,
+      "accountId": 7,
+      "type": "expense",
+      "amount": 10.99,
+      "category": "Kommunal",
+      "description": "Azərsu",
+      "date": "2026-06-28",
+      "currency": "AZN"
+    },
+    {
+      "id": 25,
+      "accountId": 3,
+      "type": "income",
+      "amount": 873.32,
+      "category": "Bonus",
+      "description": "İllik bonus",
+      "date": "2026-06-27",
+      "currency": "USD"
+    },
+    {
+      "id": 26,
+      "accountId": 8,
+      "type": "expense",
+      "amount": 254.72,
+      "category": "Rabitə",
+      "description": "Azercell",
+      "date": "2026-06-26",
+      "currency": "AZN"
+    },
+    {
+      "id": 27,
+      "accountId": 4,
+      "type": "expense",
+      "amount": 276.9,
+      "category": "Sağlamlıq",
+      "description": "Baku Medical Plaza",
+      "date": "2026-06-25",
+      "currency": "AZN"
+    }
   ],
   "notifications": [
-    { "id": 1, "userId": 1, "message": "Kartınıza 1200 AZN köçürüldü", "read": false, "date": "2026-07-10" }
+    {
+      "id": 1,
+      "userId": 1,
+      "message": "Kartınıza 1200 AZN köçürüldü",
+      "read": false,
+      "date": "2026-07-10",
+      "type": "transaction"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "message": "Əmanət hesabınıza faiz ödənişi hesablandı",
+      "read": true,
+      "date": "2026-07-12",
+      "type": "info"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "message": "Kartınız uğurla aktivləşdirildi",
+      "read": true,
+      "date": "2026-06-01",
+      "type": "card"
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "message": "Şübhəli giriş cəhdi aşkarlandı, hesabınızı yoxlayın",
+      "read": false,
+      "date": "2026-07-18",
+      "type": "security"
+    },
+    {
+      "id": 5,
+      "userId": 2,
+      "message": "Kartınız bloklanıb, filiala müraciət edin",
+      "read": false,
+      "date": "2026-07-05",
+      "type": "card"
+    }
   ]
 }
