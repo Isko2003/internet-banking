@@ -42,6 +42,10 @@ export class AccountDetail implements OnInit {
     })
   }
 
+  onDownloadStatement() {
+    console.log('Çıxarış yüklənir');
+  }
+
   totalIncoming = computed(() => {
     return this.transactions()
     .filter((t) => t.type === 'income')

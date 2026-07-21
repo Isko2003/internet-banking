@@ -4,7 +4,7 @@
     <p>Hesab tapilmadi... </p>
 } @else if (account(); as acc) {
     <div class="flex flex-col gap-4">
-    <a routerLink="/accounts" class="text-mint hover:underline text-sm">← Hesablara qayıt</a>
+     <a routerLink="/accounts" class="text-mint hover:underline text-sm">← Hesablara qayıt</a>
     
     <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
       <h1 class="font-display text-xl font-bold text-navy">{{ acc.name }}</h1>
@@ -16,7 +16,22 @@
         [class.bg-red-50]="acc.status === 'blocked'"
         [class.text-expense]="acc.status === 'blocked'"
         [class.bg-gray-100]="acc.status === 'closed'"
-        [class.text-gray-500]="acc.status === 'closed'">{{ acc.status }}</span>    
+        [class.text-gray-500]="acc.status === 'closed'">{{ acc.status }}</span>
+  <div class="flex gap-3">
+    <a
+      [routerLink]="['/transfers']"
+      [queryParams]="{ fromAccount: acc.id }"
+      class="flex-1 text-center bg-navy text-white py-2 rounded-md text-sm font-medium hover:bg-navy-light transition-colors">
+      Transfer et
+    </a>
+    <button
+      (click)="onDownloadStatement()"
+      class="flex-1 bg-white border border-gray-200 text-gray-700 py-2 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors"
+    >
+    Çıxarış yüklə
+  </button>
+</div>
+
     </div>
 
     <div class="bg-navy text-white rounded-xl p-6">
