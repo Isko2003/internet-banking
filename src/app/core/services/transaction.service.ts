@@ -15,4 +15,8 @@ export class TransactionService {
   getRecent(limit = 5): Observable<Transaction[]> {
     return this.http.get<Transaction[]>(`${environment.apiUrl}/transactions?_sort=date&_order=desc&_limit=${limit}`);
   }
+
+    getTransactionByAccId(accountId: number): Observable<Transaction[]> {
+    return this.http.get<Transaction[]>(`${environment.apiUrl}/transactions?accountId=${accountId}&_sort=date&_order=desc`);
+  }
 }
