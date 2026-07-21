@@ -1,1 +1,49 @@
-<p>cards works!</p>
+@if (isLoading()) {
+    <p>Yuklenir...</p>
+} @else if (hasError()) {
+    <p>Kart tapilarken problem yarandi.</p>
+} @else if (cards().length === 0) {
+    <p>Istifadecinin aktiv karti movcud deyil.</p>
+} @else {
+    <div class="flex gap-3 mb-4">
+        <div class="relative">
+            <select
+            [ngModel]="selectedStatus()"
+            (ngModelChange)="selectedStatus.set($event)"
+            class="appearance-none px-4 py-2 pr-9 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-mint cursor-pointer"
+            >
+                <option value="all">Bütün statuslar</option>
+                <option value="active">Active</option>
+                <option value="blocked">Blocked</option>
+                <option value="expired">Expired</option>
+                <option value="pending activation">Pending activation</option>
+            </select>
+                <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+
+    <div class="relative">
+        <select
+        [ngModel]="selectedType()"
+        (ngModelChange)="selectedType.set($event)"
+        class="appearance-none px-4 py-2 pr-9 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-mint cursor-pointer"
+        >
+        <option value="all">Bütün tiplər</option>
+        <option value="debit">Debit</option>
+        <option value="credit">Credit</option>
+        <option value="virtual">Virtual</option>
+        </select>
+        <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </div>
+</div>
+   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+  @for (card of filteredCards(); track card.id) {
+    <a [routerLink]="['/cards', card.id]" class="block">
+        <app-card-visual [card]="card" />
+    </a>
+  }
+</div>
+}

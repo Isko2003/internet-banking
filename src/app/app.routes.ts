@@ -19,6 +19,7 @@ export const routes: Routes = [
       { path: 'accounts', title: 'Accounts', loadComponent: () => import('./pages/accounts/accounts').then(m => m.Accounts) },
       { path: 'accounts/:id', title: "Account Detail", loadComponent: () => import('./pages/account-detail/account-detail').then(m => m.AccountDetail)},
       { path: 'cards', title: 'Cards', loadComponent: () => import('./pages/cards/cards').then(m => m.Cards) },
+      { path: "cards/:id", title: "Card Detail", loadComponent: () => import('./pages/card-detail/card-detail').then(m => m.CardDetail)},
       { path: 'transactions', title: 'Transactions', loadComponent: () => import('./pages/transactions/transactions').then(m => m.Transactions) },
       { path: 'transfers', title: 'Transfers', loadComponent: () => import('./pages/transfers/transfers').then(m => m.Transfers) },
       { path: 'payments', title: 'Payments', loadComponent: () => import('./pages/payments/payments').then(m => m.Payments) },

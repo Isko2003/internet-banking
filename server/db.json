@@ -81,55 +81,70 @@
       "userId": 1,
       "accountId": 1,
       "number": "4169 **** **** 1234",
-      "type": "Visa Debit",
+      "type": "debit",
+      "paymentSystem": "Visa",
       "expiry": "08/28",
       "status": "active",
       "holderName": "ELVIN MAMMADOV",
-      "contactless": true
+      "contactless": false,
+      "balance": 2312,
+      "dailyLimit": 15
     },
     {
       "id": 2,
       "userId": 1,
       "accountId": 2,
       "number": "5412 **** **** 5678",
-      "type": "Mastercard Debit",
+      "type": "debit",
+      "paymentSystem": "Mastercard",
       "expiry": "11/27",
-      "status": "active",
+      "status": "expired",
       "holderName": "ELVIN MAMMADOV",
-      "contactless": true
+      "contactless": false,
+      "balance": 1254,
+      "dailyLimit": 15
     },
     {
       "id": 3,
       "userId": 1,
       "accountId": 3,
       "number": "4169 **** **** 9021",
-      "type": "Visa Debit",
+      "type": "debit",
+      "paymentSystem": "Visa",
       "expiry": "03/29",
-      "status": "active",
+      "status": "pending activation",
       "holderName": "ELVIN MAMMADOV",
-      "contactless": false
+      "contactless": false,
+      "balance": 6543,
+      "dailyLimit": 15
     },
     {
       "id": 4,
       "userId": 2,
       "accountId": 4,
       "number": "4169 **** **** 3344",
-      "type": "Visa Debit",
+      "type": "credit",
+      "paymentSystem": "Visa",
       "expiry": "05/26",
       "status": "active",
       "holderName": "ISMAYIL ISMAYILOV",
-      "contactless": true
+      "contactless": true,
+      "balance": 5000,
+      "dailyLimit": 15
     },
     {
       "id": 5,
       "userId": 2,
       "accountId": 4,
       "number": "5412 **** **** 7788",
-      "type": "Mastercard Credit",
+      "type": "debit",
+      "paymentSystem": "Mastercard",
       "expiry": "09/27",
       "status": "blocked",
       "holderName": "ISMAYIL ISMAYILOV",
-      "contactless": true
+      "contactless": true,
+      "balance": 1000,
+      "dailyLimit": 15
     }
   ],
   "transactions": [
