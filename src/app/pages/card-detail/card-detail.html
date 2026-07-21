@@ -1,0 +1,43 @@
+@if (isLoading()) {
+    <p>Yuklenir...</p>
+} @else if (hasError()) {
+    <p>Kart tapilmadi...</p>
+    <a routerLink="/cards">← Kartlara qayıt</a>
+} @else if (card(); as c) {
+    <div class="flex flex-col gap-4">
+        <a routerLink="/cards" class="text-mint hover:underline text-sm">← Kartlara qayıt</a>
+
+        <app-card-visual [card]="c" />
+
+        <button
+            (click)="onToggleStatusClick()"
+            [disabled]="isUpdating()"
+            class="bg-navy text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-navy-light disabled:opacity-50"
+            >
+            {{ toggleButtonLabel() }}
+        </button>
+
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col gap-2 text-sm">
+            <div class="flex justify-between">
+                <span class="text-gray-500">Günlük limit</span>
+                <span class="font-medium">{{c.dailyLimit | currency:'AZN':'symbol':'1.2-2' }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-gray-500">Kart tipi</span>
+                <span class="font-medium">{{ c.type }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-gray-500">Bağlı hesab ID</span>
+                <span class="font-medium">{{ c.accountId }}</span>
+            </div>
+        </div>
+    </div>
+}
+
+<app-confirm-dialog
+  [isOpen]="isConfirmOpen()"
+  title="Status dəyişikliyi"
+  message="Bu kartın statusunu dəyişdirmək istədiyinizə əminsiniz?"
+  (confirm)="onConfirmToggle()"
+  (cancelDialog)="onCancelToggle()"
+/>
