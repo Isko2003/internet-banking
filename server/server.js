@@ -11,42 +11,60 @@ function readDb() {
   return JSON.parse(raw);
 }
 
+function writeDb(db) {
+  fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2));
+}
+
+function readRequestBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = '';
+    req.on('data', (chunk) => {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+      resolve(body ? JSON.parse(body) : {});
+    });
+    req.on('error', reject);
+  });
+}
+
 function sendJson(res, statusCode, data) {
   res.writeHead(statusCode, {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*', 
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   });
   res.end(JSON.stringify(data));
 }
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   if (req.method === 'OPTIONS') {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     });
     res.end();
     return;
   }
 
-  const parsedUrl = url.parse(req.url, true); 
-  const pathSegments = parsedUrl.pathname.split('/').filter(Boolean); 
-  const resourceName = pathSegments[0]; 
-  const resourceId = pathSegments[1]; 
-  const query = parsedUrl.query; 
+  const parsedUrl = url.parse(req.url, true);
+  const pathSegments = parsedUrl.pathname.split('/').filter(Boolean);
+  const resourceName = pathSegments[0];
+  const resourceId = pathSegments[1];
+  const query = parsedUrl.query;
 
   const db = readDb();
-  
-  if (resourceName === "rates") {
-    const base = query.base || "AZN";
+
+  if (resourceName === 'rates') {
+    const base = query.base || 'AZN';
     const rates = db.rates[base];
-    if(!rates) {
+    if (!rates) {
       sendJson(res, 404, { message: `'${base}' üçün məzənnə tapılmadı` });
+      return;
     }
-    sendJson(res, 200, {base, rates});
+    sendJson(res, 200, { base, rates });
     return;
   }
 
@@ -55,7 +73,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
- let data = db[resourceName];
+  let data = db[resourceName];
 
   if (resourceId) {
     const item = data.find((d) => String(d.id) === resourceId);
@@ -63,6 +81,19 @@ const server = http.createServer((req, res) => {
       sendJson(res, 404, { message: 'Element tapılmadı' });
       return;
     }
+
+    if (req.method === 'PATCH') {
+      try {
+        const updates = await readRequestBody(req);
+        Object.assign(item, updates);
+        writeDb(db);
+        sendJson(res, 200, item);
+      } catch (err) {
+        sendJson(res, 400, { message: 'Yanlış JSON body' });
+      }
+      return;
+    }
+
     sendJson(res, 200, item);
     return;
   }

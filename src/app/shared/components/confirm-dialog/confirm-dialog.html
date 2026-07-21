@@ -1,0 +1,30 @@
+@if (isOpen) {
+  <div
+    class="fixed inset-0 bg-black/40 z-40 flex items-center justify-center"
+    role="button"
+    tabindex="0"
+    (click)="onCancel()"
+    (keydown.enter)="onCancel()"
+    (keydown.space)="onCancel()"
+  >
+    <div
+      class="bg-white rounded-xl p-6 max-w-sm w-full mx-4"
+      role="dialog"
+      aria-modal="true"
+      tabindex="-1"
+      (click)="$event.stopPropagation()"
+      (keydown)="$event.stopPropagation()"
+    >
+      <h3 class="font-display font-semibold text-navy text-lg mb-2">{{ title }}</h3>
+      <p class="text-sm text-gray-600 mb-6">{{ message }}</p>
+      <div class="flex gap-3 justify-end">
+        <button (click)="onCancel()" class="px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">
+          {{ cancelText }}
+        </button>
+        <button (click)="onConfirm()" class="px-4 py-2 text-sm bg-navy text-white rounded-md hover:bg-navy-light">
+          {{ confirmText }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
