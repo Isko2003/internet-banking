@@ -1,0 +1,61 @@
+@if (isLoading()) {
+    <p>Yuklenir...</p>
+} @else if (hasError()) {
+    <p>Tranzaksiya tapılmadı</p>
+    <a routerLink="/transactions" class="text-mint hover:underline text-sm">← Tranzaksiyalara qayıt</a>
+} @else if (transaction(); as t) {
+    <div class="flex flex-col gap-4">
+        <a routerLink="/transactions" class="text-mint hover:underline text-sm">← Tranzaksiyalara qayıt</a>
+
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4">
+
+            <div class="flex items-start justify-between">
+                <div>
+                    <h1 class="font-display text-xl font-bold text-navy">{{ t.description }}</h1>
+                    <p class="text-sm text-gray-500 mt-1">{{ t.category }}</p>
+                </div>
+                <span
+                    class="text-xs px-2 py-0.5 rounded-full"
+                    [class.bg-mint-light]="t.status === 'completed'"
+                    [class.text-mint]="t.status === 'completed'"
+                    [class.bg-orange-50]="t.status === 'processing'"
+                    [class.text-orange-600]="t.status === 'processing'"
+                    [class.bg-red-50]="t.status === 'declined'"
+                    [class.text-expense]="t.status === 'declined'"
+                    [class.bg-gray-100]="t.status === 'cancelled'"
+                    [class.text-gray-500]="t.status === 'cancelled'"
+                >
+                    {{ t.status }}
+                </span>
+            </div>
+
+            <p
+                class="font-display text-3xl font-bold tabular-nums"
+                [class.text-mint]="t.type === 'income'"
+                [class.text-expense]="t.type === 'expense'"
+            >
+                {{ t.type === 'expense' ? '-' : '+' }}{{ t.amount | currency:t.currency:'symbol':'1.2-2' }}
+            </p>
+
+            <div class="border-t border-gray-100 pt-4 flex flex-col gap-2 text-sm">
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Tarix</span>
+                    <span class="font-medium">{{ t.date | date:'longDate' }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Hesab</span>
+                    <span class="font-medium">{{ getAccountName(t.accountId) }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Əməliyyat növü</span>
+                    <span class="font-medium">{{ t.type }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Tranzaksiya ID</span>
+                    <span class="font-medium">#{{ t.id }}</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
