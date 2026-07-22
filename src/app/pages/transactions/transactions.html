@@ -1,1 +1,101 @@
-<p>transactions works!</p>
+<div class="flex flex-col gap-4 font-body">
+  <h1 class="font-display text-2xl font-bold text-navy">Tranzaksiyalar</h1>
+
+  <form [formGroup]="filterForm" class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex flex-wrap gap-3">
+    <input
+      formControlName="search"
+      placeholder="Axtar..."
+      class="flex-1 min-w-[200px] px-3 py-2 border border-gray-200 rounded-md text-sm"
+    />
+
+    <select formControlName="status" class="px-3 py-2 border border-gray-200 rounded-md text-sm">
+      <option value="all">Bütün statuslar</option>
+      <option value="completed">Completed</option>
+      <option value="processing">Processing</option>
+      <option value="declined">Declined</option>
+      <option value="cancelled">Cancelled</option>
+    </select>
+
+    <select formControlName="category" class="px-3 py-2 border border-gray-200 rounded-md text-sm">
+      <option value="all">Bütün kateqoriyalar</option>
+      <option value="Əyləncə">Əyləncə</option>
+      <option value="Market">Market</option>
+      <option value="Geyim">Geyim</option>
+      <option value="Maaş">Maaş</option>
+      <option value="Sağlamlıq">Sağlamlıq</option>
+      <option value="Nəqliyyat">Nəqliyyat</option>
+      <option value="Restoran">Restoran</option>
+    </select>
+  </form>
+
+  @if (isLoading()) {
+    <p>Yüklənir...</p>
+  } @else if (hasError()) {
+    <p>Xəta baş verdi</p>
+  } @else if (transactions().length === 0) {
+    <p>Tranzaksiya tapılmadı</p>
+  } @else {
+    <table class="w-full text-sm">
+    <thead>
+        <tr class="text-left text-gray-500 bg-gray-50 border-b border-gray-100">
+            <th class="px-4 py-3 font-medium">Date</th>
+            <th class="px-4 py-3 font-medium">Description</th>
+            <th class="px-4 py-3 font-medium">Category</th>
+            <th class="px-4 py-3 font-medium text-right">Account</th>
+            <th class="px-4 py-3 font-medium text-right">Operation Type</th>
+            <th class="px-4 py-3 font-medium">Amount</th>
+            <th class="px-4 py-3 font-medium">Currency</th>
+            <th class="px-4 py-3 font-medium">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+            @for (transaction of transactions(); track transaction.id) {
+                <tr class="border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 font-medium text-navy">
+                        {{transaction.date | date}}
+                    </td>
+                    <td class="px-4 py-3 font-medium text-navy">
+                        {{transaction.description}}
+                    </td>
+                    <td class="px-4 py-3 font-medium text-navy">
+                        {{transaction.category}}
+                    </td>
+                    <td class="px-4 py-3 font-medium text-navy">
+                        {{getAccountName(transaction.accountId)}}
+                    </td>
+                    <td class="px-4 py-3 font-medium text-navy">
+                        {{transaction.type}}
+                    </td>
+                    <td class="px-4 py-3 font-medium text-navy">
+                        {{transaction.amount}}
+                    </td>
+                    <td class="px-4 py-3 font-medium text-navy">
+                        {{transaction.currency}}
+                    </td>
+                    <td class="px-4 py-3">
+                        <span
+                            class="text-xs px-2 py-0.5 rounded-full"
+                            [class.bg-mint-light]="transaction.status === 'completed'"
+                            [class.text-mint]="transaction.status === 'completed'"
+                            [class.bg-orange-50]="transaction.status === 'processing'"
+                            [class.text-orange-600]="transaction.status === 'processing'"
+                            [class.bg-red-50]="transaction.status === 'declined'"
+                            [class.text-expense]="transaction.status === 'declined'"
+                            [class.bg-gray-100]="transaction.status === 'cancelled'"
+                            [class.text-gray-500]="transaction.status === 'cancelled'"
+                        >
+                            {{ transaction.status }}
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <app-pagination 
+        [currentPage]="currentPage()"
+        [totalCount]="totalCount()"
+        [pageSize]="pageSize"
+        (pageChange)="onPageChange($event)"
+    />
+  }
+</div>

@@ -98,12 +98,20 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  const specialParams = ['_sort', '_order', '_limit', '_page'];
+  const specialParams = ['_sort', '_order', '_limit', '_page', 'search'];
   const filterParams = Object.keys(query).filter((key) => !specialParams.includes(key));
 
   filterParams.forEach((key) => {
     data = data.filter((item) => String(item[key]) === String(query[key]));
   });
+
+  if (query.search) {
+    const searchTerm = String(query.search).toLowerCase();
+    data = data.filter((item) =>
+      (item.description && item.description.toLowerCase().includes(searchTerm)) ||
+      (item.category && item.category.toLowerCase().includes(searchTerm))
+    );
+  }
 
   if (query._sort) {
     const sortKey = query._sort;
@@ -111,10 +119,21 @@ const server = http.createServer(async (req, res) => {
     data = [...data].sort((a, b) => (a[sortKey] > b[sortKey] ? order : -order));
   }
 
-  if (query._limit) {
+  const totalCount = data.length;
+
+  if(query._page && query._limit) {
+    const page = Number(query._page);
+    const limit = Number(query._limit);
+    const start = (page - 1) * limit;
+    const end = start + limit;
+    data = data.slice(start, end);
+  }else if (query._limit) {
     data = data.slice(0, Number(query._limit));
   }
 
+  res.setHeader('X-Total-Count', totalCount);
+  res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
+  
   sendJson(res, 200, data);
 });
 

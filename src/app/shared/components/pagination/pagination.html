@@ -1,0 +1,22 @@
+<div class="flex items-center justify-between text-sm text-gray-600">
+  <span>
+    Səhifə {{ currentPage() }} / {{ totalPages() }} (cəmi {{ totalCount() }})
+  </span>
+
+  <div class="flex gap-2">
+    <button
+      (click)="onPrevious()"
+      [disabled]="currentPage() === 1"
+      class="px-3 py-1.5 border border-gray-200 rounded-md hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+    >
+      ← Əvvəlki
+    </button>
+    <button
+      (click)="onNext()"
+      [disabled]="currentPage() === totalPages()"
+      class="px-3 py-1.5 border border-gray-200 rounded-md hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+    >
+      Növbəti →
+    </button>
+  </div>
+</div>
