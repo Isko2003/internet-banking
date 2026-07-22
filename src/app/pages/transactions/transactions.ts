@@ -7,10 +7,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { AccountService } from '../../core/services/account.service';
 import { Pagination } from '../../shared/components/pagination/pagination';
+import { Router, RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-transactions',
-  imports: [ReactiveFormsModule, DatePipe, CurrencyPipe, Pagination],
+  imports: [ReactiveFormsModule, DatePipe, CurrencyPipe, Pagination, RouterLink],
   templateUrl: './transactions.html',
   styleUrl: './transactions.css',
 })
@@ -19,7 +20,7 @@ export class Transactions {
   private transactionService = inject(TransactionService);
   private destroyRef = inject(DestroyRef);
   private accountService = inject(AccountService);
-
+  private router = inject(Router);
   
   accountsMap = signal<Map<number, string>>(new Map());
   transactions = signal<Transaction[]>([]);
@@ -117,5 +118,9 @@ export class Transactions {
         this.isLoading.set(false);
       }
     })
+  }
+
+  goToDetail(id: number) {
+    this.router.navigate(['/transactions', id]);
   }
 }

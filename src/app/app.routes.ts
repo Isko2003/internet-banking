@@ -21,6 +21,7 @@ export const routes: Routes = [
       { path: 'cards', title: 'Cards', loadComponent: () => import('./pages/cards/cards').then(m => m.Cards) },
       { path: "cards/:id", title: "Card Detail", loadComponent: () => import('./pages/card-detail/card-detail').then(m => m.CardDetail)},
       { path: 'transactions', title: 'Transactions', loadComponent: () => import('./pages/transactions/transactions').then(m => m.Transactions) },
+      { path: "transactions/:id", title: "Transaction Detail", loadComponent: () => import('./pages/transaction-detail/transaction-detail').then(m => m.TransactionDetail)},
       { path: 'transfers', title: 'Transfers', loadComponent: () => import('./pages/transfers/transfers').then(m => m.Transfers) },
       { path: 'payments', title: 'Payments', loadComponent: () => import('./pages/payments/payments').then(m => m.Payments) },
       { path: 'templates', title: 'Templates', loadComponent: () => import('./pages/templates/templates').then(m => m.Templates) },

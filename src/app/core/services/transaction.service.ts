@@ -52,4 +52,8 @@ export class TransactionService {
     );
   }
 
+  getTransactionById(id: string): Observable<Transaction> {
+    return this.http.get<Transaction>(`${environment.apiUrl}/transactions/${id}`);
+  }
+
 }
