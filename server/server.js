@@ -98,7 +98,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  const specialParams = ['_sort', '_order', '_limit', '_page', 'search'];
+  const specialParams = ['_sort', '_order', '_limit', '_page', 'search', 'dateFrom', 'dateTo', 'minAmount', 'maxAmount'];
   const filterParams = Object.keys(query).filter((key) => !specialParams.includes(key));
 
   filterParams.forEach((key) => {
@@ -111,6 +111,22 @@ const server = http.createServer(async (req, res) => {
       (item.description && item.description.toLowerCase().includes(searchTerm)) ||
       (item.category && item.category.toLowerCase().includes(searchTerm))
     );
+  }
+
+  if(query.dateFrom) {
+    data = data.filter((item) => item.date >= query.dateFrom);
+  }
+
+  if(query.dateTo) {
+    data = data.filter((item) => item.date <= query.dateTo);
+  }
+
+  if(query.minAmount) {
+    data = data.filter((item) => item.amount >= Number(query.minAmount));
+  }
+
+  if(query.maxAmount) {
+    data = data.filter((item) => item.amount <= Number(query.maxAmount));
   }
 
   if (query._sort) {

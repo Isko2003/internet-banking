@@ -140,7 +140,7 @@
       "type": "debit",
       "paymentSystem": "Mastercard",
       "expiry": "09/27",
-      "status": "blocked",
+      "status": "active",
       "holderName": "ISMAYIL ISMAYILOV",
       "contactless": true,
       "balance": 1000,
