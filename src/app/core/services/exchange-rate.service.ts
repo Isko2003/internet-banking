@@ -22,6 +22,10 @@ export class ExchangeRateService {
     shareReplay(1)
   );
 
+  getRates(base: string): Observable<ExchangeRateResponse> {
+    return this.http.get<ExchangeRateResponse>(`${environment.apiUrl}/rates?base=${base}`);
+  }
+
   setBaseCurrency(currency: string) {
     this.baseCurrency$.next(currency);
   }
