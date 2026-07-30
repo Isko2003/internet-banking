@@ -11,4 +11,12 @@ export class CardService {
   getCards(): Observable<Card[]> {
     return this.http.get<Card[]>(`${environment.apiUrl}/cards`);
   }
+
+  getCardById(id: string): Observable<Card> {
+    return this.http.get<Card>(`${environment.apiUrl}/cards/${id}`)
+  }
+
+  updateCardStatus(id: number, status: Card['status']): Observable<Card> {
+    return this.http.patch<Card>(`${environment.apiUrl}/cards/${id}`, {status});
+  }
 }
