@@ -75,6 +75,23 @@ const server = http.createServer(async (req, res) => {
 
   let data = db[resourceName];
 
+  if(req.method === "POST") {
+    try {
+      const newItem = await readRequestBody(req);
+
+      const maxId = data.length > 0 ? Math.max(...data.map((d) => d.id)) : 0;
+      newItem.id = maxId + 1;
+
+      data.push(newItem);
+      writeDb(db);
+
+      sendJson(res, 201, newItem);
+    } catch(err) {
+      sendJson(res, 400, {message: 'Yanlis json body'});
+    }
+    return;
+  }
+
   if (resourceId) {
     const item = data.find((d) => String(d.id) === resourceId);
     if (!item) {

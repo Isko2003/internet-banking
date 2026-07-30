@@ -556,5 +556,14 @@
       "TRY": 37.1,
       "RUB": 102.1
     }
-  }
+  },
+  "transfers": [
+    {
+      "debitAccountId": 1,
+      "creditAccountId": 2,
+      "amount": 100,
+      "comment": "test",
+      "id": 1
+    }
+  ]
 }
