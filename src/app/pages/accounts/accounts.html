@@ -1,0 +1,140 @@
+<div class="flex flex-col gap-4 font-body">
+  <h1 class="font-display text-2xl font-bold text-navy">Hesablar</h1>
+
+  @if (isLoading()) {
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-8 text-center">
+      <p class="text-sm text-gray-400">Yüklənir...</p>
+    </div>
+  } @else if (hasError()) {
+    <div class="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 text-sm">
+      Hesabları yükləmək mümkün olmadı. Yenidən cəhd edin.
+    </div>
+  } @else if (accounts().length === 0) {
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-8 text-center">
+      <p class="text-sm text-gray-400">Hesab tapılmadı</p>
+    </div>
+  } @else {
+
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex flex-wrap gap-3">
+      <input
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+        placeholder="Ad və ya IBAN ilə axtar..."
+        class="flex-1 min-w-[200px] px-3 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-mint"
+      />
+
+      <select
+        [ngModel]="selectedCurrency()"
+        (ngModelChange)="selectedCurrency.set($event)"
+        class="px-3 py-2 border border-gray-200 rounded-md text-sm"
+      >
+        <option value="all">Bütün valyutalar</option>
+        <option value="AZN">AZN</option>
+        <option value="USD">USD</option>
+      </select>
+
+      <select
+        [ngModel]="selectedStatus()"
+        (ngModelChange)="selectedStatus.set($event)"
+        class="px-3 py-2 border border-gray-200 rounded-md text-sm"
+      >
+        <option value="all">Bütün statuslar</option>
+        <option value="active">Active</option>
+        <option value="blocked">Blocked</option>
+        <option value="closed">Closed</option>
+      </select>
+
+      <button
+        (click)="toggleSort()"
+        class="px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-600 hover:bg-gray-50"
+      >
+        Balans
+        @if (sortDirection() === 'asc') {
+          ↑
+        } @else if (sortDirection() === 'desc') {
+          ↓
+        } @else {
+          ⇅
+        }
+      </button>
+    </div>
+
+    @if (filteredAccounts().length === 0) {
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-8 text-center">
+        <p class="text-sm text-gray-400">Axtarışa uyğun hesab tapılmadı</p>
+      </div>
+    } @else {
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-gray-500 bg-gray-50 border-b border-gray-100">
+              <th class="px-4 py-3 font-medium">Ad</th>
+              <th class="px-4 py-3 font-medium">IBAN</th>
+              <th class="px-4 py-3 font-medium">Valyuta</th>
+              <th class="px-4 py-3 font-medium text-right">Balans</th>
+              <th class="px-4 py-3 font-medium text-right">Bloklanmış</th>
+              <th class="px-4 py-3 font-medium">Status</th>
+              <th class="px-4 py-3 font-medium">Açılış tarixi</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (account of filteredAccounts(); track account.id) {
+              <tr class="border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
+                <td class="px-4 py-3 font-medium text-navy">
+                    <a [routerLink]="['/accounts', account.id]" class="hover:text-mint hover:underline">
+                        {{ account.name }}
+                    </a>
+                </td>
+                <td class="px-4 py-3 text-gray-500 font-mono text-xs">
+                    {{ account.iban }}
+                    <button [appCopyToClipboard]="account.iban" #copyBtn="copyToClipboard">
+                        @if (copyBtn.copied()) {
+                        Kopyalandı!
+                        } @else {
+                        Kopyala
+                        }
+                    </button>
+                </td>
+                <td class="px-4 py-3 text-gray-600">{{ account.currency }}</td>
+                <td class="px-4 py-3 text-right font-medium tabular-nums text-navy">
+                    @if(isBalanceVisibleFor(account.id)) {
+                        {{ account.balance | currency:account.currency:'symbol':'1.2-2' }}
+                    } @else {
+                        <span class="tracking-widest">••••••</span>
+                    }
+                    <button
+                        (click)="toggleBalance(account.id)"
+                        class="px-1 py-1 border border-gray-200 rounded-md text-sm text-gray-600 hover:bg-gray-50" >
+                        @if (isBalanceVisibleFor(account.id)) {
+                            👁 Gizlət
+                        } @else {
+                            🙈 Göstər
+                        }
+                 </button>
+                </td>
+                <td class="px-4 py-3 text-right tabular-nums text-gray-500">
+                  {{ account.blockedAmount | currency:account.currency:'symbol':'1.2-2' }}
+                </td>
+                <td class="px-4 py-3">
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full"
+                    [class.bg-mint-light]="account.status === 'active'"
+                    [class.text-mint]="account.status === 'active'"
+                    [class.bg-red-50]="account.status === 'blocked'"
+                    [class.text-expense]="account.status === 'blocked'"
+                    [class.bg-gray-100]="account.status === 'closed'"
+                    [class.text-gray-500]="account.status === 'closed'"
+                  >
+                    {{ account.status }}
+                  </span>
+                </td>
+                <td class="px-4 py-3 text-gray-500">{{ account.openedDate }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+  }
+</div>

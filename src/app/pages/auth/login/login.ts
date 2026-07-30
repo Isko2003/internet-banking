@@ -64,7 +64,7 @@ export class Login {
         this.isLoading.set(false);
         this.errorMessage.set('Email və ya şifrə yanlışdır');
         this.failedAttempts.update((v) => v + 1);
-        if (this.failedAttempts() >= 3) {
+        if (this.failedAttempts() >= 10) {
           this.startLockout();
         }
       },

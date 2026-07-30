@@ -5,4 +5,7 @@ export interface Account {
     iban: string;
     balance: number;
     currency: string;
+    blockedAmount: number;
+    status: "active" | "blocked" | "closed";
+    openedDate: string;
 }

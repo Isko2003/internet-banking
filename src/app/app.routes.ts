@@ -17,6 +17,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', title: 'Dashboard', loadComponent: () => import('./pages/dashboard/dashboard').then(m => m.Dashboard) },
       { path: 'accounts', title: 'Accounts', loadComponent: () => import('./pages/accounts/accounts').then(m => m.Accounts) },
+      { path: 'accounts/:id', title: "Account Detail", loadComponent: () => import('./pages/account-detail/account-detail').then(m => m.AccountDetail)},
       { path: 'cards', title: 'Cards', loadComponent: () => import('./pages/cards/cards').then(m => m.Cards) },
       { path: 'transactions', title: 'Transactions', loadComponent: () => import('./pages/transactions/transactions').then(m => m.Transactions) },
       { path: 'transfers', title: 'Transfers', loadComponent: () => import('./pages/transfers/transfers').then(m => m.Transfers) },
