@@ -8,10 +8,11 @@ import { AccountService } from '../../core/services/account.service';
 import { Pagination } from '../../shared/components/pagination/pagination';
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { RelativeDatePipe } from '../../shared/pipes/relative-date-pipe';
+import { HighlightAmount } from '../../shared/directives/highlight-amount';
 
 @Component({
   selector: 'app-transactions',
-  imports: [ReactiveFormsModule, Pagination, RouterLink, RelativeDatePipe],
+  imports: [ReactiveFormsModule, Pagination, RouterLink, RelativeDatePipe, HighlightAmount],
   templateUrl: './transactions.html',
   styleUrl: './transactions.css',
 })

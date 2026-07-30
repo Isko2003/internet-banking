@@ -99,7 +99,7 @@
             <td class="px-4 py-3 font-medium text-navy">
               {{ transaction.type }}
             </td>
-            <td class="px-4 py-3 font-medium text-navy">
+            <td class="px-4 py-3 font-medium text-navy" [appHighlightAmount]="transaction.amount">
               {{ transaction.amount }}
             </td>
             <td class="px-4 py-3 font-medium text-navy">
