@@ -844,5 +844,8 @@
       "name": "Əsas hesab → Əmanət hesabı",
       "id": 1
     }
-  ]
+  ],
+  "userTransfers":[],
+  
+  "savedRecipients": []
 }
