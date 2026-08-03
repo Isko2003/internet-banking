@@ -23,6 +23,7 @@ export const routes: Routes = [
       { path: 'transactions', title: 'Transactions', loadComponent: () => import('./pages/transactions/transactions').then(m => m.Transactions) },
       { path: "transactions/:id", title: "Transaction Detail", loadComponent: () => import('./pages/transaction-detail/transaction-detail').then(m => m.TransactionDetail)},
       { path: 'transfers', title: 'Transfers', loadComponent: () => import('./pages/transfers/transfers').then(m => m.Transfers) },
+      { path: 'transfer-to-user', title: 'Transfer To User', loadComponent: () => import('./pages/transfer-to-user/transfer-to-user').then(m => m.TransferToUser)},
       { path: 'payments', title: 'Payments', loadComponent: () => import('./pages/payments/payments').then(m => m.Payments) },
       { path: 'templates', title: 'Templates', loadComponent: () => import('./pages/templates/templates').then(m => m.Templates) },
       { path: 'analytics', title: 'Analytics', loadComponent: () => import('./pages/analytics/analytics').then(m => m.Analytics) },
