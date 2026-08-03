@@ -79,15 +79,68 @@ const server = http.createServer(async (req, res) => {
     try {
       const newItem = await readRequestBody(req);
 
-      const maxId = data.length > 0 ? Math.max(...data.map((d) => d.id)) : 0;
-      newItem.id = maxId + 1;
+      if(resourceName === "transfers") {
+        const debitAccount = db.accounts.find((a) => a.id === newItem.debitAccountId);
+        const creditAccount = db.accounts.find((a) => a.id === newItem.creditAccountId);
 
-      data.push(newItem);
+      if (!debitAccount || !creditAccount) {
+        sendJson(res, 400, { message: 'Hesab tapılmadı' });
+        return;
+      }
+
+      if (newItem.amount > debitAccount.balance) {
+        sendJson(res, 400, { message: 'Balans kifayət etmir' });
+        return;
+      }
+
+      debitAccount.balance = Math.round((debitAccount.balance - newItem.amount) * 100) / 100;
+      creditAccount.balance = Math.round((creditAccount.balance + newItem.finalAmount) * 100) / 100;
+
+      const maxTransferId = db.transfers.length > 0 ? Math.max(...db.transfers.map((t) => t.id)) : 0;
+      newItem.id = maxTransferId + 1;
+      db.transfers.push(newItem);
+
+      const maxTxId = db.transactions.length > 0 ? Math.max(...db.transactions.map((t) => t.id)) : 0;
+
+      const debitTransaction = {
+        id: maxTxId + 1,
+        accountId: debitAccount.id,
+        type: 'expense',
+        amount: newItem.amount,
+        currency: debitAccount.currency,
+        category: 'Köçürmə',
+        description: `${creditAccount.name} hesabına köçürmə`,
+        date: newItem.date,
+        status: 'completed',
+      };
+
+      const creditTransaction = {
+        id: maxTxId + 2,
+        accountId: creditAccount.id,
+        type: 'income',
+        amount: newItem.finalAmount,
+        currency: creditAccount.currency,
+        category: 'Köçürmə',
+        description: `${debitAccount.name} hesabından köçürmə`,
+        date: newItem.date,
+        status: 'completed',
+      };
+
+      db.transactions.push(debitTransaction, creditTransaction);
+
       writeDb(db);
 
+      sendJson(res, 201, {...newItem, transactionId: debitTransaction.id})
+      return;
+    }
+
+    const maxId = data.length > 0 ? Math.max(...data.map((d) => d.id)) : 0;
+      newItem.id = maxId + 1;
+      data.push(newItem);
+      writeDb(db);
       sendJson(res, 201, newItem);
-    } catch(err) {
-      sendJson(res, 400, {message: 'Yanlis json body'});
+    } catch (err) {
+      sendJson(res, 400, { message: 'Yanlış JSON body' });
     }
     return;
   }

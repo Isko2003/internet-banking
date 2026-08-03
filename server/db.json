@@ -43,7 +43,7 @@
       "userId": 1,
       "name": "Əsas hesab",
       "iban": "AZ21NABZ00000000137010001944",
-      "balance": 4520.75,
+      "balance": 84000,
       "currency": "AZN",
       "type": "checking",
       "status": "active",
@@ -55,7 +55,7 @@
       "userId": 1,
       "name": "Əmanət hesabı",
       "iban": "AZ21NABZ00000000137010001945",
-      "balance": 12000,
+      "balance": 10000,
       "currency": "AZN",
       "type": "savings",
       "status": "active",
@@ -493,6 +493,202 @@
       "description": "Bolt",
       "date": "2026-07-19",
       "status": "cancelled"
+    },
+    {
+      "id": 31,
+      "accountId": 2,
+      "type": "expense",
+      "amount": 1000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabına köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 32,
+      "accountId": 1,
+      "type": "income",
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əmanət hesabı hesabından köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 33,
+      "accountId": 2,
+      "type": "expense",
+      "amount": 1000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabına köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 34,
+      "accountId": 1,
+      "type": "income",
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əmanət hesabı hesabından köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 35,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 2222,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əmanət hesabı hesabına köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 36,
+      "accountId": 2,
+      "type": "income",
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabından köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 37,
+      "accountId": 2,
+      "type": "expense",
+      "amount": 1000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabına köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 38,
+      "accountId": 1,
+      "type": "income",
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əmanət hesabı hesabından köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 39,
+      "accountId": 2,
+      "type": "expense",
+      "amount": 1000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabına köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 40,
+      "accountId": 1,
+      "type": "income",
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əmanət hesabı hesabından köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 41,
+      "accountId": 2,
+      "type": "expense",
+      "amount": 1000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabına köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 42,
+      "accountId": 1,
+      "type": "income",
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əmanət hesabı hesabından köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 43,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 1000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əmanət hesabı hesabına köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 44,
+      "accountId": 2,
+      "type": "income",
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabından köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 45,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 10000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əmanət hesabı hesabına köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 46,
+      "accountId": 2,
+      "type": "income",
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabından köçürmə",
+      "status": "completed"
+    },
+    {
+      "id": 47,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 1000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əmanət hesabı hesabına köçürmə",
+      "date": "2026-08-03",
+      "status": "completed"
+    },
+    {
+      "id": 48,
+      "accountId": 2,
+      "type": "income",
+      "amount": 1000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabından köçürmə",
+      "date": "2026-08-03",
+      "status": "completed"
+    },
+    {
+      "id": 49,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 4000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əmanət hesabı hesabına köçürmə",
+      "date": "2026-08-03",
+      "status": "completed"
+    },
+    {
+      "id": 50,
+      "accountId": 2,
+      "type": "income",
+      "amount": 4000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabından köçürmə",
+      "date": "2026-08-03",
+      "status": "completed"
     }
   ],
   "notifications": [
@@ -559,10 +755,93 @@
   },
   "transfers": [
     {
+      "debitAccountId": 2,
+      "creditAccountId": 1,
+      "amount": 1000,
+      "comment": "test",
+      "currency": "AZN",
+      "id": 1
+    },
+    {
       "debitAccountId": 1,
       "creditAccountId": 2,
-      "amount": 100,
+      "amount": 2222,
+      "comment": "",
+      "currency": "AZN",
+      "id": 2
+    },
+    {
+      "debitAccountId": 2,
+      "creditAccountId": 1,
+      "amount": 1000,
+      "comment": "",
+      "currency": "AZN",
+      "id": 3
+    },
+    {
+      "debitAccountId": 2,
+      "creditAccountId": 1,
+      "amount": 1000,
+      "comment": "",
+      "currency": "AZN",
+      "id": 4
+    },
+    {
+      "debitAccountId": 2,
+      "creditAccountId": 1,
+      "amount": 1000,
+      "comment": "",
+      "currency": "AZN",
+      "id": 5
+    },
+    {
+      "debitAccountId": 1,
+      "creditAccountId": 2,
+      "amount": 1000,
+      "comment": "",
+      "currency": "AZN",
+      "id": 6
+    },
+    {
+      "debitAccountId": 1,
+      "creditAccountId": 2,
+      "amount": 10000,
+      "comment": "",
+      "currency": "AZN",
+      "id": 7
+    },
+    {
+      "debitAccountId": 1,
+      "creditAccountId": 2,
+      "amount": 1000,
       "comment": "test",
+      "currency": "AZN",
+      "fee": 0,
+      "finalAmount": 1000,
+      "status": "completed",
+      "date": "2026-08-03",
+      "id": 8
+    },
+    {
+      "debitAccountId": 1,
+      "creditAccountId": 2,
+      "amount": 4000,
+      "comment": "test2",
+      "currency": "AZN",
+      "fee": 0,
+      "finalAmount": 4000,
+      "status": "completed",
+      "date": "2026-08-03",
+      "id": 9
+    }
+  ],
+  "templates": [
+    {
+      "debitAccountId": 1,
+      "creditAccountId": 2,
+      "amount": 4000,
+      "comment": "test2",
+      "name": "Əsas hesab → Əmanət hesabı",
       "id": 1
     }
   ]
