@@ -22,7 +22,7 @@
           {{ cancelText }}
         </button>
         <button (click)="onConfirm()" class="px-4 py-2 text-sm bg-navy text-white rounded-md hover:bg-navy-light">
-          {{ confirmText }}
+          {{ isLoading ? "Gonderilir..." : "Tesdiqle" }}
         </button>
       </div>
     </div>

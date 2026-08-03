@@ -20,7 +20,7 @@
   <div class="flex gap-3">
     <a
       [routerLink]="['/transfers']"
-      [queryParams]="{ fromAccount: acc.id }"
+      [state]="{ prefillDebitAccountId: acc.id }"
       class="flex-1 text-center bg-navy text-white py-2 rounded-md text-sm font-medium hover:bg-navy-light transition-colors">
       Transfer et
     </a>

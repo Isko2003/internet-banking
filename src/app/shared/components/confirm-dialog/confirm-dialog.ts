@@ -11,6 +11,7 @@ export class ConfirmDialog {
   @Input() message = 'Bu əməliyyatı təsdiqləyirsiniz?';
   @Input() confirmText = 'Təsdiqlə';
   @Input() cancelText = 'İmtina';
+  @Input() isLoading = false;
 
   @Output() confirm = new EventEmitter<void>();
   @Output() cancelDialog = new EventEmitter<void>();
@@ -21,5 +22,5 @@ export class ConfirmDialog {
 
   onCancel() {
     this.cancelDialog.emit();
-  }
+  } 
 }

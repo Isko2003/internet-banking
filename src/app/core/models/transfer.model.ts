@@ -11,4 +11,5 @@ export interface Transfer {
     comment: string;
     status: 'completed' | 'failed';
     date: string;
+    transactionId?: number;
 }
