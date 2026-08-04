@@ -43,7 +43,7 @@
       "userId": 1,
       "name": "Əsas hesab",
       "iban": "AZ21NABZ00000000137010001944",
-      "balance": 84000,
+      "balance": 67429.71,
       "currency": "AZN",
       "type": "checking",
       "status": "active",
@@ -689,6 +689,50 @@
       "description": "Əsas hesab hesabından köçürmə",
       "date": "2026-08-03",
       "status": "completed"
+    },
+    {
+      "id": 51,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 2173.62,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "asdas adına köçürmə",
+      "date": "2026-08-04",
+      "status": "completed"
+    },
+    {
+      "id": 52,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 1224,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "isko adına köçürmə",
+      "date": "2026-08-04",
+      "status": "completed"
+    },
+    {
+      "id": 53,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 614.43,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "isko adına köçürmə",
+      "date": "2026-08-04",
+      "status": "completed"
+    },
+    {
+      "id": 54,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 12558.24,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "asd adına köçürmə",
+      "date": "2026-08-04",
+      "status": "completed"
     }
   ],
   "notifications": [
@@ -845,7 +889,85 @@
       "id": 1
     }
   ],
-  "userTransfers": [],
+  "userTransfers": [
+    {
+      "debitAccountId": 1,
+      "recipientType": "card",
+      "recipientIdentifier": "4169 7388 2970 8811",
+      "recipientName": "asdas",
+      "amount": 2131,
+      "currency": "AZN",
+      "fee": 42.62,
+      "purpose": "asdas",
+      "saveRecipient": false,
+      "status": "completed",
+      "date": "2026-08-04",
+      "id": 1
+    },
+    {
+      "debitAccountId": 1,
+      "recipientType": "card",
+      "recipientIdentifier": "4169 7388 2970 8811",
+      "recipientName": "isko",
+      "amount": 1200,
+      "currency": "AZN",
+      "fee": 24,
+      "purpose": "sdas",
+      "saveRecipient": true,
+      "status": "completed",
+      "date": "2026-08-04",
+      "id": 2
+    },
+    {
+      "debitAccountId": 1,
+      "recipientType": "card",
+      "recipientIdentifier": "4169 7388 2970 8811",
+      "recipientName": "isko",
+      "amount": 602.38,
+      "currency": "AZN",
+      "fee": 12.05,
+      "purpose": "asda",
+      "saveRecipient": false,
+      "status": "completed",
+      "date": "2026-08-04",
+      "id": 3
+    },
+    {
+      "debitAccountId": 1,
+      "recipientType": "card",
+      "recipientIdentifier": "4169 7388 2970 8811",
+      "recipientName": "asd",
+      "amount": 12312,
+      "currency": "AZN",
+      "fee": 246.24,
+      "purpose": "asda",
+      "saveRecipient": false,
+      "status": "completed",
+      "date": "2026-08-04",
+      "id": 4
+    }
+  ],
   "savedRecipients": [],
-  "otpSessions": []
+  "otpSessions": {
+    "session_1785838328517": {
+      "code": "675095",
+      "attempts": 0,
+      "createdAt": 1785838328517
+    },
+    "session_1785838495662": {
+      "code": "338124",
+      "attempts": 0,
+      "createdAt": 1785838495662
+    },
+    "session_1785838589270": {
+      "code": "319441",
+      "attempts": 0,
+      "createdAt": 1785838589270
+    },
+    "session_1785838817539": {
+      "code": "398269",
+      "attempts": 0,
+      "createdAt": 1785838817539
+    }
+  }
 }

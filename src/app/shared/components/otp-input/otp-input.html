@@ -6,7 +6,9 @@
       inputmode="numeric"
       maxlength="1"
       [value]="digit"
+      (keydown)="onKeyDown($index, $event)"
       (input)="onDigitInput($index, $event)"
+      (paste)="onPaste($event)"
       class="w-12 h-12 text-center text-lg border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-mint"
     />
   }
