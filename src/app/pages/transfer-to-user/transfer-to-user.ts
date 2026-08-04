@@ -115,8 +115,8 @@ export class TransferToUser {
           })
           .subscribe({
             next: (res) => {
-              this.isVerifying.set(false);
               this.completedTransfer.set(res);
+              this.isVerifying.set(false);
               this.step.set('success');
             },
             error: () => {

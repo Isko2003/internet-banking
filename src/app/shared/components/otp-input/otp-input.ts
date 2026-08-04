@@ -49,4 +49,26 @@ export class OtpInput implements ControlValueAccessor {
       nextInput?.nativeElement.focus();
     }
   }
+
+  onKeyDown(index: number, event: KeyboardEvent) {
+    if (event.key === 'Backspace' && !this.digits[index] && index > 0) {
+      const prevInput = this.inputRefs.toArray()[index - 1];
+      prevInput?.nativeElement.focus();
+    }
+  }
+
+  onPaste(event: ClipboardEvent) {
+    event.preventDefault();
+
+    const pastedText = event.clipboardData?.getData('text') || '';
+    const chars = pastedText.replace(/\D/g, '').split('');
+
+    this.digits = Array.from({ length: 6 }, (_, i) => chars[i] || '');
+    this.onChange(this.digits.join(''));
+
+    const lastFilledIndex = Math.min(chars.length, 6) - 1;
+    if (lastFilledIndex >= 0) {
+      this.inputRefs.toArray()[lastFilledIndex]?.nativeElement.focus();
+    }
+  }
 }
