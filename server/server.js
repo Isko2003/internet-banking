@@ -68,6 +68,54 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (resourceName === 'otp' && pathSegments[1] === 'send' && req.method === 'POST') {
+    const sessionId = 'session_' + Date.now();
+    const code = String(Math.floor(100000 + Math.random() * 900000));
+
+    db.otpSessions[sessionId] = {
+      code,
+      attempts: 0,
+      createdAt: Date.now(),
+    };
+
+    writeDb(db);
+
+    console.log(`OTP kodu (test üçün): ${code}`);
+    sendJson(res, 200, { sessionId });
+    return;
+  }
+
+  if (resourceName === 'otp' && pathSegments[1] === 'verify' && req.method === 'POST') {
+    const body = await readRequestBody(req);
+    const session = db.otpSessions[body.sessionId];
+
+    if (!session) {
+      sendJson(res, 400, { message: 'Sessiya tapılmadı' });
+      return;
+    }
+
+    session.attempts += 1;
+
+    if (session.attempts > 3) {
+      delete db.otpSessions[body.sessionId];
+
+      sendJson(res, 429, { message: 'Cəhdlərin sayı bitdi. Zəhmət olmasa yeni OTP sorğulayın.' });
+      return;
+    }
+
+    if (body.code !== session.code) {
+      const remainingAttempts = 3 - session.attempts;
+      sendJson(res, 400, {
+        message: `Daxil edilən kod yanlışdır. Qalan cəhd sayısı: ${remainingAttempts}`,
+      });
+      return;
+    }
+
+    delete db.otpSessions[body.sessionId];
+    sendJson(res, 200, { message: 'OTP uğurla təsdiqləndi' });
+    return;
+  }
+
   if (!db[resourceName]) {
     sendJson(res, 404, { message: `Resource '${resourceName}' tapılmadı` });
     return;
@@ -75,66 +123,124 @@ const server = http.createServer(async (req, res) => {
 
   let data = db[resourceName];
 
-  if(req.method === "POST") {
+  if (req.method === 'POST') {
     try {
       const newItem = await readRequestBody(req);
 
-      if(resourceName === "transfers") {
+      if (resourceName === 'transfers') {
         const debitAccount = db.accounts.find((a) => a.id === newItem.debitAccountId);
         const creditAccount = db.accounts.find((a) => a.id === newItem.creditAccountId);
 
-      if (!debitAccount || !creditAccount) {
-        sendJson(res, 400, { message: 'Hesab tapılmadı' });
+        if (!debitAccount || !creditAccount) {
+          sendJson(res, 400, { message: 'Hesab tapılmadı' });
+          return;
+        }
+
+        if (newItem.amount > debitAccount.balance) {
+          sendJson(res, 400, { message: 'Balans kifayət etmir' });
+          return;
+        }
+
+        debitAccount.balance = Math.round((debitAccount.balance - newItem.amount) * 100) / 100;
+        creditAccount.balance =
+          Math.round((creditAccount.balance + newItem.finalAmount) * 100) / 100;
+
+        const maxTransferId =
+          db.transfers.length > 0 ? Math.max(...db.transfers.map((t) => t.id)) : 0;
+        newItem.id = maxTransferId + 1;
+        db.transfers.push(newItem);
+
+        const maxTxId =
+          db.transactions.length > 0 ? Math.max(...db.transactions.map((t) => t.id)) : 0;
+
+        const debitTransaction = {
+          id: maxTxId + 1,
+          accountId: debitAccount.id,
+          type: 'expense',
+          amount: newItem.amount,
+          currency: debitAccount.currency,
+          category: 'Köçürmə',
+          description: `${creditAccount.name} hesabına köçürmə`,
+          date: newItem.date,
+          status: 'completed',
+        };
+
+        const creditTransaction = {
+          id: maxTxId + 2,
+          accountId: creditAccount.id,
+          type: 'income',
+          amount: newItem.finalAmount,
+          currency: creditAccount.currency,
+          category: 'Köçürmə',
+          description: `${debitAccount.name} hesabından köçürmə`,
+          date: newItem.date,
+          status: 'completed',
+        };
+
+        db.transactions.push(debitTransaction, creditTransaction);
+
+        writeDb(db);
+
+        sendJson(res, 201, { ...newItem, transactionId: debitTransaction.id });
         return;
       }
 
-      if (newItem.amount > debitAccount.balance) {
-        sendJson(res, 400, { message: 'Balans kifayət etmir' });
+      if (resourceName === 'userTransfers') {
+        const debitAccount = db.accounts.find((a) => a.id === newItem.debitAccountId);
+        if (!debitAccount) {
+          sendJson(res, 400, { message: 'Hesab tapılmadı' });
+          return;
+        }
+
+        if (
+          typeof newItem.amount !== 'number' ||
+          isNaN(newItem.amount) ||
+          newItem.amount <= 0 ||
+          !newItem.currency
+        ) {
+          sendJson(res, 400, { message: 'Yanlış və ya natamam transfer məlumatı' });
+          return;
+        }
+
+        const totalDeduction = newItem.amount + (newItem.fee || 0);
+
+        if (totalDeduction > debitAccount.balance) {
+          sendJson(res, 400, { message: 'Balans kifayət etmir' });
+          return;
+        }
+
+        debitAccount.balance = Math.round((debitAccount.balance - totalDeduction) * 100) / 100;
+
+        const maxTransferId =
+          db.userTransfers.length > 0 ? Math.max(...db.userTransfers.map((t) => t.id)) : 0;
+
+        newItem.id = maxTransferId + 1;
+        db.userTransfers.push(newItem);
+
+        const maxTxId =
+          db.transactions.length > 0 ? Math.max(...db.transactions.map((t) => t.id)) : 0;
+
+        const debitTransaction = {
+          id: maxTxId + 1,
+          accountId: debitAccount.id,
+          type: 'expense',
+          amount: totalDeduction,
+          currency: debitAccount.currency,
+          category: 'Köçürmə',
+          description: `${newItem.recipientName} adına köçürmə`,
+          date: newItem.date,
+          status: 'completed',
+        };
+
+        db.transactions.push(debitTransaction);
+
+        writeDb(db);
+
+        sendJson(res, 201, { ...newItem, transactionId: debitTransaction.id });
         return;
       }
 
-      debitAccount.balance = Math.round((debitAccount.balance - newItem.amount) * 100) / 100;
-      creditAccount.balance = Math.round((creditAccount.balance + newItem.finalAmount) * 100) / 100;
-
-      const maxTransferId = db.transfers.length > 0 ? Math.max(...db.transfers.map((t) => t.id)) : 0;
-      newItem.id = maxTransferId + 1;
-      db.transfers.push(newItem);
-
-      const maxTxId = db.transactions.length > 0 ? Math.max(...db.transactions.map((t) => t.id)) : 0;
-
-      const debitTransaction = {
-        id: maxTxId + 1,
-        accountId: debitAccount.id,
-        type: 'expense',
-        amount: newItem.amount,
-        currency: debitAccount.currency,
-        category: 'Köçürmə',
-        description: `${creditAccount.name} hesabına köçürmə`,
-        date: newItem.date,
-        status: 'completed',
-      };
-
-      const creditTransaction = {
-        id: maxTxId + 2,
-        accountId: creditAccount.id,
-        type: 'income',
-        amount: newItem.finalAmount,
-        currency: creditAccount.currency,
-        category: 'Köçürmə',
-        description: `${debitAccount.name} hesabından köçürmə`,
-        date: newItem.date,
-        status: 'completed',
-      };
-
-      db.transactions.push(debitTransaction, creditTransaction);
-
-      writeDb(db);
-
-      sendJson(res, 201, {...newItem, transactionId: debitTransaction.id})
-      return;
-    }
-
-    const maxId = data.length > 0 ? Math.max(...data.map((d) => d.id)) : 0;
+      const maxId = data.length > 0 ? Math.max(...data.map((d) => d.id)) : 0;
       newItem.id = maxId + 1;
       data.push(newItem);
       writeDb(db);
@@ -168,7 +274,17 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  const specialParams = ['_sort', '_order', '_limit', '_page', 'search', 'dateFrom', 'dateTo', 'minAmount', 'maxAmount'];
+  const specialParams = [
+    '_sort',
+    '_order',
+    '_limit',
+    '_page',
+    'search',
+    'dateFrom',
+    'dateTo',
+    'minAmount',
+    'maxAmount',
+  ];
   const filterParams = Object.keys(query).filter((key) => !specialParams.includes(key));
 
   filterParams.forEach((key) => {
@@ -177,25 +293,26 @@ const server = http.createServer(async (req, res) => {
 
   if (query.search) {
     const searchTerm = String(query.search).toLowerCase();
-    data = data.filter((item) =>
-      (item.description && item.description.toLowerCase().includes(searchTerm)) ||
-      (item.category && item.category.toLowerCase().includes(searchTerm))
+    data = data.filter(
+      (item) =>
+        (item.description && item.description.toLowerCase().includes(searchTerm)) ||
+        (item.category && item.category.toLowerCase().includes(searchTerm)),
     );
   }
 
-  if(query.dateFrom) {
+  if (query.dateFrom) {
     data = data.filter((item) => item.date >= query.dateFrom);
   }
 
-  if(query.dateTo) {
+  if (query.dateTo) {
     data = data.filter((item) => item.date <= query.dateTo);
   }
 
-  if(query.minAmount) {
+  if (query.minAmount) {
     data = data.filter((item) => item.amount >= Number(query.minAmount));
   }
 
-  if(query.maxAmount) {
+  if (query.maxAmount) {
     data = data.filter((item) => item.amount <= Number(query.maxAmount));
   }
 
@@ -207,19 +324,19 @@ const server = http.createServer(async (req, res) => {
 
   const totalCount = data.length;
 
-  if(query._page && query._limit) {
+  if (query._page && query._limit) {
     const page = Number(query._page);
     const limit = Number(query._limit);
     const start = (page - 1) * limit;
     const end = start + limit;
     data = data.slice(start, end);
-  }else if (query._limit) {
+  } else if (query._limit) {
     data = data.slice(0, Number(query._limit));
   }
 
   res.setHeader('X-Total-Count', totalCount);
   res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
-  
+
   sendJson(res, 200, data);
 });
 
