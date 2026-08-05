@@ -43,7 +43,7 @@
       "userId": 1,
       "name": "Əsas hesab",
       "iban": "AZ21NABZ00000000137010001944",
-      "balance": 67429.71,
+      "balance": 61271.61,
       "currency": "AZN",
       "type": "checking",
       "status": "active",
@@ -55,7 +55,7 @@
       "userId": 1,
       "name": "Əmanət hesabı",
       "iban": "AZ21NABZ00000000137010001945",
-      "balance": 10000,
+      "balance": 11000,
       "currency": "AZN",
       "type": "savings",
       "status": "active",
@@ -733,6 +733,72 @@
       "description": "asd adına köçürmə",
       "date": "2026-08-04",
       "status": "completed"
+    },
+    {
+      "id": 55,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 2040,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "asd adına köçürmə",
+      "date": "2026-08-05",
+      "status": "completed"
+    },
+    {
+      "id": 56,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 40.85,
+      "currency": "AZN",
+      "category": "Ödəniş",
+      "description": "Yol Polisi ödənişi",
+      "date": "2026-08-05",
+      "status": "completed"
+    },
+    {
+      "id": 57,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 17.25,
+      "currency": "AZN",
+      "category": "Ödəniş",
+      "description": "ADA University ödənişi",
+      "date": "2026-08-05",
+      "status": "completed"
+    },
+    {
+      "id": 58,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 1000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əmanət hesabı hesabına köçürmə",
+      "date": "2026-08-05",
+      "status": "completed"
+    },
+    {
+      "id": 59,
+      "accountId": 2,
+      "type": "income",
+      "amount": 1000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabından köçürmə",
+      "date": "2026-08-05",
+      "status": "completed"
+    },
+    {
+      "id": 60,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 3060,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "isko adına köçürmə",
+      "date": "2026-08-05",
+      "status": "completed"
     }
   ],
   "notifications": [
@@ -877,6 +943,18 @@
       "status": "completed",
       "date": "2026-08-03",
       "id": 9
+    },
+    {
+      "debitAccountId": 1,
+      "creditAccountId": 2,
+      "amount": 1000,
+      "comment": "sadasdasd",
+      "currency": "AZN",
+      "fee": 0,
+      "finalAmount": 1000,
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 10
     }
   ],
   "templates": [
@@ -945,6 +1023,34 @@
       "status": "completed",
       "date": "2026-08-04",
       "id": 4
+    },
+    {
+      "debitAccountId": 1,
+      "recipientType": "card",
+      "recipientIdentifier": "4169 7385 6225 8149",
+      "recipientName": "asd",
+      "amount": 2000,
+      "currency": "AZN",
+      "fee": 40,
+      "purpose": "sad",
+      "saveRecipient": false,
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 5
+    },
+    {
+      "debitAccountId": 1,
+      "recipientType": "card",
+      "recipientIdentifier": "4169 7388 2972 0881",
+      "recipientName": "isko",
+      "amount": 3000,
+      "currency": "AZN",
+      "fee": 60,
+      "purpose": "asda",
+      "saveRecipient": false,
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 6
     }
   ],
   "savedRecipients": [],
@@ -968,6 +1074,414 @@
       "code": "398269",
       "attempts": 0,
       "createdAt": 1785838817539
+    },
+    "session_1785910699163": {
+      "code": "980054",
+      "attempts": 0,
+      "createdAt": 1785910699163
+    },
+    "session_1785923524102": {
+      "code": "463671",
+      "attempts": 0,
+      "createdAt": 1785923524102
     }
-  }
+  },
+  "providers": [
+    {
+      "id": 1,
+      "category": "mobile",
+      "name": "Azercell",
+      "hasDebtCheck": false,
+      "fields": [
+        {
+          "key": "phoneNumber",
+          "label": "Telefon nömrəsi",
+          "type": "tel",
+          "placeholder": "0XX XXX XX XX"
+        },
+        {
+          "key": "amount",
+          "label": "Məbləğ",
+          "type": "number",
+          "placeholder": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "category": "mobile",
+      "name": "Bakcell",
+      "hasDebtCheck": false,
+      "fields": [
+        {
+          "key": "phoneNumber",
+          "label": "Telefon nömrəsi",
+          "type": "tel",
+          "placeholder": ""
+        },
+        {
+          "key": "amount",
+          "label": "Məbləğ",
+          "type": "number",
+          "placeholder": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "category": "internet",
+      "name": "Aztelekom",
+      "hasDebtCheck": false,
+      "fields": [
+        {
+          "key": "contractNumber",
+          "label": "Müqavilə nömrəsi",
+          "type": "text",
+          "placeholder": ""
+        },
+        {
+          "key": "amount",
+          "label": "Məbləğ",
+          "type": "number",
+          "placeholder": ""
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "category": "utilities",
+      "name": "Azərişıq",
+      "hasDebtCheck": true,
+      "fields": [
+        {
+          "key": "subscriberCode",
+          "label": "Abonent kodu",
+          "type": "text",
+          "placeholder": ""
+        },
+        {
+          "key": "period",
+          "label": "Dövr (AA.İİİİ)",
+          "type": "text",
+          "placeholder": "07.2026"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "category": "utilities",
+      "name": "Azərsu",
+      "hasDebtCheck": true,
+      "fields": [
+        {
+          "key": "subscriberCode",
+          "label": "Abonent kodu",
+          "type": "text",
+          "placeholder": ""
+        },
+        {
+          "key": "period",
+          "label": "Dövr (AA.İİİİ)",
+          "type": "text",
+          "placeholder": ""
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "category": "fines",
+      "name": "Yol Polisi",
+      "hasDebtCheck": true,
+      "fields": [
+        {
+          "key": "protocolNumber",
+          "label": "Protokol nömrəsi",
+          "type": "text",
+          "placeholder": ""
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "category": "education",
+      "name": "ADA University",
+      "hasDebtCheck": true,
+      "fields": [
+        {
+          "key": "studentId",
+          "label": "Tələbə ID",
+          "type": "text",
+          "placeholder": ""
+        }
+      ]
+    }
+  ],
+  "payments": [
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "21312"
+      },
+      "id": 1
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12"
+      },
+      "id": 2
+    },
+    {
+      "debitAccountId": 1,
+      "category": "internet",
+      "providerId": 3,
+      "providerName": "Aztelekom",
+      "fields": {
+        "contractNumber": "54231231",
+        "amount": "213"
+      },
+      "amount": 232,
+      "description": "Aztelekom ödənişi",
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 3
+    },
+    {
+      "providerId": 4,
+      "fields": {
+        "subscriberCode": "03128481248128481",
+        "period": "07.2026"
+      },
+      "id": 4
+    },
+    {
+      "debitAccountId": 1,
+      "category": "internet",
+      "providerId": 3,
+      "providerName": "Aztelekom",
+      "fields": {
+        "contractNumber": "54231231",
+        "amount": "2222"
+      },
+      "amount": 2222,
+      "description": "Aztelekom ödənişi",
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 5
+    },
+    {
+      "providerId": 4,
+      "fields": {
+        "subscriberCode": "03128481248128481",
+        "period": "07.2026"
+      },
+      "id": 6
+    },
+    {
+      "providerId": 5,
+      "fields": {
+        "subscriberCode": "03128481248128481",
+        "period": "07.2026"
+      },
+      "id": 7
+    },
+    {
+      "providerId": 4,
+      "fields": {
+        "subscriberCode": "03128481248128481",
+        "period": "07.2026"
+      },
+      "id": 8
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 9
+    },
+    {
+      "providerId": 7,
+      "fields": {
+        "studentId": "2203223"
+      },
+      "id": 10
+    },
+    {
+      "debitAccountId": 1,
+      "category": "internet",
+      "providerId": 3,
+      "providerName": "Aztelekom",
+      "fields": {
+        "contractNumber": "1231231231",
+        "amount": "222"
+      },
+      "amount": 222,
+      "description": "Aztelekom ödənişi",
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 11
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 12
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 13
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 14
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 15
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 16
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 17
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 18
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 19
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 20
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 21
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 22
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "id": 23
+    },
+    {
+      "providerId": 7,
+      "fields": {
+        "studentId": "23123"
+      },
+      "id": 24
+    },
+    {
+      "providerId": 7,
+      "fields": {
+        "studentId": "23123"
+      },
+      "id": 25
+    },
+    {
+      "providerId": 7,
+      "fields": {
+        "studentId": "23123"
+      },
+      "id": 26
+    },
+    {
+      "providerId": 7,
+      "fields": {
+        "studentId": "23123"
+      },
+      "id": 27
+    },
+    {
+      "providerId": 7,
+      "fields": {
+        "studentId": "23123"
+      },
+      "id": 28
+    },
+    {
+      "providerId": 7,
+      "fields": {
+        "studentId": "23123"
+      },
+      "id": 29
+    },
+    {
+      "providerId": 6,
+      "fields": {
+        "protocolNumber": "2213123123"
+      },
+      "id": 30
+    },
+    {
+      "debitAccountId": 1,
+      "category": "fines",
+      "providerId": 6,
+      "providerName": "Yol Polisi",
+      "fields": {
+        "protocolNumber": "12312312312"
+      },
+      "amount": 40.85,
+      "description": "Yol Polisi üzrə borc",
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 31
+    },
+    {
+      "debitAccountId": 1,
+      "category": "education",
+      "providerId": 7,
+      "providerName": "ADA University",
+      "fields": {
+        "studentId": "547475685"
+      },
+      "amount": 17.25,
+      "description": "ADA University üzrə borc",
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 32
+    }
+  ]
 }

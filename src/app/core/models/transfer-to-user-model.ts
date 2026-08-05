@@ -11,4 +11,5 @@ export interface UserTransfer {
   saveRecipient: boolean;
   status: 'completed' | 'failed';
   date: string;
+  transactionId?: number;
 }
