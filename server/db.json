@@ -43,7 +43,7 @@
       "userId": 1,
       "name": "Əsas hesab",
       "iban": "AZ21NABZ00000000137010001944",
-      "balance": 65331.61,
+      "balance": 61271.61,
       "currency": "AZN",
       "type": "checking",
       "status": "active",
@@ -55,7 +55,7 @@
       "userId": 1,
       "name": "Əmanət hesabı",
       "iban": "AZ21NABZ00000000137010001945",
-      "balance": 10000,
+      "balance": 11000,
       "currency": "AZN",
       "type": "savings",
       "status": "active",
@@ -766,6 +766,39 @@
       "description": "ADA University ödənişi",
       "date": "2026-08-05",
       "status": "completed"
+    },
+    {
+      "id": 58,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 1000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əmanət hesabı hesabına köçürmə",
+      "date": "2026-08-05",
+      "status": "completed"
+    },
+    {
+      "id": 59,
+      "accountId": 2,
+      "type": "income",
+      "amount": 1000,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabından köçürmə",
+      "date": "2026-08-05",
+      "status": "completed"
+    },
+    {
+      "id": 60,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 3060,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "isko adına köçürmə",
+      "date": "2026-08-05",
+      "status": "completed"
     }
   ],
   "notifications": [
@@ -910,6 +943,18 @@
       "status": "completed",
       "date": "2026-08-03",
       "id": 9
+    },
+    {
+      "debitAccountId": 1,
+      "creditAccountId": 2,
+      "amount": 1000,
+      "comment": "sadasdasd",
+      "currency": "AZN",
+      "fee": 0,
+      "finalAmount": 1000,
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 10
     }
   ],
   "templates": [
@@ -992,6 +1037,20 @@
       "status": "completed",
       "date": "2026-08-05",
       "id": 5
+    },
+    {
+      "debitAccountId": 1,
+      "recipientType": "card",
+      "recipientIdentifier": "4169 7388 2972 0881",
+      "recipientName": "isko",
+      "amount": 3000,
+      "currency": "AZN",
+      "fee": 60,
+      "purpose": "asda",
+      "saveRecipient": false,
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 6
     }
   ],
   "savedRecipients": [],
@@ -1020,6 +1079,11 @@
       "code": "980054",
       "attempts": 0,
       "createdAt": 1785910699163
+    },
+    "session_1785923524102": {
+      "code": "463671",
+      "attempts": 0,
+      "createdAt": 1785923524102
     }
   },
   "providers": [

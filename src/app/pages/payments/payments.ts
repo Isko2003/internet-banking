@@ -30,6 +30,12 @@ export class Payments {
 
   categories = PAYMENT_CATEGORIES;
 
+  readonly steps = [
+    { key: 'category', label: 'Kateqoriya' },
+    { key: 'provider', label: 'Provayder' },
+    { key: 'form', label: 'Məlumatlar' },
+  ] as const;
+
   step = signal<'category' | 'provider' | 'form' | 'success'>('category');
 
   accounts = signal<Account[]>([]);
