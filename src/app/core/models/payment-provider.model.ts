@@ -12,5 +12,5 @@ export interface PaymentProvider {
   category: string;
   name: string;
   hasDebtCheck: boolean;
-  field: PaymentFieldConfig[];
+  fields: PaymentFieldConfig[];
 }

@@ -5,7 +5,7 @@ export interface DebtCheckResult {
 
 export interface Payment {
   id: number;
-  debitAccountId: string;
+  debitAccountId: number;
   category: string;
   providerId: number;
   providerName: string;
