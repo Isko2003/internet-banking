@@ -116,6 +116,64 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (resourceName === 'payments' && pathSegments[1] === 'check' && req.method === 'POST') {
+    const body = await readRequestBody(req);
+    const provider = db.providers.find((p) => p.id === body.providerId);
+
+    if (!provider) {
+      sendJson(res, 404, { message: 'Provayder tapılmadı' });
+      return;
+    }
+
+    const amount = Math.round((Math.random() * 90 + 10) * 100) / 100;
+    sendJson(res, 200, { amount, description: `${provider.name} üzrə borc` });
+    return;
+  }
+
+  if (resourceName === 'payments' && pathSegments[1] === 'pay' && req.method === 'POST') {
+    const body = await readRequestBody(req);
+    const debitAccount = db.accounts.find((a) => a.id === body.debitAccountId);
+
+    if (!debitAccount) {
+      sendJson(res, 400, { message: 'Hesab tapılmadı' });
+      return;
+    }
+
+    if (typeof body.amount !== 'number' || isNaN(body.amount) || body.amount <= 0) {
+      sendJson(res, 400, { message: 'Yanlış məbləğ' });
+      return;
+    }
+
+    if (body.amount > debitAccount.balance) {
+      sendJson(res, 400, { message: 'Balans kifayət etmir' });
+      return;
+    }
+
+    debitAccount.balance = Math.round((debitAccount.balance - body.amount) * 100) / 100;
+
+    const maxPaymentId = db.payments.length > 0 ? Math.max(...db.payments.map((p) => p.id)) : 0;
+    body.id = maxPaymentId + 1;
+    db.payments.push(body);
+
+    const maxTxId = db.transactions.length > 0 ? Math.max(...db.transactions.map((t) => t.id)) : 0;
+    const transaction = {
+      id: maxTxId + 1,
+      accountId: debitAccount.id,
+      type: 'expense',
+      amount: body.amount,
+      currency: debitAccount.currency,
+      category: 'Ödəniş',
+      description: `${body.providerName} ödənişi`,
+      date: body.date,
+      status: 'completed',
+    };
+    db.transactions.push(transaction);
+
+    writeDb(db);
+    sendJson(res, 201, { ...body, transactionId: transaction.id });
+    return;
+  }
+
   if (!db[resourceName]) {
     sendJson(res, 404, { message: `Resource '${resourceName}' tapılmadı` });
     return;

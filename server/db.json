@@ -43,7 +43,7 @@
       "userId": 1,
       "name": "Əsas hesab",
       "iban": "AZ21NABZ00000000137010001944",
-      "balance": 67429.71,
+      "balance": 65389.71,
       "currency": "AZN",
       "type": "checking",
       "status": "active",
@@ -733,6 +733,17 @@
       "description": "asd adına köçürmə",
       "date": "2026-08-04",
       "status": "completed"
+    },
+    {
+      "id": 55,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 2040,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "asd adına köçürmə",
+      "date": "2026-08-05",
+      "status": "completed"
     }
   ],
   "notifications": [
@@ -945,6 +956,20 @@
       "status": "completed",
       "date": "2026-08-04",
       "id": 4
+    },
+    {
+      "debitAccountId": 1,
+      "recipientType": "card",
+      "recipientIdentifier": "4169 7385 6225 8149",
+      "recipientName": "asd",
+      "amount": 2000,
+      "currency": "AZN",
+      "fee": 40,
+      "purpose": "sad",
+      "saveRecipient": false,
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 5
     }
   ],
   "savedRecipients": [],
@@ -968,6 +993,85 @@
       "code": "398269",
       "attempts": 0,
       "createdAt": 1785838817539
+    },
+    "session_1785910699163": {
+      "code": "980054",
+      "attempts": 0,
+      "createdAt": 1785910699163
     }
-  }
+  },
+  "providers": [
+    {
+      "id": 1,
+      "category": "mobile",
+      "name": "Azercell",
+      "hasDebtCheck": false,
+      "fields": [
+        {
+          "key": "phoneNumber",
+          "label": "Telefon nömrəsi",
+          "type": "tel",
+          "placeholder": "0XX XXX XX XX"
+        },
+        { "key": "amount", "label": "Məbləğ", "type": "number", "placeholder": "" }
+      ]
+    },
+    {
+      "id": 2,
+      "category": "mobile",
+      "name": "Bakcell",
+      "hasDebtCheck": false,
+      "fields": [
+        { "key": "phoneNumber", "label": "Telefon nömrəsi", "type": "tel", "placeholder": "" },
+        { "key": "amount", "label": "Məbləğ", "type": "number", "placeholder": "" }
+      ]
+    },
+    {
+      "id": 3,
+      "category": "internet",
+      "name": "Aztelekom",
+      "hasDebtCheck": false,
+      "fields": [
+        { "key": "contractNumber", "label": "Müqavilə nömrəsi", "type": "text", "placeholder": "" },
+        { "key": "amount", "label": "Məbləğ", "type": "number", "placeholder": "" }
+      ]
+    },
+    {
+      "id": 4,
+      "category": "utilities",
+      "name": "Azərişıq",
+      "hasDebtCheck": true,
+      "fields": [
+        { "key": "subscriberCode", "label": "Abonent kodu", "type": "text", "placeholder": "" },
+        { "key": "period", "label": "Dövr (AA.İİİİ)", "type": "text", "placeholder": "07.2026" }
+      ]
+    },
+    {
+      "id": 5,
+      "category": "utilities",
+      "name": "Azərsu",
+      "hasDebtCheck": true,
+      "fields": [
+        { "key": "subscriberCode", "label": "Abonent kodu", "type": "text", "placeholder": "" },
+        { "key": "period", "label": "Dövr (AA.İİİİ)", "type": "text", "placeholder": "" }
+      ]
+    },
+    {
+      "id": 6,
+      "category": "fines",
+      "name": "Yol Polisi",
+      "hasDebtCheck": true,
+      "fields": [
+        { "key": "protocolNumber", "label": "Protokol nömrəsi", "type": "text", "placeholder": "" }
+      ]
+    },
+    {
+      "id": 7,
+      "category": "education",
+      "name": "ADA University",
+      "hasDebtCheck": true,
+      "fields": [{ "key": "studentId", "label": "Tələbə ID", "type": "text", "placeholder": "" }]
+    }
+  ],
+  "payments": []
 }
