@@ -43,7 +43,7 @@
       "userId": 1,
       "name": "Əsas hesab",
       "iban": "AZ21NABZ00000000137010001944",
-      "balance": 61271.61,
+      "balance": 61092.51,
       "currency": "AZN",
       "type": "checking",
       "status": "active",
@@ -799,6 +799,28 @@
       "description": "isko adına köçürmə",
       "date": "2026-08-05",
       "status": "completed"
+    },
+    {
+      "id": 61,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 56.1,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "tdhfg adına köçürmə",
+      "date": "2026-08-05",
+      "status": "completed"
+    },
+    {
+      "id": 62,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 123,
+      "currency": "AZN",
+      "category": "Ödəniş",
+      "description": "Azercell ödənişi",
+      "date": "2026-08-05",
+      "status": "completed"
     }
   ],
   "notifications": [
@@ -1051,6 +1073,20 @@
       "status": "completed",
       "date": "2026-08-05",
       "id": 6
+    },
+    {
+      "debitAccountId": 1,
+      "recipientType": "card",
+      "recipientIdentifier": "4098 5844 8567 4574",
+      "recipientName": "tdhfg",
+      "amount": 55,
+      "currency": "AZN",
+      "fee": 1.1,
+      "purpose": "YYJG",
+      "saveRecipient": false,
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 7
     }
   ],
   "savedRecipients": [],
@@ -1084,6 +1120,11 @@
       "code": "463671",
       "attempts": 0,
       "createdAt": 1785923524102
+    },
+    "session_1785930828949": {
+      "code": "470352",
+      "attempts": 0,
+      "createdAt": 1785930828949
     }
   },
   "providers": [
@@ -1092,18 +1133,16 @@
       "category": "mobile",
       "name": "Azercell",
       "hasDebtCheck": false,
+      "prefixes": [
+        "050",
+        "051"
+      ],
       "fields": [
         {
           "key": "phoneNumber",
           "label": "Telefon nömrəsi",
           "type": "tel",
           "placeholder": "0XX XXX XX XX"
-        },
-        {
-          "key": "amount",
-          "label": "Məbləğ",
-          "type": "number",
-          "placeholder": ""
         }
       ]
     },
@@ -1112,17 +1151,15 @@
       "category": "mobile",
       "name": "Bakcell",
       "hasDebtCheck": false,
+      "prefixes": [
+        "055",
+        "099"
+      ],
       "fields": [
         {
           "key": "phoneNumber",
           "label": "Telefon nömrəsi",
           "type": "tel",
-          "placeholder": ""
-        },
-        {
-          "key": "amount",
-          "label": "Məbləğ",
-          "type": "number",
           "placeholder": ""
         }
       ]
@@ -1137,12 +1174,6 @@
           "key": "contractNumber",
           "label": "Müqavilə nömrəsi",
           "type": "text",
-          "placeholder": ""
-        },
-        {
-          "key": "amount",
-          "label": "Məbləğ",
-          "type": "number",
           "placeholder": ""
         }
       ]
@@ -1482,6 +1513,20 @@
       "status": "completed",
       "date": "2026-08-05",
       "id": 32
+    },
+    {
+      "debitAccountId": 1,
+      "category": "mobile",
+      "providerId": 1,
+      "providerName": "Azercell",
+      "fields": {
+        "phoneNumber": "0508213912"
+      },
+      "amount": 123,
+      "description": "Azercell ödənişi",
+      "status": "completed",
+      "date": "2026-08-05",
+      "id": 33
     }
   ]
 }
