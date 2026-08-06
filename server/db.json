@@ -43,7 +43,7 @@
       "userId": 1,
       "name": "Əsas hesab",
       "iban": "AZ21NABZ00000000137010001944",
-      "balance": 61092.51,
+      "balance": 60435.54,
       "currency": "AZN",
       "type": "checking",
       "status": "active",
@@ -67,7 +67,7 @@
       "userId": 1,
       "name": "Dollar hesabı",
       "iban": "AZ45NABZ00000000137010009981",
-      "balance": 850.2,
+      "balance": 1200.66,
       "currency": "USD",
       "type": "checking",
       "status": "active",
@@ -821,6 +821,39 @@
       "description": "Azercell ödənişi",
       "date": "2026-08-05",
       "status": "completed"
+    },
+    {
+      "id": 63,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 600,
+      "currency": "AZN",
+      "category": "Köçürmə",
+      "description": "Dollar hesabı hesabına köçürmə",
+      "date": "2026-08-06",
+      "status": "completed"
+    },
+    {
+      "id": 64,
+      "accountId": 3,
+      "type": "income",
+      "amount": 350.46,
+      "currency": "USD",
+      "category": "Köçürmə",
+      "description": "Əsas hesab hesabından köçürmə",
+      "date": "2026-08-06",
+      "status": "completed"
+    },
+    {
+      "id": 65,
+      "accountId": 1,
+      "type": "expense",
+      "amount": 56.97,
+      "currency": "AZN",
+      "category": "Ödəniş",
+      "description": "ADA University ödənişi",
+      "date": "2026-08-06",
+      "status": "completed"
     }
   ],
   "notifications": [
@@ -977,6 +1010,19 @@
       "status": "completed",
       "date": "2026-08-05",
       "id": 10
+    },
+    {
+      "debitAccountId": 1,
+      "creditAccountId": 3,
+      "amount": 600,
+      "comment": "asd",
+      "currency": "AZN",
+      "fee": 6,
+      "finalAmount": 350.46,
+      "exchangeRate": 0.59,
+      "status": "completed",
+      "date": "2026-08-06",
+      "id": 11
     }
   ],
   "templates": [
@@ -1546,6 +1592,20 @@
       "status": "completed",
       "date": "2026-08-05",
       "id": 33
+    },
+    {
+      "debitAccountId": 1,
+      "category": "education",
+      "providerId": 7,
+      "providerName": "ADA University",
+      "fields": {
+        "studentId": "1212212"
+      },
+      "amount": 56.97,
+      "description": "ADA University üzrə borc",
+      "status": "completed",
+      "date": "2026-08-06",
+      "id": 34
     }
   ]
 }
