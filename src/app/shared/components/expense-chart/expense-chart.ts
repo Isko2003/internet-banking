@@ -1,4 +1,13 @@
-import { Component, ElementRef, Input, ViewChild, AfterViewInit, OnChanges, SimpleChanges, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  AfterViewInit,
+  OnChanges,
+  SimpleChanges,
+  signal,
+} from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { Chart, registerables } from 'chart.js';
 import { Transaction } from '../../../core/models/transaction.model';
@@ -19,7 +28,9 @@ export class ExpenseChart implements AfterViewInit, OnChanges {
   private chartInstance: Chart | null = null;
 
   totalExpense = signal(0);
-  categoryBreakdown = signal<{ category: string; amount: number; percentage: number; color: string }[]>([]);
+  categoryBreakdown = signal<
+    { category: string; amount: number; percentage: number; color: string }[]
+  >([]);
 
   private readonly palette = ['#1B2A4B', '#00B8A9', '#E4572E', '#F4A261', '#6B7280', '#8B5CF6'];
 
@@ -49,7 +60,7 @@ export class ExpenseChart implements AfterViewInit, OnChanges {
           amount,
           percentage: total > 0 ? Math.round((amount / total) * 100) : 0,
           color: this.palette[index % this.palette.length],
-        }))
+        })),
     );
   }
 
@@ -64,11 +75,13 @@ export class ExpenseChart implements AfterViewInit, OnChanges {
       type: 'doughnut',
       data: {
         labels: Object.keys(grouped),
-        datasets: [{
-          data: Object.values(grouped),
-          backgroundColor: this.palette,
-          borderWidth: 0,
-        }],
+        datasets: [
+          {
+            data: Object.values(grouped),
+            backgroundColor: this.palette,
+            borderWidth: 0,
+          },
+        ],
       },
       options: {
         responsive: true,
@@ -89,9 +102,12 @@ export class ExpenseChart implements AfterViewInit, OnChanges {
   private groupByCategory(transactions: Transaction[]): Record<string, number> {
     return transactions
       .filter((t) => t.type === 'expense')
-      .reduce((acc, t) => {
-        acc[t.category] = (acc[t.category] || 0) + t.amount;
-        return acc;
-      }, {} as Record<string, number>);
+      .reduce(
+        (acc, t) => {
+          acc[t.category] = (acc[t.category] || 0) + t.amount;
+          return acc;
+        },
+        {} as Record<string, number>,
+      );
   }
 }
