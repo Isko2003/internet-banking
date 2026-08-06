@@ -2,10 +2,10 @@ import { Component, computed, inject, Input, OnInit, signal } from '@angular/cor
 import { CardService } from '../../core/services/card.service';
 import { Card } from '../../core/models/card.model';
 import { finalize } from 'rxjs';
-import { RouterLink } from "@angular/router";
+import { RouterLink } from '@angular/router';
 import { CardVisual } from '../../shared/components/card-visual/card-visual';
 import { CurrencyPipe } from '@angular/common';
-import { ConfirmDialog } from "../../shared/components/confirm-dialog/confirm-dialog";
+import { ConfirmDialog } from '../../shared/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-card-detail',
@@ -30,16 +30,17 @@ export class CardDetail implements OnInit {
   });
 
   ngOnInit() {
-    this.cardService.getCardById(this.id).pipe(
-      finalize(() => this.isLoading.set(false))
-    ).subscribe({
-      next: (card) => {
-        this.card.set(card);
-      },
-      error: () => {
-        this.hasError.set(true);
-      }
-    })
+    this.cardService
+      .getCardById(this.id)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: (card) => {
+          this.card.set(card);
+        },
+        error: () => {
+          this.hasError.set(true);
+        },
+      });
   }
 
   onToggleStatusClick() {
@@ -55,24 +56,25 @@ export class CardDetail implements OnInit {
     this.isConfirmOpen.set(false);
 
     const currentCard = this.card();
-    if(!currentCard) return;
+    if (!currentCard) return;
 
     const previousStatus = currentCard.status;
-    const newStatus = previousStatus === "active" ? "blocked" : "active";
+    const newStatus = previousStatus === 'active' ? 'blocked' : 'active';
 
-    this.card.set({...currentCard, status: newStatus});
+    this.card.set({ ...currentCard, status: newStatus });
     this.isUpdating.set(true);
 
-    this.cardService.updateCardStatus(currentCard.id, newStatus).pipe(
-      finalize(() => this.isUpdating.set(false))
-    ).subscribe({
-      next: (updatedCard) => {
-        this.card.set(updatedCard);
-      },
-      error: () => {
-        this.card.set({...currentCard, status: previousStatus});
-        this.hasError.set(true);
-      }
-    })
+    this.cardService
+      .updateCardStatus(currentCard.id, newStatus)
+      .pipe(finalize(() => this.isUpdating.set(false)))
+      .subscribe({
+        next: (updatedCard) => {
+          this.card.set(updatedCard);
+        },
+        error: () => {
+          this.card.set({ ...currentCard, status: previousStatus });
+          this.hasError.set(true);
+        },
+      });
   }
 }

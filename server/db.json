@@ -986,7 +986,26 @@
       "amount": 4000,
       "comment": "test2",
       "name": "Əsas hesab → Əmanət hesabı",
-      "id": 1
+      "id": 1,
+      "isFavorite": false
+    },
+    {
+      "debitAccountId": 2,
+      "creditAccountId": 1,
+      "amount": 500,
+      "comment": "Aylıq borc qaytarma",
+      "name": "Əmanət → Əsas hesab",
+      "isFavorite": false,
+      "id": 2
+    },
+    {
+      "debitAccountId": 1,
+      "creditAccountId": 3,
+      "amount": 200,
+      "comment": "Dollar yığımı",
+      "name": "Dollar hesabına yığım",
+      "isFavorite": false,
+      "id": 3
     }
   ],
   "userTransfers": [

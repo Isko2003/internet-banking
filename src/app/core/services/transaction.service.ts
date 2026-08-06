@@ -13,11 +13,15 @@ export class TransactionService {
   }
 
   getRecent(limit = 5): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(`${environment.apiUrl}/transactions?_sort=date&_order=desc&_limit=${limit}`);
+    return this.http.get<Transaction[]>(
+      `${environment.apiUrl}/transactions?_sort=date&_order=desc&_limit=${limit}`,
+    );
   }
 
   getTransactionByAccId(accountId: number): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(`${environment.apiUrl}/transactions?accountId=${accountId}&_sort=date&_order=desc`);
+    return this.http.get<Transaction[]>(
+      `${environment.apiUrl}/transactions?accountId=${accountId}&_sort=date&_order=desc`,
+    );
   }
 
   getPaginated(params: {
@@ -27,33 +31,35 @@ export class TransactionService {
     order?: 'asc' | 'desc';
     [key: string]: any;
   }): Observable<PaginatedResult<Transaction>> {
-    let httpParams = new HttpParams()
-    .set('_page', params.page)
-    .set('_limit', params.limit);
+    let httpParams = new HttpParams().set('_page', params.page).set('_limit', params.limit);
 
-    if(params.sort) httpParams = httpParams.set('_sort', params.sort);
-    if(params.order) httpParams = httpParams.set("_order", params.order);
+    if (params.sort) httpParams = httpParams.set('_sort', params.sort);
+    if (params.order) httpParams = httpParams.set('_order', params.order);
 
     Object.keys(params).forEach((key) => {
-      if(!['page', 'limit', 'sort', 'order'].includes(key) && params[key] != null && params[key] !== '') {
+      if (
+        !['page', 'limit', 'sort', 'order'].includes(key) &&
+        params[key] != null &&
+        params[key] !== ''
+      ) {
         httpParams = httpParams.set(key, params[key]);
       }
     });
 
-    return this.http.get<Transaction[]>(`${environment.apiUrl}/transactions`, {
-      params: httpParams,
-      observe: 'response',
-    })
-    .pipe(
-      map((response) => ({
-        data: response.body || [],
-        totalCount: Number(response.headers.get('X-Total-Count')) || 0,
-      }))
-    );
+    return this.http
+      .get<Transaction[]>(`${environment.apiUrl}/transactions`, {
+        params: httpParams,
+        observe: 'response',
+      })
+      .pipe(
+        map((response) => ({
+          data: response.body || [],
+          totalCount: Number(response.headers.get('X-Total-Count')) || 0,
+        })),
+      );
   }
 
   getTransactionById(id: string): Observable<Transaction> {
     return this.http.get<Transaction>(`${environment.apiUrl}/transactions/${id}`);
   }
-
 }
