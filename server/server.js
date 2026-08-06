@@ -328,6 +328,14 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === 'DELETE') {
+      const index = db[resourceName].findIndex((d) => String(d.id) === resourceId);
+      db[resourceName].splice(index, 1);
+      writeDb(db);
+      sendJson(res, 200, { message: 'Element silindi' });
+      return;
+    }
+
     sendJson(res, 200, item);
     return;
   }

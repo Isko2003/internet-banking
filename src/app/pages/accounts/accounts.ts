@@ -3,8 +3,8 @@ import { Account } from '../../core/models/account.model';
 import { AccountService } from '../../core/services/account.service';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CopyToClipboard } from "../../shared/directives/copy-to-clipboard";
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { CopyToClipboard } from '../../shared/directives/copy-to-clipboard';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-accounts',
@@ -36,9 +36,9 @@ export class Accounts {
           status: this.selectedStatus() !== 'all' ? this.selectedStatus() : null,
         },
         queryParamsHandling: 'merge',
+      });
     });
-  });
-  
+
     this.loadAccountsData();
   }
 
@@ -50,15 +50,19 @@ export class Accounts {
     const sortDirection = this.sortDirection();
 
     if (search) {
-      result = result.filter((account) => account.name.toLowerCase().includes(search) || account.iban.toLowerCase().includes(search))
+      result = result.filter(
+        (account) =>
+          account.name.toLowerCase().includes(search) ||
+          account.iban.toLowerCase().includes(search),
+      );
     }
 
-    if (selectedCurrency && selectedCurrency !== "all") {
+    if (selectedCurrency && selectedCurrency !== 'all') {
       result = result.filter((account) => account.currency === selectedCurrency);
     }
-    
-    if(selectedStatus && selectedStatus !== "all") {
-      result = result.filter((account) => account.status === selectedStatus)
+
+    if (selectedStatus && selectedStatus !== 'all') {
+      result = result.filter((account) => account.status === selectedStatus);
     }
 
     if (sortDirection === 'asc') {
@@ -68,7 +72,7 @@ export class Accounts {
     }
 
     return result;
-  })
+  });
 
   toggleSort() {
     const current = this.sortDirection();
@@ -80,13 +84,13 @@ export class Accounts {
   toggleBalance(accountId: string | number) {
     this.visibleBalances.update((current) => {
       const updated = new Set(current);
-      if(updated.has(accountId)) {
+      if (updated.has(accountId)) {
         updated.delete(accountId);
       } else {
         updated.add(accountId);
       }
       return updated;
-    })
+    });
   }
 
   isBalanceVisibleFor(accountId: string | number): boolean {
@@ -108,5 +112,4 @@ export class Accounts {
       },
     });
   }
-
 }

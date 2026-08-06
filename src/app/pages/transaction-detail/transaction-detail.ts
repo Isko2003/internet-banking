@@ -2,7 +2,7 @@ import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { TransactionService } from '../../core/services/transaction.service';
 import { Transaction } from '../../core/models/transaction.model';
 import { finalize } from 'rxjs';
-import { RouterLink } from "@angular/router";
+import { RouterLink } from '@angular/router';
 import { AccountService } from '../../core/services/account.service';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 
@@ -28,15 +28,16 @@ export class TransactionDetail implements OnInit {
       this.accountsMap.set(new Map(accounts.map((a) => [a.id, a.name])));
     });
 
-    this.transactionService.getTransactionById(this.id).pipe(
-      finalize(() => this.isLoading.set(false))
-    ).subscribe({
-      next: (transaction) => this.transaction.set(transaction),
-      error: () => this.hasError.set(true),
-    });
+    this.transactionService
+      .getTransactionById(this.id)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: (transaction) => this.transaction.set(transaction),
+        error: () => this.hasError.set(true),
+      });
   }
 
-    getAccountName(accountId: number): string {
+  getAccountName(accountId: number): string {
     return this.accountsMap().get(accountId) || `Hesab #${accountId}`;
   }
 }

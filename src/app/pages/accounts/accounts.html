@@ -14,7 +14,6 @@
       <p class="text-sm text-gray-400">Hesab tapılmadı</p>
     </div>
   } @else {
-
     <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex flex-wrap gap-3">
       <input
         [ngModel]="searchTerm()"
@@ -81,39 +80,43 @@
             @for (account of filteredAccounts(); track account.id) {
               <tr class="border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
                 <td class="px-4 py-3 font-medium text-navy">
-                    <a [routerLink]="['/accounts', account.id]" class="hover:text-mint hover:underline">
-                        {{ account.name }}
-                    </a>
+                  <a
+                    [routerLink]="['/accounts', account.id]"
+                    class="hover:text-mint hover:underline"
+                  >
+                    {{ account.name }}
+                  </a>
                 </td>
                 <td class="px-4 py-3 text-gray-500 font-mono text-xs">
-                    {{ account.iban }}
-                    <button [appCopyToClipboard]="account.iban" #copyBtn="copyToClipboard">
-                        @if (copyBtn.copied()) {
-                        Kopyalandı!
-                        } @else {
-                        Kopyala
-                        }
-                    </button>
+                  {{ account.iban }}
+                  <button [appCopyToClipboard]="account.iban" #copyBtn="copyToClipboard">
+                    @if (copyBtn.copied()) {
+                      Kopyalandı!
+                    } @else {
+                      Kopyala
+                    }
+                  </button>
                 </td>
                 <td class="px-4 py-3 text-gray-600">{{ account.currency }}</td>
                 <td class="px-4 py-3 text-right font-medium tabular-nums text-navy">
-                    @if(isBalanceVisibleFor(account.id)) {
-                        {{ account.balance | currency:account.currency:'symbol':'1.2-2' }}
+                  @if (isBalanceVisibleFor(account.id)) {
+                    {{ account.balance | currency: account.currency : 'symbol' : '1.2-2' }}
+                  } @else {
+                    <span class="tracking-widest">••••••</span>
+                  }
+                  <button
+                    (click)="toggleBalance(account.id)"
+                    class="px-1 py-1 border border-gray-200 rounded-md text-sm text-gray-600 hover:bg-gray-50"
+                  >
+                    @if (isBalanceVisibleFor(account.id)) {
+                      👁 Gizlət
                     } @else {
-                        <span class="tracking-widest">••••••</span>
+                      🙈 Göstər
                     }
-                    <button
-                        (click)="toggleBalance(account.id)"
-                        class="px-1 py-1 border border-gray-200 rounded-md text-sm text-gray-600 hover:bg-gray-50" >
-                        @if (isBalanceVisibleFor(account.id)) {
-                            👁 Gizlət
-                        } @else {
-                            🙈 Göstər
-                        }
-                 </button>
+                  </button>
                 </td>
                 <td class="px-4 py-3 text-right tabular-nums text-gray-500">
-                  {{ account.blockedAmount | currency:account.currency:'symbol':'1.2-2' }}
+                  {{ account.blockedAmount | currency: account.currency : 'symbol' : '1.2-2' }}
                 </td>
                 <td class="px-4 py-3">
                   <span
@@ -135,6 +138,5 @@
         </table>
       </div>
     }
-
   }
 </div>
