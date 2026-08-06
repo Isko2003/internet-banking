@@ -16,6 +16,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ConfirmDialog } from '../../shared/components/confirm-dialog/confirm-dialog';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
+import { azPhoneValidator } from '../../core/validators/az-phone.validator';
 
 @Component({
   selector: 'app-payments',
@@ -79,13 +80,14 @@ export class Payments {
 
   onSelectCategory(category: PaymentCategoryConfig) {
     this.selectedCategory.set(category);
+    this.step.set('provider');
     this.isLoadingProviders.set(true);
     this.paymentService.getProviders(category.key).subscribe({
       next: (providers) => {
         this.providers.set(providers);
         this.isLoadingProviders.set(false);
-        this.step.set('provider');
       },
+      error: () => this.isLoadingProviders.set(false),
     });
   }
 
@@ -97,14 +99,20 @@ export class Payments {
     this.debtError.set(null);
     this.fieldsArray.clear();
 
-    provider.fields.forEach(() =>
+    provider.fields.forEach((field) => {
+      const validators = [Validators.required];
+
+      if (field.key === 'phoneNumber' && provider.prefixes?.length) {
+        validators.push(azPhoneValidator(provider.prefixes));
+      }
+
       this.fieldsArray.push(
         this.fb.control('', {
           nonNullable: true,
-          validators: [Validators.required],
+          validators,
         }),
-      ),
-    );
+      );
+    });
     this.step.set('form');
   }
 
@@ -190,6 +198,7 @@ export class Payments {
         status: 'completed',
         date: new Date().toISOString().split('T')[0],
       })
+      .pipe(finalize(() => this.isSubmitting.set(false)))
       .subscribe({
         next: (payment) => {
           this.completedPayment.set(payment);
