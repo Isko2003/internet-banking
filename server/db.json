@@ -856,48 +856,7 @@
       "status": "completed"
     }
   ],
-  "notifications": [
-    {
-      "id": 1,
-      "userId": 1,
-      "message": "Kartınıza 1200 AZN köçürüldü",
-      "read": false,
-      "date": "2026-07-10",
-      "type": "transaction"
-    },
-    {
-      "id": 2,
-      "userId": 1,
-      "message": "Əmanət hesabınıza faiz ödənişi hesablandı",
-      "read": true,
-      "date": "2026-07-12",
-      "type": "info"
-    },
-    {
-      "id": 3,
-      "userId": 1,
-      "message": "Kartınız uğurla aktivləşdirildi",
-      "read": true,
-      "date": "2026-06-01",
-      "type": "card"
-    },
-    {
-      "id": 4,
-      "userId": 1,
-      "message": "Şübhəli giriş cəhdi aşkarlandı, hesabınızı yoxlayın",
-      "read": false,
-      "date": "2026-07-18",
-      "type": "security"
-    },
-    {
-      "id": 5,
-      "userId": 2,
-      "message": "Kartınız bloklanıb, filiala müraciət edin",
-      "read": false,
-      "date": "2026-07-05",
-      "type": "card"
-    }
-  ],
+  "notifications": [],
   "rates": {
     "AZN": {
       "USD": 0.59,
