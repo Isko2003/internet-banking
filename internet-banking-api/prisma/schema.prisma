@@ -1,0 +1,278 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  password  String
+  firstName String
+  lastName  String
+  phone     String?
+  birthDate String?
+  address   String?
+  photoUrl  String?
+
+  accounts      Account[]
+  cards         Card[]
+  templates     TransferTemplate[]
+  userTransfers UserTransfer[]
+  notifications AppNotification[]
+  settings      UserSettings?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  name          String
+  iban          String        @unique
+  balance       Decimal       @default(0) @db.Decimal(15, 2)
+  currency      String
+  status        AccountStatus @default(active)
+  blockedAmount Decimal       @default(0) @db.Decimal(15, 2)
+  openedDate    DateTime      @default(now())
+
+  cards           Card[]
+  transactions    Transaction[]
+  debitTransfers  Transfer[]         @relation("DebitTransfers")
+  creditTransfers Transfer[]         @relation("CreditTransfers")
+  debitTemplates  TransferTemplate[] @relation("DebitTemplates")
+  creditTemplates TransferTemplate[] @relation("CreditTemplates")
+  userTransfers   UserTransfer[]
+  payments        Payment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum AccountStatus {
+  active
+  blocked
+  closed
+}
+
+model Card {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  accountId Int
+  account   Account @relation(fields: [accountId], references: [id])
+
+  number        String        @unique
+  type          CardType
+  paymentSystem PaymentSystem
+  expiry        String
+  status        CardStatus    @default(pending_activation)
+  holderName    String
+  contactless   Boolean       @default(false)
+  balance       Decimal       @default(0) @db.Decimal(15, 2)
+  dailyLimit    Decimal       @default(0) @db.Decimal(15, 2)
+
+  transactions Transaction[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum CardType {
+  debit
+  credit
+  virtual
+}
+
+enum PaymentSystem {
+  Visa
+  Mastercard
+}
+
+enum CardStatus {
+  active
+  blocked
+  expired
+  pending_activation
+}
+
+model Transaction {
+  id        Int     @id @default(autoincrement())
+  accountId Int
+  account   Account @relation(fields: [accountId], references: [id])
+  cardId    Int?
+  card      Card?   @relation(fields: [cardId], references: [id])
+
+  type        TransactionType
+  amount      Decimal           @db.Decimal(15, 2)
+  currency    String
+  category    String
+  description String
+  date        DateTime          @default(now())
+  status      TransactionStatus @default(completed)
+
+  createdAt DateTime @default(now())
+}
+
+enum TransactionType {
+  income
+  expense
+}
+
+enum TransactionStatus {
+  completed
+  processing
+  declined
+  cancelled
+}
+
+model Transfer {
+  id              Int     @id @default(autoincrement())
+  debitAccountId  Int
+  debitAccount    Account @relation("DebitTransfers", fields: [debitAccountId], references: [id])
+  creditAccountId Int
+  creditAccount   Account @relation("CreditTransfers", fields: [creditAccountId], references: [id])
+
+  amount       Decimal        @db.Decimal(15, 2)
+  currency     String
+  fee          Decimal        @default(0) @db.Decimal(15, 2)
+  finalAmount  Decimal        @db.Decimal(15, 2)
+  exchangeRate Decimal?       @db.Decimal(10, 6)
+  comment      String?
+  status       TransferStatus @default(completed)
+  date         DateTime       @default(now())
+
+  createdAt DateTime @default(now())
+}
+
+enum TransferStatus {
+  completed
+  failed
+}
+
+model TransferTemplate {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  debitAccountId  Int
+  debitAccount    Account @relation("DebitTemplates", fields: [debitAccountId], references: [id])
+  creditAccountId Int
+  creditAccount   Account @relation("CreditTemplates", fields: [creditAccountId], references: [id])
+
+  amount     Decimal @db.Decimal(15, 2)
+  comment    String?
+  name       String
+  isFavorite Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserTransfer {
+  id             Int     @id @default(autoincrement())
+  debitAccountId Int
+  debitAccount   Account @relation(fields: [debitAccountId], references: [id])
+  userId         Int
+  user           User    @relation(fields: [userId], references: [id])
+
+  recipientType       RecipientType
+  recipientIdentifier String
+  recipientName       String
+  amount              Decimal        @db.Decimal(15, 2)
+  currency            String
+  fee                 Decimal        @default(0) @db.Decimal(15, 2)
+  purpose             String?
+  saveRecipient       Boolean        @default(false)
+  status              TransferStatus @default(completed)
+  date                DateTime       @default(now())
+
+  createdAt DateTime @default(now())
+}
+
+enum RecipientType {
+  card
+  iban
+}
+
+model PaymentProvider {
+  id           Int      @id @default(autoincrement())
+  category     String
+  name         String
+  hasDebtCheck Boolean  @default(false)
+  prefixes     String[]
+  fields       Json
+
+  payments Payment[]
+}
+
+model Payment {
+  id             Int             @id @default(autoincrement())
+  debitAccountId Int
+  debitAccount   Account         @relation(fields: [debitAccountId], references: [id])
+  providerId     Int
+  provider       PaymentProvider @relation(fields: [providerId], references: [id])
+
+  category     String
+  providerName String
+  fields       Json
+  amount       Decimal           @db.Decimal(15, 2)
+  description  String
+  status       TransactionStatus @default(completed)
+  date         DateTime          @default(now())
+
+  createdAt DateTime @default(now())
+}
+
+model AppNotification {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  message String
+  read    Boolean          @default(false)
+  type    NotificationType @default(info)
+  date    DateTime         @default(now())
+
+  createdAt DateTime @default(now())
+}
+
+enum NotificationType {
+  transaction
+  info
+  card
+  security
+}
+
+model UserSettings {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+
+  language                 Language @default(az)
+  theme                    Theme    @default(light)
+  notificationsEnabled     Boolean  @default(true)
+  balanceHidden            Boolean  @default(false)
+  inactivityTimeoutMinutes Int      @default(15)
+  twoFactorEnabled         Boolean  @default(false)
+
+  updatedAt DateTime @updatedAt
+}
+
+enum Language {
+  az
+  en
+}
+
+enum Theme {
+  light
+  dark
+}

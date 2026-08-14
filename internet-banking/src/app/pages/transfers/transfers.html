@@ -1,0 +1,176 @@
+<div class="flex flex-col gap-4 font-body max-w-lg">
+  @if (completedTransfer(); as transfer) {
+    <div
+      class="bg-white rounded-xl border border-gray-100 shadow-sm p-8 text-center flex flex-col items-center gap-4"
+    >
+      <div class="w-16 h-16 rounded-full bg-mint-light flex items-center justify-center">
+        <svg class="w-8 h-8 text-mint" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+      </div>
+
+      <h2 class="font-display text-xl font-bold text-navy">Köçürmə uğurla tamamlandı</h2>
+      <p class="text-sm text-gray-500">
+        {{ transfer.amount }} {{ transfer.currency }} Kocuruldu.
+        @if (transfer.fee > 0) {
+          (komissiya: {{ transfer.fee }} {{ transfer.currency }})
+        }
+      </p>
+
+      <div class="flex gap-3 mt-2">
+        <a
+          [routerLink]="['/transactions', transfer.transactionId]"
+          class="px-4 py-2 text-sm bg-navy text-white rounded-md hover:bg-navy-light"
+        >
+          Emeliyyata Bax
+        </a>
+
+        <button
+          (click)="onSaveAsTemplate()"
+          [disabled]="templateSaved()"
+          class="px-4 py-2 text-sm border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50"
+        >
+          {{ templateSaved() ? 'Saxlanıldı ✓' : 'Şablon kimi saxla' }}
+        </button>
+
+        <button (click)="onNewTransfer()" class="px-4 py-2 text-sm texxt-gray-500 hover:text-navy">
+          Yeni Kocurme
+        </button>
+      </div>
+    </div>
+  } @else {
+    <h1 class="font-display text-2xl font-bold text-navy">Hesablar arası köçürmə</h1>
+
+    <form
+      [formGroup]="transferForm"
+      class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4"
+      (ngSubmit)="onSubmit()"
+    >
+      <div>
+        <label for="debitAccountId" class="block text-sm font-medium text-gray-700 mb-1"
+          >Debit hesab (haradan)</label
+        >
+        <select
+          formControlName="debitAccountId"
+          class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+        >
+          <option [ngValue]="null">Seçin</option>
+          @for (account of accounts(); track account.id) {
+            <option [ngValue]="account.id">
+              {{ account.name }} ({{ account.balance }} {{ account.currency }})
+            </option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label for="creditAccountId" class="block text-sm font-medium text-gray-700 mb-1"
+          >Credit hesab (haraya)</label
+        >
+        <select
+          formControlName="creditAccountId"
+          class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+        >
+          <option [ngValue]="null">Seçin</option>
+          @for (account of accounts(); track account.id) {
+            <option [ngValue]="account.id">
+              {{ account.name }} ({{ account.balance }} {{ account.currency }})
+            </option>
+          }
+        </select>
+      </div>
+
+      @if (transferForm.errors?.['sameAccount']) {
+        <p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">
+          Debit və credit hesabı eyni ola bilməz
+        </p>
+      }
+
+      <div>
+        <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">Məbləğ</label>
+        <input
+          type="number"
+          formControlName="amount"
+          placeholder="Meblegi daxil edin"
+          class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+        />
+      </div>
+
+      <div>
+        <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">Şərh</label>
+        <input
+          formControlName="comment"
+          class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+        />
+      </div>
+
+      @if (insufficientBalance()) {
+        <p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">
+          Kifayet qeder balans yoxdur.
+        </p>
+      }
+
+      @if (transferForm.pending) {
+        <p class="text-sm text-gray-400">Balans yoxlanılır...</p>
+      }
+
+      @if (currenciesDiffer()) {
+        @if (exchangeRate()) {
+          <div class="text-sm text-gray-600 bg-gray-50 rounded-md px-3 py-2">
+            Məzənnə: 1 {{ selectedDebitAccount()?.currency }} = {{ exchangeRate() }}
+            {{ selectedCreditAccount()?.currency }}
+          </div>
+        } @else {
+          <p class="text-sm text-gray-400">Məzənnə yüklənir...</p>
+        }
+      }
+
+      @if (formValues()?.amount) {
+        <div class="flex flex-col gap-1 text-sm border-t border-gray-100 pt-3">
+          <div class="flex justify-between text-gray-500">
+            <span>Komissiya</span>
+            <span>{{ fee() }} {{ selectedDebitAccount()?.currency }}</span>
+          </div>
+          <div class="flex justify-between font-semibold text-navy">
+            <span>Yekun məbləğ</span>
+            <span>{{ finalAmount() }} {{ selectedCreditAccount()?.currency }}</span>
+          </div>
+        </div>
+      }
+
+      <button
+        type="submit"
+        [disabled]="transferForm.invalid || transferForm.pending || insufficientBalance()"
+        class="bg-navy text-white py-2 rounded-md font-medium hover:bg-navy-light disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Davam Et
+      </button>
+    </form>
+
+    <app-confirm-dialog
+      [isOpen]="isConfirmOpen()"
+      title="Kocurmeni Tesdiqleyin"
+      [message]="
+        'Siz ' +
+        selectedDebitAccount()?.name +
+        ' hesabından ' +
+        selectedCreditAccount()?.name +
+        ' hesabına ' +
+        formValues()?.amount +
+        ' ' +
+        selectedDebitAccount()?.currency +
+        ' köçürəcəksiniz.'
+      "
+      confirmText="Tesdiqle"
+      cancelText="Imtina"
+      [isLoading]="isSubmitting()"
+      (confirm)="onConfirmTransfer()"
+      (cancelDialog)="onCancelConfirm()"
+    />
+  }
+</div>

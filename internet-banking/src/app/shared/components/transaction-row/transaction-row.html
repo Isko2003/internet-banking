@@ -1,0 +1,8 @@
+<div class="flex justify-between text-sm">
+  <span class="text-gray-600">{{ transaction.description }}</span>
+  <span class="font-medium tabular-nums"
+        [class.text-mint]="transaction.type === 'income'"
+        [class.text-expense]="transaction.type === 'expense'">
+    {{ transaction.type === 'expense' ? '-' : '+' }}{{ transaction.amount | currency:'AZN':'symbol':'1.2-2' }}
+  </span>
+</div>
