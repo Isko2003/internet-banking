@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CardRow } from './card-row';
 
 describe('CardRow', () => {
@@ -13,6 +12,13 @@ describe('CardRow', () => {
 
     fixture = TestBed.createComponent(CardRow);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('card', {
+      id: '1',
+      number: '4111 1111 1111 1111',
+      paymentSystem: 'visa',
+      status: 'active',
+      expiry: '12/28',
+    });
     await fixture.whenStable();
   });
 

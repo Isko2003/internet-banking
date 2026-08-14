@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTestingDependencies } from '../../../../testing/test-providers';
 
 import { ExchangeRates } from './exchange-rates';
 
@@ -9,6 +10,7 @@ describe('ExchangeRates', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ExchangeRates],
+      providers: [provideTestingDependencies()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ExchangeRates);

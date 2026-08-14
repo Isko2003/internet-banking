@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CardVisual } from './card-visual';
 
 describe('CardVisual', () => {
@@ -13,6 +12,13 @@ describe('CardVisual', () => {
 
     fixture = TestBed.createComponent(CardVisual);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('card', {
+      id: '1',
+      number: '4111 1111 1111 1111',
+      paymentSystem: 'visa',
+      holderName: 'JOHN DOE',
+      expiry: '12/28',
+    });
     await fixture.whenStable();
   });
 

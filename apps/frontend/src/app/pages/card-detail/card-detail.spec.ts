@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTestingDependencies } from '../../../testing/test-providers';
 
 import { CardDetail } from './card-detail';
 
@@ -9,6 +10,7 @@ describe('CardDetail', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CardDetail],
+      providers: [provideTestingDependencies()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CardDetail);

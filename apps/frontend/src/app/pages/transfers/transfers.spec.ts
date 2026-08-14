@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTestingDependencies } from '../../../testing/test-providers';
 
 import { Transfers } from './transfers';
 
@@ -9,6 +10,7 @@ describe('Transfers', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Transfers],
+      providers: [provideTestingDependencies()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Transfers);
