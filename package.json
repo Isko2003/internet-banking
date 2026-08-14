@@ -1,0 +1,23 @@
+{
+  "name": "internet-banking",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MyBank Internet Banking Portal — Angular frontend + NestJS backend monorepo",
+  "workspaces": [
+    "apps/frontend",
+    "apps/backend"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "dev:frontend": "npm run start --workspace=apps/frontend",
+    "dev:backend": "npm run start:dev --workspace=apps/backend",
+    "build:frontend": "npm run build --workspace=apps/frontend",
+    "build:backend": "npm run build --workspace=apps/backend",
+    "build": "npm run build:frontend && npm run build:backend",
+    "test:frontend": "npm run test --workspace=apps/frontend",
+    "test:backend": "npm run test --workspace=apps/backend",
+    "test": "npm run test:frontend && npm run test:backend",
+    "lint:frontend": "npm run lint --workspace=apps/frontend",
+    "lint": "npm run lint:frontend"
+  }
+}

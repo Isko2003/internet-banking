@@ -9,7 +9,7 @@
     "server": "node server/server.js",
     "test": "ng test",
     "lint": "ng lint",
-    "prepare": "husky install"
+    "prepare": "cd ../.. && husky install apps/frontend/.husky"
   },
   "private": true,
   "packageManager": "npm@11.16.0",

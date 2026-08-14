@@ -26,30 +26,60 @@ Backend tərəfdə isə səmərəli və genişlənə bilən server-side tətbiql
 
 ---
 
+## 📂 Qovluq Strukturu
+
+Layihə monorepo formatında təşkil olunub — frontend və backend `apps/` altında ayrı-ayrı tətbiqlər kimi saxlanılır:
+
+```
+internet-banking/
+├── apps/
+│   ├── frontend/          # Angular SPA
+│   │   ├── src/
+│   │   ├── public/
+│   │   ├── server/
+│   │   ├── .husky/
+│   │   ├── angular.json
+│   │   └── package.json
+│   │
+│   └── backend/           # NestJS REST API
+│       ├── src/
+│       ├── test/
+│       ├── prisma/
+│       ├── .agents/
+│       ├── nest-cli.json
+│       └── package.json
+│
+└── README.md
+```
+
+> Hər iki tətbiq öz `package.json`, `node_modules` və konfiqurasiya fayllarına sahibdir və müstəqil şəkildə quraşdırılıb işə salınır.
+
+---
+
 ## 🛠️ Texnologiya Yığını
 
 ### Frontend (Angular)
 
-| Sahə | Texnologiya |
-|---|---|
-| **Framework** | Angular (Standalone Components, Signals, Control Flow API) |
-| **Dil** | TypeScript (Strict Type Safety) |
-| **Stil & Dizayn** | HTML5, SCSS (Variables, Mixins, CSS Custom Properties), Responsive Design |
-| **Reaktivlik** | RxJS (Observables, Operators, Reactive State) |
-| **UI Komponentləri** | Custom reusable UI kitabxanası / Angular Material |
-| **Data Vizuallaşdırma** | Chart.js, `ng2-charts` |
-| **Utility** | date-fns (Tarix formatlama) |
-| **Keyfiyyət** | ESLint, Prettier, Husky, lint-staged |
-| **Test** | Jasmine & Karma |
-| **Mock Backend** | `json-server` |
+| Sahə                    | Texnologiya                                                               |
+| ----------------------- | ------------------------------------------------------------------------- |
+| **Framework**           | Angular (Standalone Components, Signals, Control Flow API)                |
+| **Dil**                 | TypeScript (Strict Type Safety)                                           |
+| **Stil & Dizayn**       | HTML5, SCSS (Variables, Mixins, CSS Custom Properties), Responsive Design |
+| **Reaktivlik**          | RxJS (Observables, Operators, Reactive State)                             |
+| **UI Komponentləri**    | Custom reusable UI kitabxanası / Angular Material                         |
+| **Data Vizuallaşdırma** | Chart.js, `ng2-charts`                                                    |
+| **Utility**             | date-fns (Tarix formatlama)                                               |
+| **Keyfiyyət**           | ESLint, Prettier, Husky, lint-staged                                      |
+| **Test**                | Jasmine & Karma                                                           |
+| **Mock Backend**        | `json-server`                                                             |
 
 ### Backend (NestJS)
 
-| Sahə | Texnologiya |
-|---|---|
-| **Framework** | [NestJS](https://docs.nestjs.com) |
-| **Dil** | TypeScript |
-| **Test** | Jest (unit, e2e, coverage) |
+| Sahə           | Texnologiya                                                       |
+| -------------- | ----------------------------------------------------------------- |
+| **Framework**  | [NestJS](https://docs.nestjs.com)                                 |
+| **Dil**        | TypeScript                                                        |
+| **Test**       | Jest (unit, e2e, coverage)                                        |
 | **Deployment** | [Mau](https://mau.nestjs.com) (AWS üçün rəsmi NestJS platforması) |
 
 ---
@@ -74,42 +104,46 @@ Tətbiq 11 əsas bölmə ətrafında qurulub:
 
 ## ⚡ Quraşdırma və Lokal İşə Salma
 
-### Frontend
+### 1. Repozitoriyanı klonlayın
+
+```bash
+git clone https://github.com/your-username/internet-banking.git
+cd internet-banking
+```
+
+### 2. Frontend
 
 **Tələblər:** Node.js v18.x+, npm v9.x+
 
 ```bash
-# 1. Repozitoriyanı klonlayın
-git clone https://github.com/your-username/mybank-internet-banking.git
-cd internet-banking
-
-# 2. Asılılıqları yükləyin
+cd apps/frontend
 npm install
 
-# 3. Mock Backend-i işə salın (http://localhost:3000)
+# Mock Backend-i işə salın (http://localhost:3000)
 npm run mock-server
 
-# 4. Yeni terminalda Angular tətbiqini başladın
+# Yeni terminalda Angular tətbiqini başladın
 npm start
 ```
 
 Brauzerdə `http://localhost:4200` ünvanına daxil olun.
 
-### Backend (NestJS)
+### 3. Backend (NestJS)
 
 ```bash
-$ npm install
+cd apps/backend
+npm install
 ```
 
 ```bash
 # development
-$ npm run start
+npm run start
 
 # watch mode
-$ npm run start:dev
+npm run start:dev
 
 # production mode
-$ npm run start:prod
+npm run start:prod
 ```
 
 **Deployment (AWS / Mau):**
@@ -123,23 +157,25 @@ $ mau deploy
 
 ## 🧪 CLI Əmrləri
 
+> Bütün əmrlər müvafiq app qovluğu daxilində icra olunur (`apps/frontend` və ya `apps/backend`).
+
 ### Frontend
 
-| Əmr | Təsvir |
-|---|---|
-| `npm start` / `ng serve` | Lokal dev server |
-| `npm run mock-server` | Mock backend server |
-| `npm run lint` | ESLint yoxlaması |
-| `npm run format` | Prettier formatlaşdırma |
-| `npm run test` | Jasmine/Karma unit testləri |
-| `npm run build` | Production build |
+| Əmr                      | Təsvir                      |
+| ------------------------ | --------------------------- |
+| `npm start` / `ng serve` | Lokal dev server            |
+| `npm run mock-server`    | Mock backend server         |
+| `npm run lint`           | ESLint yoxlaması            |
+| `npm run format`         | Prettier formatlaşdırma     |
+| `npm run test`           | Jasmine/Karma unit testləri |
+| `npm run build`          | Production build            |
 
 ### Backend
 
-| Əmr | Təsvir |
-|---|---|
-| `npm run test` | Unit testlər |
-| `npm run test:e2e` | E2E testlər |
+| Əmr                | Təsvir        |
+| ------------------ | ------------- |
+| `npm run test`     | Unit testlər  |
+| `npm run test:e2e` | E2E testlər   |
 | `npm run test:cov` | Test coverage |
 
 ---
@@ -186,15 +222,15 @@ Təmiz commit tarixçəsi və rahat code review üçün **Conventional Commits**
 
 ## 👥 İntern Qiymətləndirmə Matrisi
 
-| Meyar | Çəki |
-|---|---|
-| **Angular Core Proficiency** — Signals, lazy loading routes, custom reactive form validasiyaları, DI, güclü RxJS istifadəsi | 25% |
-| **TypeScript Integrity** — Strict type mapping, `any`-dən tam imtina, generic reusable helper-lər | 15% |
-| **Architecture & Scalability** — Düzgün Core/Shared layer qruplaşdırılması, decoupled state, reusable modullar | 15% |
-| **Code Cleanliness** — Semantik adlandırma, təkrarlanan kod pattern-lərinin olmaması, ESLint uyğunluğu | 15% |
-| **UI/UX Sophistication** — Pixel-perfect responsive layout, edge-case loading/empty ekranların idarəsi, əsas accessibility standartları | 10% |
-| **Quality Testing** — Validator, pipe, interceptor və əsas servis komponentlərini əhatə edən unit testlər | 10% |
-| **Git Process** — Təsviri commit tarixçəsi, aydın pull request-lər, proaktiv feedback inteqrasiyası | 10% |
+| Meyar                                                                                                                                   | Çəki |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ---- |
+| **Angular Core Proficiency** — Signals, lazy loading routes, custom reactive form validasiyaları, DI, güclü RxJS istifadəsi             | 25%  |
+| **TypeScript Integrity** — Strict type mapping, `any`-dən tam imtina, generic reusable helper-lər                                       | 15%  |
+| **Architecture & Scalability** — Düzgün Core/Shared layer qruplaşdırılması, decoupled state, reusable modullar                          | 15%  |
+| **Code Cleanliness** — Semantik adlandırma, təkrarlanan kod pattern-lərinin olmaması, ESLint uyğunluğu                                  | 15%  |
+| **UI/UX Sophistication** — Pixel-perfect responsive layout, edge-case loading/empty ekranların idarəsi, əsas accessibility standartları | 10%  |
+| **Quality Testing** — Validator, pipe, interceptor və əsas servis komponentlərini əhatə edən unit testlər                               | 10%  |
+| **Git Process** — Təsviri commit tarixçəsi, aydın pull request-lər, proaktiv feedback inteqrasiyası                                     | 10%  |
 
 ---
 
