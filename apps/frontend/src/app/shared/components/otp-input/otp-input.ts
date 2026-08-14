@@ -17,8 +17,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class OtpInput implements ControlValueAccessor {
   digits: string[] = ['', '', '', '', '', ''];
   @ViewChildren('digitInput') inputRefs!: QueryList<ElementRef<HTMLInputElement>>;
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: string) => void = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: () => void = () => {};
 
   writeValue(value: string): void {

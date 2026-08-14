@@ -54,6 +54,7 @@ export class AuthService {
         if (!user || user.password !== password) {
           throw new Error('Invalid credentials');
         }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password: _pw, ...safeUser } = user;
         return safeUser;
       }),

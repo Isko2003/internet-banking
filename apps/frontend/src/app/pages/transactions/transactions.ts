@@ -129,7 +129,7 @@ export class Transactions {
         },
       });
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private updateUrl(values: any, page: number) {
     this.router.navigate([], {
       relativeTo: this.route,

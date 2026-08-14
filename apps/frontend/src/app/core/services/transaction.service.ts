@@ -29,6 +29,7 @@ export class TransactionService {
     limit: number;
     sort?: string;
     order?: 'asc' | 'desc';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
   }): Observable<PaginatedResult<Transaction>> {
     let httpParams = new HttpParams().set('_page', params.page).set('_limit', params.limit);
