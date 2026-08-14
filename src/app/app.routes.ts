@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { MainLayout } from './layout/components/main-layout/main-layout';
 import { authGuard } from './core/guards/auth-guard';
 import { guestGuard } from './core/guards/guest-guard';
+import { unsavedChangesGuard } from './core/guards/unsaved-changes.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -89,6 +90,12 @@ export const routes: Routes = [
         path: 'settings',
         title: 'Settings',
         loadComponent: () => import('./pages/settings/settings').then((m) => m.Settings),
+      },
+      {
+        path: 'profile',
+        title: 'Profile',
+        canDeactivate: [unsavedChangesGuard],
+        loadComponent: () => import('./pages/profile/profile').then((m) => m.Profile),
       },
     ],
   },

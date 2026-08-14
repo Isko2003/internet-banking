@@ -16,6 +16,10 @@ export interface CurrentUser {
   email: string;
   firstName: string;
   lastName: string;
+  phone?: string;
+  birthDate?: string;
+  address?: string;
+  photoUrl?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -27,11 +31,24 @@ export class AuthService {
   private _isAuthenticated = signal<boolean>(!!localStorage.getItem(this.TOKEN_KEY));
   isAuthenticated = computed(() => this._isAuthenticated());
 
-  private _currentUser = signal<CurrentUser | null>(JSON.parse(localStorage.getItem(this.USER_KEY) || 'null'));
+  private _currentUser = signal<CurrentUser | null>(
+    JSON.parse(localStorage.getItem(this.USER_KEY) || 'null'),
+  );
   currentUser = computed(() => this._currentUser());
 
-  login(email: string, password: string): Observable<CurrentUser> { // Observable bir class-dir data stream temsil edir Reactdaki Promise benzeyir ve .subscribe olunmadiqca servere request getmir.
-    return this.http.get<User[]>(`${environment.apiUrl}/users?email=${email}`).pipe( // serverden gelen melumatin komponente gonderilmeden evvel merhelelerden kecirmek ucun istifade olunur meselen: maplemek, tap ile side effectleri yerine yetirmek ve catchError'la error handling yerine yetirmek.
+  updateCurrentUser(updates: Partial<CurrentUser>) {
+    const current = this._currentUser();
+    if (!current) return;
+
+    const updated = { ...current, ...updates };
+    this._currentUser.set(updated);
+    localStorage.setItem(this.USER_KEY, JSON.stringify(updated));
+  }
+
+  login(email: string, password: string): Observable<CurrentUser> {
+    // Observable bir class-dir data stream temsil edir Reactdaki Promise benzeyir ve .subscribe olunmadiqca servere request getmir.
+    return this.http.get<User[]>(`${environment.apiUrl}/users?email=${email}`).pipe(
+      // serverden gelen melumatin komponente gonderilmeden evvel merhelelerden kecirmek ucun istifade olunur meselen: maplemek, tap ile side effectleri yerine yetirmek ve catchError'la error handling yerine yetirmek.
       map((users) => {
         const user = users[0];
         if (!user || user.password !== password) {
@@ -40,14 +57,15 @@ export class AuthService {
         const { password: _pw, ...safeUser } = user;
         return safeUser;
       }),
-      tap((user) => { // datani deyisdirmir sadece lazim olan yan isleri (side effects) gorur.
+      tap((user) => {
+        // datani deyisdirmir sadece lazim olan yan isleri (side effects) gorur.
         const mockToken = btoa(`${user.id}:${Date.now()}`);
         localStorage.setItem(this.TOKEN_KEY, mockToken);
         localStorage.setItem(this.USER_KEY, JSON.stringify(user));
         this._isAuthenticated.set(true);
         this._currentUser.set(user);
       }),
-      catchError((err) => throwError(() => err))
+      catchError((err) => throwError(() => err)),
     );
   }
 
