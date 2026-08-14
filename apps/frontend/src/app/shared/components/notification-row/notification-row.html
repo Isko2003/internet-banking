@@ -1,0 +1,13 @@
+<div class="flex items-start gap-3 text-sm">
+  <span
+    class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
+    [class.bg-mint]="!notification.read"
+    [class.bg-gray-300]="notification.read"
+  ></span>
+  <div class="flex-1">
+    <p class="text-gray-700" [class.font-medium]="!notification.read">
+      {{ notification.message }}
+    </p>
+    <p class="text-xs text-gray-400 mt-0.5">{{ notification.date }}</p>
+  </div>
+</div>

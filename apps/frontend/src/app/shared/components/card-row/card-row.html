@@ -1,0 +1,10 @@
+<div class="flex justify-between text-sm">
+  <span class="text-gray-600">{{ card.number }}</span>
+  <span class="text-xs px-2 py-0.5 rounded-full"
+        [class.bg-mint-light]="card.status === 'active'"
+        [class.text-mint]="card.status === 'active'"
+        [class.bg-red-50]="card.status === 'blocked'"
+        [class.text-expense]="card.status === 'blocked'">
+    {{ card.status }}
+  </span>
+</div>

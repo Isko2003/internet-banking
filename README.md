@@ -1,125 +1,194 @@
-# MyBank — Internet Banking Portal (Frontend Internship Project)
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+</p>
 
-**MyBank Internet Banking** is a single-page web application (SPA) designed for Intern Front-end Developers. It simulates a simplified but highly functional model of a real-world retail banking system.
+<h1 align="center">MyBank — Internet Banking Portal</h1>
+<p align="center"><b>Angular Frontend</b> + <b>NestJS Backend</b> — Full-Stack İnternship Layihəsi</p>
 
-The project is structured to be developed independently under mentor supervision, strictly adhering to modern Angular architecture, robust patterns, and strict quality standards. The core philosophy of this project is ensuring the developer understands the "Why?" behind every technical and architectural decision.
-
----
-
-## 🛠️ Technology Stack & Tools
-
-The frontend infrastructure relies on the latest stable versions of the Angular ecosystem and industry-standard development best practices.
-
-### **Core Technologies**
-
-- **Framework:** Angular (Standalone Components, Signals, Control Flow API)
-- **Language:** TypeScript (Strict Type Safety)
-- **Styling & Design:** HTML5, SCSS (Variables, Mixins, CSS Custom Properties), Responsive Design
-- **Reactive & Asynchronous Operations:** RxJS (Observables, Operators, Reactive State)
-- **UI Components:** Custom reusable UI component library / Angular Material
-- **Data Visualization:** Chart.js, `ng2-charts`
-- **Utility Libraries:** date-fns (Date formatting)
-
-### **Development & Tooling**
-
-- **Code Quality & Formatting:** ESLint, Prettier
-- **Git Hooks:** Husky, lint-staged
-- **Testing:** Jasmine & Karma (for robust Unit Tests)
-
-### **Mock Backend**
-
-- **Local REST API:** `json-server` (for local API simulation and state retention)
-
-## 🎯 Main Application Features & Sections
-
-The application is structured around 16 critical sections:
-
-1.  **Authentication (Login):** Reactive Form validation, "Remember Me", and a strict lock-out security control for 30 seconds after three failed login attempts.
-2.  **Dashboard:** Financial overview, quick action buttons, a mini category-wise expense donut chart, and parallel data-fetching using optimal RxJS operators.
-3.  **Accounts:** List and detail views with masked IBANs, balance hide/show toggles, and downloadable PDF account statements.
-4.  **Cards:** Block/unblock functionality, daily limits editing, and internet transaction controls. Includes confirmation modals and an **Optimistic UI** paradigm with rollback.
-5.  **Transaction History:** Server-side pagination, sorting, text search with debounce, and advanced category/date filters synced with URL query parameters.
-6.  **Transfers (Own Accounts & Peers):** Dynamic fee calculation, currency exchange rate display, cross-field validation, Luhn-checked card numbers, and a 6-digit OTP (One-Time Password) confirmation sequence.
-7.  **Service Payments:** Category-based selection of utility providers powered by schema-configured dynamic forms using `FormArray`.
-8.  **Templates:** Create, save, and use recurring transfers.
-9.  **Financial Analytics:** Dynamic charts representing monthly expense trends and category ratios utilizing `computed` signals for memoization.
-10. **Notifications:** Integrated global banner alert service displaying statuses such as card expiration, transfers, and system updates.
-11. **Profile & Settings:** Reactive edit forms, avatar file upload with size limits, dark theme toggler, and a `CanDeactivate` guard protecting unsaved progress.
+<p align="center">
+  <img src="https://img.shields.io/badge/Angular-Standalone%20%2B%20Signals-DD0031?logo=angular&logoColor=white" alt="Angular" />
+  <img src="https://img.shields.io/badge/NestJS-Backend-E0234E?logo=nestjs&logoColor=white" alt="NestJS" />
+  <img src="https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
+  <a href="https://github.com/Isko2003/internet-banking/actions/workflows/ci.yml" target="_blank"><img src="https://github.com/Isko2003/internet-banking/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+</p>
 
 ---
 
-## ⚡ Installation & Local Setup
+## 📖 Layihə Haqqında
 
-Follow these simple steps to run the application in your local development environment:
+**MyBank Internet Banking** — İntern Front-end Developer-lər üçün nəzərdə tutulmuş, real dünyada mövcud olan retail banking sisteminin sadələşdirilmiş, lakin funksionallıq baxımından tam işlək modelini simulyasiya edən bir Single Page Application-dır (SPA).
 
-### **Prerequisites**
+Frontend hissə müstəqil şəkildə, mentor nəzarəti altında, müasir Angular arxitekturasına, davamlı pattern-lərə və yüksək keyfiyyət standartlarına sıx riayət olunaraq inkişaf etdirilir. Layihənin əsas fəlsəfəsi — hər bir texniki və arxitektura qərarının arxasında duran **"Niyə?"** sualının developer tərəfindən dərindən anlaşılmasını təmin etməkdir.
 
-- **Node.js:** v18.x or higher
-- **npm:** v9.x or higher
+Backend tərəfdə isə səmərəli və genişlənə bilən server-side tətbiqlər qurmaq üçün proqressiv Node.js framework-ü olan **[NestJS](https://github.com/nestjs/nest)** istifadə olunur.
 
-### **Step 1. Clone the repository**
+---
+
+## 📂 Qovluq Strukturu
+
+Layihə monorepo formatında təşkil olunub — frontend və backend `apps/` altında ayrı-ayrı tətbiqlər kimi saxlanılır:
+
+```
+internet-banking/
+├── apps/
+│   ├── frontend/          # Angular SPA
+│   │   ├── src/
+│   │   ├── public/
+│   │   ├── server/
+│   │   ├── .husky/
+│   │   ├── angular.json
+│   │   └── package.json
+│   │
+│   └── backend/           # NestJS REST API
+│       ├── src/
+│       ├── test/
+│       ├── prisma/
+│       ├── .agents/
+│       ├── nest-cli.json
+│       └── package.json
+│
+└── README.md
+```
+
+> Hər iki tətbiq öz `package.json`, `node_modules` və konfiqurasiya fayllarına sahibdir və müstəqil şəkildə quraşdırılıb işə salınır.
+
+---
+
+## 🛠️ Texnologiya Yığını
+
+### Frontend (Angular)
+
+| Sahə                    | Texnologiya                                                               |
+| ----------------------- | ------------------------------------------------------------------------- |
+| **Framework**           | Angular (Standalone Components, Signals, Control Flow API)                |
+| **Dil**                 | TypeScript (Strict Type Safety)                                           |
+| **Stil & Dizayn**       | HTML5, SCSS (Variables, Mixins, CSS Custom Properties), Responsive Design |
+| **Reaktivlik**          | RxJS (Observables, Operators, Reactive State)                             |
+| **UI Komponentləri**    | Custom reusable UI kitabxanası / Angular Material                         |
+| **Data Vizuallaşdırma** | Chart.js, `ng2-charts`                                                    |
+| **Utility**             | date-fns (Tarix formatlama)                                               |
+| **Keyfiyyət**           | ESLint, Prettier, Husky, lint-staged                                      |
+| **Test**                | Jasmine & Karma                                                           |
+| **Mock Backend**        | `json-server`                                                             |
+
+### Backend (NestJS)
+
+| Sahə           | Texnologiya                                                       |
+| -------------- | ----------------------------------------------------------------- |
+| **Framework**  | [NestJS](https://docs.nestjs.com)                                 |
+| **Dil**        | TypeScript                                                        |
+| **Test**       | Jest (unit, e2e, coverage)                                        |
+| **Deployment** | [Mau](https://mau.nestjs.com) (AWS üçün rəsmi NestJS platforması) |
+
+---
+
+## 🎯 Əsas Funksionallıqlar (Frontend)
+
+Tətbiq 11 əsas bölmə ətrafında qurulub:
+
+1. **Authentication (Login):** Reactive Form validasiyası, "Remember Me" və 3 uğursuz cəhddən sonra 30 saniyəlik lock-out təhlükəsizlik nəzarəti.
+2. **Dashboard:** Maliyyə icmalı, sürətli əməliyyat düymələri, kateqoriya üzrə xərc donut chart-ı və paralel data-fetching (optimal RxJS operatorları ilə).
+3. **Accounts:** Maskalanmış IBAN-larla siyahı və detal görünüşləri, balans gizlət/göstər funksiyası, yüklənə bilən PDF hesab çıxarışları.
+4. **Cards:** Blok/blok açma funksiyası, gündəlik limit redaktəsi, internet əməliyyat nəzarəti. Təsdiq modalları və rollback dəstəkli **Optimistic UI**.
+5. **Transaction History:** Server-side pagination, sıralama, debounce ilə mətn axtarışı, URL query parametrləri ilə sinxronlaşan kateqoriya/tarix filtrləri.
+6. **Transfers (Öz Hesablar & Digərləri):** Dinamik komissiya hesablaması, valyuta məzənnəsi göstərilməsi, cross-field validasiya, Luhn-yoxlamalı kart nömrələri və 6-rəqəmli OTP təsdiqi.
+7. **Service Payments:** `FormArray` ilə schema-konfiqurasiyalı dinamik formalar vasitəsilə kateqoriya üzrə provider seçimi.
+8. **Templates:** Təkrarlanan köçürmələrin yaradılması, saxlanması və istifadəsi.
+9. **Financial Analytics:** `computed` signal-lardan istifadə edən aylıq xərc trendləri və kateqoriya nisbətlərinin dinamik qrafikləri.
+10. **Notifications:** Kart bitmə tarixi, köçürmələr və sistem yeniləmələri kimi statusları göstərən qlobal banner alert servisi.
+11. **Profile & Settings:** Reactive redaktə formaları, ölçü limitli avatar yükləmə, dark theme keçidi və saxlanmamış dəyişiklikləri qoruyan `CanDeactivate` guard.
+
+---
+
+## ⚡ Quraşdırma və Lokal İşə Salma
+
+### 1. Repozitoriyanı klonlayın
 
 ```bash
-git clone https://github.com/your-username/mybank-internet-banking.git
+git clone https://github.com/your-username/internet-banking.git
 cd internet-banking
 ```
 
-### **Step 2. Install dependencies**
+### 2. Frontend
+
+**Tələblər:** Node.js v18.x+, npm v9.x+
 
 ```bash
+cd apps/frontend
 npm install
-```
 
-### **Step 3. Launch the Mock Backend (json-server)**
-
-The application connects to a simulated REST API. Start the local server by running:
-
-```bash
+# Mock Backend-i işə salın (http://localhost:3000)
 npm run mock-server
-```
 
-_(This initiates a mock server on `http://localhost:3000` mapped from local db files)._
-
-### **Step 4. Start the Angular Application**
-
-In a new terminal window, compile and run the frontend using Angular CLI:
-
-```bash
+# Yeni terminalda Angular tətbiqini başladın
 npm start
 ```
 
-Open your browser and navigate to `http://localhost:4200` to interact with the application.
+Brauzerdə `http://localhost:4200` ünvanına daxil olun.
+
+### 3. Backend (NestJS)
+
+```bash
+cd apps/backend
+npm install
+```
+
+```bash
+# development
+npm run start
+
+# watch mode
+npm run start:dev
+
+# production mode
+npm run start:prod
+```
+
+**Deployment (AWS / Mau):**
+
+```bash
+$ npm install -g @nestjs/mau
+$ mau deploy
+```
 
 ---
 
-## 🧪 CLI Commands & Scripts
+## 🧪 CLI Əmrləri
 
-Manage development tasks effortlessly using the predefined scripts below:
+> Bütün əmrlər müvafiq app qovluğu daxilində icra olunur (`apps/frontend` və ya `apps/backend`).
 
-- **Run local dev server:** `npm start` (or `ng serve`)
-- **Run mock backend server:** `npm run mock-server`
-- **Lint code quality:** `npm run lint` (ESLint configuration rules check)
-- **Format code:** `npm run format` (Prettier automated format enforcement)
-- **Run unit tests:** `npm run test` (Jasmine/Karma test execution runner)
-- **Production build:** `npm run build` (Optimized build bundle generation)
+### Frontend
+
+| Əmr                      | Təsvir                      |
+| ------------------------ | --------------------------- |
+| `npm start` / `ng serve` | Lokal dev server            |
+| `npm run mock-server`    | Mock backend server         |
+| `npm run lint`           | ESLint yoxlaması            |
+| `npm run format`         | Prettier formatlaşdırma     |
+| `npm run test`           | Jasmine/Karma unit testləri |
+| `npm run build`          | Production build            |
+
+### Backend
+
+| Əmr                | Təsvir        |
+| ------------------ | ------------- |
+| `npm run test`     | Unit testlər  |
+| `npm run test:e2e` | E2E testlər   |
+| `npm run test:cov` | Test coverage |
 
 ---
 
-## 🪵 Git Workflow & Commit Guidelines
+## 🪵 Git Workflow & Commit Qaydaları
 
-To preserve a clean commit history and ease peer-to-peer code reviews, developers must follow **Conventional Commits** standards and a distinct branching workflow.
+Təmiz commit tarixçəsi və rahat code review üçün **Conventional Commits** standartına və ayrıca branch strategiyasına riayət olunur.
 
-### **Branch Naming Standard**
-
-Always create a descriptive branch for every standalone task:
+### Branch Adlandırma Standartı
 
 - Feature branch: `feature/auth-login`
 - Bug fix branch: `fix/card-limit-validation`
-- Code refinement: `refactor/transaction-api`
+- Refactor branch: `refactor/transaction-api`
 
-### **Commit Message Format**
-
-Keep commits small, specific, and descriptive:
+### Commit Mesaj Formatı
 
 - `feat: add login form`
 - `fix: prevent transfer with insufficient balance`
@@ -131,34 +200,50 @@ Keep commits small, specific, and descriptive:
 
 ## 📝 Code Review & Pull Request Checklist
 
-Before submitting a Pull Request, verify that your code adheres to all critical quality guidelines:
+### Arxitektura & Kodlaşdırma
 
-### **Architecture & Coding**
+- [ ] Heç bir `any` tipi istifadə olunmayıb; bütün interface, generic və return payload-lar təhlükəsiz tiplənib.
+- [ ] `console.log`, debug şərhləri və ölü/kommentə alınmış kod blokları yoxdur.
+- [ ] Təkrarlanan UI kodu mərkəzləşdirilmiş directive, pipe və ya `shared` komponentlərə çıxarılıb.
+- [ ] Business/HTTP məntiqi tamamilə servislərdə yerləşir. Heç bir komponent birbaşa HttpClient əməliyyatı aparmır.
+- [ ] Nested `subscribe` blokları yoxdur; async axın optimallaşdırılmış RxJS operatorları (`switchMap`, `concatMap` və s.) ilə idarə olunur.
+- [ ] Yaddaş sızmalarının qarşısını almaq üçün bütün subscription-lar `takeUntilDestroyed` və ya struktur unsubscription pattern-ləri ilə idarə olunur.
 
-- [ ] Strictly no `any` types; all interfaces, generics, and return payloads are typed securely.
-- [ ] No `console.log` statements, debugging comments, or dead/commented-out blocks remain.
-- [ ] Redundant UI code is extracted into centralized directives, pipes, or generic `shared` components.
-- [ ] Business/HTTP logic lives entirely in services. Zero components handle direct HttpClient operations.
-- [ ] No nested `subscribe` blocks are present; optimized RxJS operators (`switchMap`, `concatMap`, etc.) handle async flow.
-- [ ] To avoid memory leaks, all subscriptions are safely managed via `takeUntilDestroyed` or structural unsubscription patterns.
+### UX & Accessibility
 
-### **UX & Accessibility**
-
-- [ ] Smooth Skeleton or Spinner loader states are present during data-fetch cycles.
-- [ ] No blank pages are rendered on empty states (Empty State) or API request failures (Error State with retry button).
-- [ ] Forms provide clear, inline error messages when state requirements are invalid.
-- [ ] UI is fully responsive across desktop, tablet, and mobile views.
+- [ ] Data-fetch zamanı Skeleton və ya Spinner loader vəziyyətləri mövcuddur.
+- [ ] Boş vəziyyətlər (Empty State) və ya API sorğu uğursuzluqlarında (Error State + retry düyməsi) boş səhifə göstərilmir.
+- [ ] Formalar keçərsiz vəziyyət üçün aydın, inline xəta mesajları göstərir.
+- [ ] UI desktop, tablet və mobil görünüşlərdə tam responsive-dir.
 
 ---
 
-## 👥 Intern Evaluation Matrix
+## 👥 İntern Qiymətləndirmə Matrisi
 
-At the conclusion of the project, the intern's contribution is graded across these criteria:
+| Meyar                                                                                                                                   | Çəki |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ---- |
+| **Angular Core Proficiency** — Signals, lazy loading routes, custom reactive form validasiyaları, DI, güclü RxJS istifadəsi             | 25%  |
+| **TypeScript Integrity** — Strict type mapping, `any`-dən tam imtina, generic reusable helper-lər                                       | 15%  |
+| **Architecture & Scalability** — Düzgün Core/Shared layer qruplaşdırılması, decoupled state, reusable modullar                          | 15%  |
+| **Code Cleanliness** — Semantik adlandırma, təkrarlanan kod pattern-lərinin olmaması, ESLint uyğunluğu                                  | 15%  |
+| **UI/UX Sophistication** — Pixel-perfect responsive layout, edge-case loading/empty ekranların idarəsi, əsas accessibility standartları | 10%  |
+| **Quality Testing** — Validator, pipe, interceptor və əsas servis komponentlərini əhatə edən unit testlər                               | 10%  |
+| **Git Process** — Təsviri commit tarixçəsi, aydın pull request-lər, proaktiv feedback inteqrasiyası                                     | 10%  |
 
-1.  **Angular Core Proficiency (25%):** Signals, lazy loading routes, custom reactive form validations, DI, and robust RxJS usage.
-2.  **TypeScript Integrity (15%):** Strict type mapping, complete omission of `any`, generic reusable helpers, and type protection.
-3.  **Architecture & Scalability (15%):** Correct Core/Shared layer grouping, decoupled state, and reusable modules.
-4.  **Code Cleanliness (15%):** Semantic naming, absence of duplicate code block patterns, and ESLint conformity.
-5.  **UI/UX Sophistication (10%):** Pixel-perfect responsive layout, handling edge-case loading/empty screens, and basic accessibility standards.
-6.  **Quality Testing (10%):** Unit tests covering key validators, pipes, interceptors, and core service components.
-7.  **Git Process (10%):** Descriptive commit trees, clear pull request logs, and proactive feedback integration.
+---
+
+## 📚 Faydalı Resurslar
+
+- [Angular Sənədləşməsi](https://angular.dev) — Framework haqqında ətraflı məlumat.
+- [NestJS Sənədləşməsi](https://docs.nestjs.com) — Backend framework haqqında ətraflı məlumat.
+- [RxJS Sənədləşməsi](https://rxjs.dev) — Reaktiv proqramlaşdırma üçün.
+
+---
+
+## 📬 Müəllif
+
+- **Ismayil Ismayilov** — [GitHub](https://github.com/Isko2003)
+
+## 📄 Lisenziya
+
+Bu, İntern Front-end Developer proqramı çərçivəsində hazırlanan tədris/öyrənmə layihəsidir. Kommersiya məqsədi daşımır.
