@@ -9,9 +9,8 @@
   <img src="https://img.shields.io/badge/Angular-Standalone%20%2B%20Signals-DD0031?logo=angular&logoColor=white" alt="Angular" />
   <img src="https://img.shields.io/badge/NestJS-Backend-E0234E?logo=nestjs&logoColor=white" alt="NestJS" />
   <img src="https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
-  <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-  <a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-  <a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+  <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" />
+  <a href="https://github.com/Isko2003/internet-banking/actions/workflows/ci.yml" target="_blank"><img src="https://github.com/Isko2003/internet-banking/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
 </p>
 
 ---
