@@ -1,0 +1,121 @@
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+import { PrismaService } from '../prisma/prisma.service';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
+import type { StringValue } from 'ms';
+
+function generateIban(): string {
+  const random = Math.random().toString().slice(2, 18).padEnd(16, '0');
+  return `AZ${Math.floor(10 + Math.random() * 89)}NABZ${random}`;
+}
+
+@Injectable()
+export class AuthService {
+  constructor(
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+  ) {}
+
+  async register(dto: RegisterDto) {
+    const existing = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (existing) {
+      throw new ConflictException('Bu email artıq istifadə olunur');
+    }
+
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
+
+    const user = await this.prisma.user.create({
+      data: {
+        email: dto.email,
+        password: hashedPassword,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+        phone: dto.phone,
+      },
+    });
+
+    await this.prisma.account.create({
+      data: {
+        userId: user.id,
+        name: 'Əsas hesab',
+        currency: 'AZN',
+        iban: generateIban(),
+        balance: 0,
+        blockedAmount: 0,
+      },
+    });
+
+    return this.buildAuthResponse(user);
+  }
+
+  async login(dto: LoginDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Email və ya şifrə yanlışdır');
+    }
+
+    const isPasswordValid = await bcrypt.compare(dto.password, user.password);
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Email və ya şifrə yanlışdır');
+    }
+
+    return this.buildAuthResponse(user);
+  }
+
+  private async buildAuthResponse(user: {
+    id: number;
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+  }) {
+    const payload = { sub: user.id, email: user.email };
+
+    const accessToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET,
+      expiresIn: process.env.JWT_EXPIRES_IN as StringValue,
+    });
+
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_REFRESH_SECRET,
+      expiresIn: process.env.JWT_REFRESH_EXPIRES_IN as StringValue,
+    });
+
+    const { password, ...safeUser } = user;
+
+    return { accessToken, refreshToken, user: safeUser };
+  }
+
+  async refresh(refreshToken: string) {
+    try {
+      const payload = this.jwtService.verify(refreshToken, {
+        secret: process.env.JWT_REFRESH_SECRET,
+      });
+
+      const user = await this.prisma.user.findUnique({
+        where: { id: payload.sub },
+      });
+
+      if (!user) {
+        throw new UnauthorizedException();
+      }
+
+      return this.buildAuthResponse(user);
+    } catch {
+      throw new UnauthorizedException('Yanlış refresh token');
+    }
+  }
+}

@@ -3,14 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map, tap, catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-interface User {
-  id: number;
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-}
-
 export interface CurrentUser {
   id: number;
   email: string;
@@ -22,10 +14,25 @@ export interface CurrentUser {
   photoUrl?: string;
 }
 
+export interface RegisterPayload {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+}
+
+interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+  user: CurrentUser;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
   private readonly TOKEN_KEY = 'access_token';
+  private readonly REFRESH_TOKEN_KEY = 'refresh_token';
   private readonly USER_KEY = 'current_user';
 
   private _isAuthenticated = signal<boolean>(!!localStorage.getItem(this.TOKEN_KEY));
@@ -46,32 +53,47 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<CurrentUser> {
-    // Observable bir class-dir data stream temsil edir Reactdaki Promise benzeyir ve .subscribe olunmadiqca servere request getmir.
-    return this.http.get<User[]>(`${environment.apiUrl}/users?email=${email}`).pipe(
-      // serverden gelen melumatin komponente gonderilmeden evvel merhelelerden kecirmek ucun istifade olunur meselen: maplemek, tap ile side effectleri yerine yetirmek ve catchError'la error handling yerine yetirmek.
-      map((users) => {
-        const user = users[0];
-        if (!user || user.password !== password) {
-          throw new Error('Invalid credentials');
-        }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password: _pw, ...safeUser } = user;
-        return safeUser;
-      }),
-      tap((user) => {
-        // datani deyisdirmir sadece lazim olan yan isleri (side effects) gorur.
-        const mockToken = btoa(`${user.id}:${Date.now()}`);
-        localStorage.setItem(this.TOKEN_KEY, mockToken);
-        localStorage.setItem(this.USER_KEY, JSON.stringify(user));
-        this._isAuthenticated.set(true);
-        this._currentUser.set(user);
-      }),
+    return this.http
+      .post<AuthResponse>(`${environment.apiUrl}/auth/login`, { email, password })
+      .pipe(
+        tap((res) => this.persistSession(res)),
+        map((res) => res.user),
+        catchError((err) => throwError(() => err)),
+      );
+  }
+
+  register(payload: RegisterPayload): Observable<CurrentUser> {
+    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/register`, payload).pipe(
+      tap((res) => this.persistSession(res)),
+      map((res) => res.user),
       catchError((err) => throwError(() => err)),
     );
   }
 
+  refreshToken(): Observable<AuthResponse> {
+    const refreshToken = this.getRefreshToken();
+    return this.http
+      .post<AuthResponse>(`${environment.apiUrl}/auth/refresh`, { refreshToken })
+      .pipe(
+        tap((res) => this.persistSession(res)),
+        catchError((err) => {
+          this.logout();
+          return throwError(() => err);
+        }),
+      );
+  }
+
+  private persistSession(res: AuthResponse) {
+    localStorage.setItem(this.TOKEN_KEY, res.accessToken);
+    localStorage.setItem(this.REFRESH_TOKEN_KEY, res.refreshToken);
+    localStorage.setItem(this.USER_KEY, JSON.stringify(res.user));
+    this._isAuthenticated.set(true);
+    this._currentUser.set(res.user);
+  }
+
   logout() {
     localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
     this._isAuthenticated.set(false);
     this._currentUser.set(null);
@@ -79,5 +101,9 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem(this.REFRESH_TOKEN_KEY);
   }
 }

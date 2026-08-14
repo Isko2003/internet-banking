@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -69,15 +69,15 @@ export class Login {
         }
       },
     });
-}
+  }
 
   private startLockout() {
     this.isLocked.set(true);
     this.lockoutSeconds.set(30);
 
     const interval = setInterval(() => {
-      this.lockoutSeconds.update(v => v - 1);
-      if(this.lockoutSeconds() <= 0) {
+      this.lockoutSeconds.update((v) => v - 1);
+      if (this.lockoutSeconds() <= 0) {
         clearInterval(interval);
         this.isLocked.set(false);
         this.failedAttempts.set(0);
