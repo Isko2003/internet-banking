@@ -3,7 +3,6 @@
     <h1 class="text-2xl font-bold text-blue-600 mb-6 text-center">MyBank</h1>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
-
       <div>
         <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
         <input
@@ -14,8 +13,12 @@
         />
         @if (email?.invalid && email?.touched) {
           <p class="text-sm text-red-500 mt-1">
-            @if (email?.errors?.['required']) { Email tələb olunur }
-            @if (email?.errors?.['email']) { Düzgün email formatı daxil edin }
+            @if (email?.errors?.['required']) {
+              Email tələb olunur
+            }
+            @if (email?.errors?.['email']) {
+              Düzgün email formatı daxil edin
+            }
           </p>
         }
       </div>
@@ -30,9 +33,15 @@
         />
         @if (password?.invalid && password?.touched) {
           <p class="text-sm text-red-500 mt-1">
-            @if (password?.errors?.['required']) { Şifrə tələb olunur }
-            @if (password?.errors?.['minlength']) { Ən azı 8 simvol olmalıdır }
-            @if (password?.errors?.['weakPassword']) { Ən azı bir hərf və bir rəqəm olmalıdır }
+            @if (password?.errors?.['required']) {
+              Şifrə tələb olunur
+            }
+            @if (password?.errors?.['minlength']) {
+              Ən azı 8 simvol olmalıdır
+            }
+            @if (password?.errors?.['weakPassword']) {
+              Ən azı bir hərf və bir rəqəm olmalıdır
+            }
           </p>
         }
       </div>
@@ -49,7 +58,9 @@
       }
 
       @if (isLocked()) {
-        <p class="text-sm text-orange-600 bg-orange-50 border border-orange-200 rounded-md px-3 py-2">
+        <p
+          class="text-sm text-orange-600 bg-orange-50 border border-orange-200 rounded-md px-3 py-2"
+        >
           Çox sayda cəhd. {{ lockoutSeconds() }} saniyə sonra yenidən cəhd edin.
         </p>
       }
@@ -60,7 +71,9 @@
         class="w-full bg-blue-600 text-white py-2 rounded-md font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         @if (isLoading()) {
-          <span class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+          <span
+            class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"
+          ></span>
         }
         {{ isLoading() ? 'Yüklənir...' : 'Daxil ol' }}
       </button>

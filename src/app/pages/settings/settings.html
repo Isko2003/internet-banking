@@ -1,1 +1,98 @@
-<p>settings works!</p>
+<div class="flex flex-col gap-4 font-body max-w-xl">
+  <h1 class="font-display text-2xl font-bold text-navy">Parametrlər</h1>
+
+  @if (!settings()) {
+    <p>Yuklenir...</p>
+  } @else {
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col gap-5">
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-700">Dil</span>
+        <select
+          [ngModel]="settings()!.language"
+          (ngModelChange)="onLanguageChange($event)"
+          class="px-3 py-2 border border-gray-200 rounded-md text-sm"
+        >
+          <option value="az">Azərbaycan</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-700">Tema</span>
+        <select
+          [ngModel]="settings()!.theme"
+          (ngModelChange)="onThemeChange($event)"
+          class="px-3 py-2 border border-gray-200 rounded-md text-sm"
+        >
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+
+      <hr class="border-gray-100" />
+
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-700">Bildirişlər aktiv</span>
+        <button
+          (click)="onToggle('notificationsEnabled')"
+          class="w-11 h-6 rounded-full transition-colors relative"
+          [class.bg-mint]="settings()!.notificationsEnabled"
+          [class.bg-gray-300]="!settings()!.notificationsEnabled"
+        >
+          <span
+            class="absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform"
+            [class.translate-x-5]="settings()!.notificationsEnabled"
+            [class.translate-x-0.5]="!settings()!.notificationsEnabled"
+          ></span>
+        </button>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-700">Balans Gizli</span>
+        <button
+          (click)="onToggle('balanceHidden')"
+          class="w-11 h-6 rounded-full transition-colors relative"
+          [class.bg-mint]="settings()!.balanceHidden"
+          [class.bg-gray-300]="!settings()!.balanceHidden"
+        >
+          <span
+            class="absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform"
+            [class.translate-x-5]="settings()!.balanceHidden"
+            [class.translate-x-0.5]="!settings()!.balanceHidden"
+          ></span>
+        </button>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-700">Iki addimli dogrulama</span>
+        <button
+          (click)="onToggle('twoFactorEnabled')"
+          class="w-11 h-6 rounded-full transition-colors relative"
+          [class.bg-mint]="settings()!.twoFactorEnabled"
+          [class.bg-gray-300]="!settings()!.twoFactorEnabled"
+        >
+          <span
+            class="absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform"
+            [class.translate-x-5]="settings()!.twoFactorEnabled"
+            [class.translate-x-0.5]="!settings()!.twoFactorEnabled"
+          ></span>
+        </button>
+      </div>
+
+      <hr class="border-gray-100" />
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-700">Qeyri-aktivlik vaxtı (dəqiqə)</span>
+        <select
+          [ngModel]="settings()!.inactivityTimeoutMinutes"
+          (ngModelChange)="onInactivityTimeoutChange($event)"
+          class="px-3 py-2 border border-gray-200 rounded-md text-sm"
+        >
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="15">15</option>
+          <option [ngValue]="30">30</option>
+          <option [ngValue]="60">60</option>
+        </select>
+      </div>
+    </div>
+  }
+</div>
