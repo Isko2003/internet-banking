@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  frontend:
+    name: Frontend (Lint & Test)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm install --workspace=apps/frontend
+
+      - name: Lint
+        run: npm run lint --workspace=apps/frontend
+
+      - name: Test
+        run: npm run test --workspace=apps/frontend -- --watch=false --browsers=ChromeHeadless
+
+      - name: Build
+        run: npm run build --workspace=apps/frontend
+
+  backend:
+    name: Backend (Lint & Test)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm install --workspace=apps/backend
+
+      - name: Lint
+        run: npm run lint --workspace=apps/backend
+
+      - name: Test
+        run: npm run test --workspace=apps/backend
+
+      - name: Build
+        run: npm run build --workspace=apps/backend
