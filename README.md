@@ -9,7 +9,6 @@
   <img src="https://img.shields.io/badge/Angular-Standalone%20%2B%20Signals-DD0031?logo=angular&logoColor=white" alt="Angular" />
   <img src="https://img.shields.io/badge/NestJS-Backend-E0234E?logo=nestjs&logoColor=white" alt="NestJS" />
   <img src="https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" />
   <a href="https://github.com/Isko2003/internet-banking/actions/workflows/ci.yml" target="_blank"><img src="https://github.com/Isko2003/internet-banking/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
 </p>
 
@@ -235,26 +234,16 @@ Təmiz commit tarixçəsi və rahat code review üçün **Conventional Commits**
 
 ## 📚 Faydalı Resurslar
 
-- [NestJS Sənədləşməsi](https://docs.nestjs.com) — Framework haqqında ətraflı məlumat.
-- [Discord Kanalı](https://discord.gg/G7Qnnhy) — Suallar və dəstək üçün.
-- [Rəsmi Video Kurslar](https://courses.nestjs.com/) — Daha dərin, praktiki təcrübə üçün.
-- [NestJS Mau](https://mau.nestjs.com) — Tətbiqinizi bir neçə kliklə AWS-ə deploy edin.
-- [NestJS Devtools](https://devtools.nestjs.com) — Tətbiq qrafikini vizuallaşdırın və real vaxtda idarə edin.
-- [Enterprise Support](https://enterprise.nestjs.com) — Layihəniz üçün part-time/full-time dəstək.
-- [Jobs Board](https://jobs.nestjs.com) — İş axtarır və ya təklif edirsinizsə.
+- [Angular Sənədləşməsi](https://angular.dev) — Framework haqqında ətraflı məlumat.
+- [NestJS Sənədləşməsi](https://docs.nestjs.com) — Backend framework haqqında ətraflı məlumat.
+- [RxJS Sənədləşməsi](https://rxjs.dev) — Reaktiv proqramlaşdırma üçün.
 
 ---
 
-## 🤝 Dəstək
+## 📬 Müəllif
 
-Nest MIT lisenziyalı açıq mənbə layihədir və sponsorların, backer-lərin dəstəyi ilə inkişaf edir. Qoşulmaq istəyirsinizsə, [ətraflı oxuyun](https://docs.nestjs.com/support).
-
-## 📬 Əlaqə
-
-- **Nest Author** — [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- **Website** — [https://nestjs.com](https://nestjs.com/)
-- **Twitter/X** — [@nestframework](https://twitter.com/nestframework)
+- **Ismayil Ismayilov** — [GitHub](https://github.com/Isko2003)
 
 ## 📄 Lisenziya
 
-Bu layihə [MIT lisenziyası](https://github.com/nestjs/nest/blob/master/LICENSE) altında yayımlanır.
+Bu, İntern Front-end Developer proqramı çərçivəsində hazırlanan tədris/öyrənmə layihəsidir. Kommersiya məqsədi daşımır.
