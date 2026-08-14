@@ -29,7 +29,7 @@ jobs:
         run: npm run lint --workspace=apps/frontend
 
       - name: Test
-        run: npm run test --workspace=apps/frontend -- --watch=false --browsers=ChromeHeadless
+        run: npm run test --workspace=apps/frontend -- --watch=false
 
       - name: Build
         run: npm run build --workspace=apps/frontend
