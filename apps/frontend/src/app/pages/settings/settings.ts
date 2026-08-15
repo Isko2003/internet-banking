@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SettingsService } from '../../core/services/settings.service';
-import { AuthService } from '../../core/services/auth.service';
 import { ToastService } from '../../core/services/toast.service';
 
 @Component({
@@ -12,22 +11,19 @@ import { ToastService } from '../../core/services/toast.service';
 })
 export class Settings implements OnInit {
   private settingsService = inject(SettingsService);
-  private authService = inject(AuthService);
   private toastService = inject(ToastService);
 
   settings = this.settingsService.settings;
 
   ngOnInit() {
-    const userId = this.authService.currentUser()?.id;
-    if (!userId) return;
-    this.settingsService.loadSettings(userId);
+    this.settingsService.loadSettings();
   }
 
   onToggle(field: 'notificationsEnabled' | 'balanceHidden' | 'twoFactorEnabled') {
     const current = this.settings();
     if (!current) return;
 
-    this.settingsService.updateSettings(current.id, { [field]: !current[field] });
+    this.settingsService.updateSettings({ [field]: !current[field] });
     this.toastService.show('Parametr yeniləndi', 'success');
   }
 
@@ -35,7 +31,7 @@ export class Settings implements OnInit {
     const current = this.settings();
     if (!current) return;
 
-    this.settingsService.updateSettings(current.id, { language });
+    this.settingsService.updateSettings({ language });
     this.toastService.show('Dil yeniləndi', 'success');
   }
 
@@ -43,7 +39,7 @@ export class Settings implements OnInit {
     const current = this.settings();
     if (!current) return;
 
-    this.settingsService.updateSettings(current.id, { theme });
+    this.settingsService.updateSettings({ theme });
     this.toastService.show('Tema yeniləndi', 'success');
   }
 
@@ -51,7 +47,7 @@ export class Settings implements OnInit {
     const current = this.settings();
     if (!current) return;
 
-    this.settingsService.updateSettings(current.id, { inactivityTimeoutMinutes: minutes });
+    this.settingsService.updateSettings({ inactivityTimeoutMinutes: minutes });
     this.toastService.show('Vaxt aşımı yeniləndi', 'success');
   }
 }

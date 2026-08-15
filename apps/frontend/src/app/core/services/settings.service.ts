@@ -17,27 +17,27 @@ export class SettingsService {
     });
   }
 
-  loadSettings(userId: number) {
-    return this.http
-      .get<UserSettings[]>(`${environment.apiUrl}/settings?userId=${userId}`)
-      .subscribe({
-        next: (settings) => {
-          this.settings.set(settings[0] ?? null);
-        },
-        error: (err) => {
-          console.error(err);
-        },
-      });
+  loadSettings() {
+    return this.http.get<UserSettings>(`${environment.apiUrl}/users/me/settings`).subscribe({
+      next: (settings) => {
+        this.settings.set(settings);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 
-  updateSettings(id: number, updates: Partial<UserSettings>) {
+  updateSettings(updates: Partial<UserSettings>) {
     const previousSettings = this.settings();
     this.settings.update((prev) => (prev ? { ...prev, ...updates } : prev));
 
-    this.http.patch<UserSettings>(`${environment.apiUrl}/settings/${id}`, updates).subscribe({
-      error: () => {
-        this.settings.set(previousSettings);
-      },
-    });
+    this.http
+      .patch<UserSettings>(`${environment.apiUrl}/users/me/settings`, updates)
+      .subscribe({
+        error: () => {
+          this.settings.set(previousSettings);
+        },
+      });
   }
 }

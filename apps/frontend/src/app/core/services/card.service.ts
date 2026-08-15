@@ -17,6 +17,6 @@ export class CardService {
   }
 
   updateCardStatus(id: number, status: Card['status']): Observable<Card> {
-    return this.http.patch<Card>(`${environment.apiUrl}/cards/${id}`, {status});
+    return this.http.patch<Card>(`${environment.apiUrl}/cards/${id}/status`, { status });
   }
 }

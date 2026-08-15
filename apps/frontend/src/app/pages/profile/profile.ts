@@ -140,7 +140,7 @@ export class Profile implements OnInit, HasUnsavedChanges {
     };
 
     this.profileService
-      .updateProfile(user.id, updates)
+      .updateProfile(updates)
       .pipe(finalize(() => this.isSaving.set(false)))
       .subscribe({
         next: () => {
