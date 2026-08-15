@@ -9,17 +9,13 @@ import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import type { StringValue } from 'ms';
-
-function generateIban(): string {
-  const random = Math.random().toString().slice(2, 18).padEnd(16, '0');
-  return `AZ${Math.floor(10 + Math.random() * 89)}NABZ${random}`;
-}
-
+import { AccountsService } from '@/accounts/accounts.service';
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
+    private accountsService: AccountsService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -43,15 +39,9 @@ export class AuthService {
       },
     });
 
-    await this.prisma.account.create({
-      data: {
-        userId: user.id,
-        name: 'Əsas hesab',
-        currency: 'AZN',
-        iban: generateIban(),
-        balance: 0,
-        blockedAmount: 0,
-      },
+    await this.accountsService.create(user.id, {
+      name: 'Əsas hesab',
+      currency: 'AZN',
     });
 
     return this.buildAuthResponse(user);
