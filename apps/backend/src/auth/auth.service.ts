@@ -4,12 +4,19 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import type { StringValue } from 'ms';
 import { AccountsService } from '@/accounts/accounts.service';
+
+interface JwtPayload {
+  sub: number;
+  email: string;
+}
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -65,14 +72,8 @@ export class AuthService {
     return this.buildAuthResponse(user);
   }
 
-  private async buildAuthResponse(user: {
-    id: number;
-    email: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-  }) {
-    const payload = { sub: user.id, email: user.email };
+  private buildAuthResponse(user: User) {
+    const payload: JwtPayload = { sub: user.id, email: user.email };
 
     const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
@@ -84,14 +85,17 @@ export class AuthService {
       expiresIn: process.env.JWT_REFRESH_EXPIRES_IN as StringValue,
     });
 
-    const { password, ...safeUser } = user;
+    const safeUser: Omit<User, 'password'> & { password?: string } = {
+      ...user,
+    };
+    delete safeUser.password;
 
     return { accessToken, refreshToken, user: safeUser };
   }
 
   async refresh(refreshToken: string) {
     try {
-      const payload = this.jwtService.verify(refreshToken, {
+      const payload = this.jwtService.verify<JwtPayload>(refreshToken, {
         secret: process.env.JWT_REFRESH_SECRET,
       });
 

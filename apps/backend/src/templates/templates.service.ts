@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { TransferTemplate } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTemplateDto } from './dto/create-template.dto';
 import { UpdateTemplateDto } from './dto/update-template.dto';
@@ -11,7 +12,7 @@ import { UpdateTemplateDto } from './dto/update-template.dto';
 export class TemplatesService {
   constructor(private prisma: PrismaService) {}
 
-  private serialize(template: any) {
+  private serialize(template: TransferTemplate) {
     return {
       ...template,
       amount: Number(template.amount),
@@ -35,7 +36,7 @@ export class TemplatesService {
       where: { userId },
       orderBy: [{ isFavorite: 'desc' }, { createdAt: 'desc' }],
     });
-    return templates.map((t) => this.serialize(t));
+    return templates.map((t: TransferTemplate) => this.serialize(t));
   }
 
   private async findOwned(userId: number, id: number) {

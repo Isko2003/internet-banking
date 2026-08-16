@@ -8,6 +8,7 @@ import { Account } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTransferDto } from './dto/create-transfer.dto';
 import { NotificationsService } from '@/notifications/notifications.service';
+import { Transfer } from '@prisma/client';
 
 const TRANSFER_FEE_RATE = 0.01;
 
@@ -18,7 +19,7 @@ export class TransfersService {
     private notificationsService: NotificationsService,
   ) {}
 
-  private serialize(transfer: any) {
+  private serialize(transfer: Transfer) {
     return {
       ...transfer,
       amount: Number(transfer.amount),
@@ -178,6 +179,18 @@ export class TransfersService {
         },
       });
 
+      const debitTransaction = await tx.transaction.create({
+        data: {
+          accountId: debitAccount.id,
+          type: 'expense',
+          amount,
+          currency: debitAccount.currency,
+          category: 'transfer',
+          description: dto.comment || `Köçürmə (${creditAccount.name})`,
+          status: 'completed',
+        },
+      });
+
       await tx.transaction.create({
         data: {
           accountId: creditAccount.id,
@@ -190,7 +203,7 @@ export class TransfersService {
         },
       });
 
-      return transfer;
+      return { ...transfer, transactionId: debitTransaction.id };
     });
 
     await this.notificationsService.createForUser(

@@ -38,4 +38,8 @@ export class CreateUserTransferDto {
   @IsOptional()
   @IsBoolean()
   saveRecipient?: boolean;
+
+  @IsString()
+  @IsNotEmpty()
+  otpSessionId: string;
 }

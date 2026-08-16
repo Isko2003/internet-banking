@@ -1,6 +1,13 @@
+export interface CreateTransferPayload {
+  debitAccountId: number;
+  creditAccountId: number;
+  amount: number;
+  exchangeRate?: number;
+  comment?: string;
+}
+
 export interface Transfer {
   id: number;
-  userId: number;
   debitAccountId: number;
   creditAccountId: number;
   amount: number;

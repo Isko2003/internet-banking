@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateAccountDto } from './dto/create-account.dto';
+import { Account } from '@prisma/client';
 
 function generateIban(): string {
   const random = Math.random().toString().slice(2, 18).padEnd(16, '0');
@@ -15,7 +16,7 @@ function generateIban(): string {
 export class AccountsService {
   constructor(private prisma: PrismaService) {}
 
-  private serialize(account: any) {
+  private serialize(account: Account) {
     return {
       ...account,
       balance: Number(account.balance),
@@ -52,7 +53,7 @@ export class AccountsService {
         name: dto.name,
         currency: dto.currency,
         iban: dto.iban ?? generateIban(),
-        balance: 0,
+        balance: 1000,
         blockedAmount: 0,
       },
     });

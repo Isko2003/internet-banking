@@ -51,7 +51,7 @@ export class TransferToUser {
       this.transferUserForm.markAllAsTouched();
       return;
     }
-    this.otpService.sendOtp().subscribe((res) => {
+    this.otpService.sendOtp('user-transfer').subscribe((res) => {
       this.sessionId.set(res.sessionId);
       this.step.set('otp');
       this.startResendCooldown();
@@ -61,7 +61,7 @@ export class TransferToUser {
   onResendOtp() {
     if (this.resendCooldown() > 0) return;
 
-    this.otpService.sendOtp().subscribe((res) => {
+    this.otpService.sendOtp('user-transfer').subscribe((res) => {
       this.sessionId.set(res.sessionId);
       this.startResendCooldown();
     });
@@ -97,7 +97,6 @@ export class TransferToUser {
     this.otpService.verifyOtp(sessionId, code).subscribe({
       next: () => {
         const values = this.transferUserForm.value;
-        const debitAccount = this.accounts().find((a) => a.id === values.debitAccountId);
 
         this.userTransferService
           .sendTransfer({
@@ -106,12 +105,9 @@ export class TransferToUser {
             recipientIdentifier: values.recipientIdentifier!,
             recipientName: values.recipientName!,
             amount: values.amount!,
-            currency: debitAccount!.currency,
-            fee: this.fee(),
+            otpSessionId: sessionId,
             purpose: values.purpose || '',
             saveRecipient: values.saveRecipient || false,
-            status: 'completed',
-            date: new Date().toISOString().split('T')[0],
           })
           .subscribe({
             next: (res) => {

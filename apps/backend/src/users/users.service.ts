@@ -1,6 +1,15 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+export class UpdateUserSettingsDto {
+  language?: 'az' | 'en';
+  theme?: 'light' | 'dark';
+  notificationsEnabled?: boolean;
+  balanceHidden?: boolean;
+  inactivityTimeoutMinutes?: number;
+  twoFactorEnabled?: boolean;
+}
 
 @Injectable()
 export class UsersService {
@@ -9,7 +18,11 @@ export class UsersService {
   async findById(id: number) {
     const user = await this.prisma.user.findUnique({ where: { id } });
     if (!user) throw new NotFoundException('İstifadəçi tapılmadı');
-    const { password, ...safeUser } = user;
+
+    const safeUser: Omit<User, 'password'> & { password?: string } = {
+      ...user,
+    };
+    delete safeUser.password;
     return safeUser;
   }
 
@@ -18,7 +31,11 @@ export class UsersService {
       where: { id },
       data: dto,
     });
-    const { password, ...safeUser } = user;
+
+    const safeUser: Omit<User, 'password'> & { password?: string } = {
+      ...user,
+    };
+    delete safeUser.password;
     return safeUser;
   }
 
@@ -36,17 +53,7 @@ export class UsersService {
     return settings;
   }
 
-  async updateSettings(
-    userId: number,
-    data: Partial<{
-      language: 'az' | 'en';
-      theme: 'light' | 'dark';
-      notificationsEnabled: boolean;
-      balanceHidden: boolean;
-      inactivityTimeoutMinutes: number;
-      twoFactorEnabled: boolean;
-    }>,
-  ) {
+  async updateSettings(userId: number, data: UpdateUserSettingsDto) {
     return this.prisma.userSettings.upsert({
       where: { userId },
       create: { userId, ...data },

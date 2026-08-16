@@ -1,9 +1,9 @@
-import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
-function withAuthHeader(req: any, token: string) {
+function withAuthHeader<T>(req: HttpRequest<T>, token: string): HttpRequest<T> {
   return req.clone({
     setHeaders: { Authorization: `Bearer ${token}` },
   });

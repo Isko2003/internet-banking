@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { User } from '@prisma/client';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -22,7 +23,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException();
     }
 
-    const { password, ...safeUser } = user;
+    const safeUser: Omit<User, 'password'> & { password?: string } = {
+      ...user,
+    };
+    delete safeUser.password;
     return safeUser;
   }
 }

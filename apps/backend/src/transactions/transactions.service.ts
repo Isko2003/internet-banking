@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, Transaction } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { QueryTransactionDto } from './dto/query-transaction.dto';
 
@@ -11,7 +11,7 @@ import { QueryTransactionDto } from './dto/query-transaction.dto';
 export class TransactionsService {
   constructor(private prisma: PrismaService) {}
 
-  private serialize(transaction: any) {
+  private serialize(transaction: Transaction) {
     return {
       ...transaction,
       amount: Number(transaction.amount),
@@ -70,7 +70,7 @@ export class TransactionsService {
     ]);
 
     return {
-      data: data.map((t) => this.serialize(t)),
+      data: data.map((t: Transaction) => this.serialize(t)),
       totalCount,
       page,
       limit,
@@ -89,7 +89,7 @@ export class TransactionsService {
       take: limit,
     });
 
-    return transactions.map((t) => this.serialize(t));
+    return transactions.map((t: Transaction) => this.serialize(t));
   }
 
   async findOne(userId: number, id: number) {

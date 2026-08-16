@@ -7,8 +7,8 @@ import { environment } from '../../../environments/environment';
 export class OtpService {
   private http = inject(HttpClient);
 
-  sendOtp(): Observable<{ sessionId: string }> {
-    return this.http.post<{ sessionId: string }>(`${environment.apiUrl}/otp/send`, {});
+  sendOtp(purpose: 'user-transfer'): Observable<{ sessionId: string }> {
+    return this.http.post<{ sessionId: string }>(`${environment.apiUrl}/otp/send`, { purpose });
   }
 
   verifyOtp(sessionId: string, code: string): Observable<{ message: string }> {

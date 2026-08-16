@@ -8,6 +8,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CheckDebtDto } from './dto/check-debt.dto';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { NotificationsService } from '@/notifications/notifications.service';
+import { Payment } from '@prisma/client';
 
 @Injectable()
 export class PaymentsService {
@@ -16,7 +17,7 @@ export class PaymentsService {
     private notificationsService: NotificationsService,
   ) {}
 
-  private serialize(payment: any) {
+  private serialize(payment: Payment) {
     return {
       ...payment,
       amount: Number(payment.amount),
@@ -105,7 +106,7 @@ export class PaymentsService {
         },
       });
 
-      await tx.transaction.create({
+      const transaction = await tx.transaction.create({
         data: {
           accountId: debitAccount.id,
           type: 'expense',
@@ -117,7 +118,7 @@ export class PaymentsService {
         },
       });
 
-      return payment;
+      return { ...payment, transactionId: transaction.id };
     });
 
     await this.notificationsService.createForUser(

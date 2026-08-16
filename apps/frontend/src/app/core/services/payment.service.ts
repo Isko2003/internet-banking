@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PaymentProvider } from '../models/payment-provider.model';
 import { environment } from '../../../environments/environment';
-import { DebtCheckResult, Payment } from '../models/payment.model';
+import { CreatePaymentPayload, DebtCheckResult, Payment } from '../models/payment.model';
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
@@ -20,7 +20,7 @@ export class PaymentService {
     });
   }
 
-  pay(payload: Omit<Payment, 'id' | 'transactionId'>): Observable<Payment> {
+  pay(payload: CreatePaymentPayload): Observable<Payment> {
     return this.http.post<Payment>(`${environment.apiUrl}/payments/pay`, payload);
   }
 }

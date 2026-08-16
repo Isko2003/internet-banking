@@ -7,17 +7,21 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserTransferDto } from './dto/create-user-transfer.dto';
 import { NotificationsService } from '@/notifications/notifications.service';
+import { OtpService } from '@/otp/otp.service';
+import { UserTransfer } from '@prisma/client';
 
-const USER_TRANSFER_FEE_RATE = 0.02; // kart/iban köçürməsi üçün 2% komissiya
+const USER_TRANSFER_FEE_RATE = 0.02;
+const OTP_PURPOSE = 'user-transfer';
 
 @Injectable()
 export class UserTransfersService {
   constructor(
     private prisma: PrismaService,
     private notificationsService: NotificationsService,
+    private otpService: OtpService,
   ) {}
 
-  private serialize(userTransfer: any) {
+  private serialize(userTransfer: UserTransfer) {
     return {
       ...userTransfer,
       amount: Number(userTransfer.amount),
@@ -59,8 +63,14 @@ export class UserTransfersService {
       throw new BadRequestException('Hesab aktiv deyil');
     }
 
+    await this.otpService.consumeVerifiedSession(
+      userId,
+      dto.otpSessionId,
+      OTP_PURPOSE,
+    );
+
     const fee = Math.round(dto.amount * USER_TRANSFER_FEE_RATE * 100) / 100;
-    const totalDebit = dto.amount; // fee məbləğin daxilindədir, əlavə tutulmur
+    const totalDebit = dto.amount;
 
     if (Number(debitAccount.balance) < totalDebit) {
       throw new BadRequestException('Balans kifayət deyil');
@@ -92,7 +102,7 @@ export class UserTransfersService {
         },
       });
 
-      await tx.transaction.create({
+      const transaction = await tx.transaction.create({
         data: {
           accountId: debitAccount.id,
           type: 'expense',
@@ -104,7 +114,7 @@ export class UserTransfersService {
         },
       });
 
-      return userTransfer;
+      return { ...userTransfer, transactionId: transaction.id };
     });
 
     await this.notificationsService.createForUser(

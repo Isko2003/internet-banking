@@ -189,14 +189,10 @@ export class Payments {
     this.paymentService
       .pay({
         debitAccountId: account.id,
-        category: category.key,
         providerId: provider.id,
-        providerName: provider.name,
         fields: this.buildFieldsRecord(),
         amount,
         description: provider.hasDebtCheck ? this.debtDescription() : `${provider.name} ödənişi`,
-        status: 'completed',
-        date: new Date().toISOString().split('T')[0],
       })
       .pipe(finalize(() => this.isSubmitting.set(false)))
       .subscribe({

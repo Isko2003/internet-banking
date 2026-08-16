@@ -3,6 +3,7 @@ import {
   ForbiddenException,
   NotFoundException,
 } from '@nestjs/common';
+import { Card } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCardDto } from './dto/create-card.dto';
 
@@ -15,7 +16,7 @@ function generateCardNumber(): string {
 export class CardsService {
   constructor(private prisma: PrismaService) {}
 
-  private serialize(card: any) {
+  private serialize(card: Card) {
     return {
       ...card,
       balance: Number(card.balance),
@@ -28,7 +29,7 @@ export class CardsService {
       where: { userId },
       orderBy: { createdAt: 'asc' },
     });
-    return cards.map((c) => this.serialize(c));
+    return cards.map((c: Card) => this.serialize(c));
   }
 
   async findOne(userId: number, id: number) {

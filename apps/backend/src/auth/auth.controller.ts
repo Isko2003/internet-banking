@@ -1,10 +1,13 @@
-import { Body, Controller, Post, UseGuards, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { AuthService } from './auth.service';
-import { RegisterDto } from './dto/register.dto';
+import { CurrentUser } from './current-user.decorator';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
-import { CurrentUser } from './current-user.decorator';
+
+type UserWithoutPassword = Omit<User, 'password'>;
 
 @Controller('auth')
 export class AuthController {
@@ -27,7 +30,7 @@ export class AuthController {
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
-  getMe(@CurrentUser() user: any) {
+  getMe(@CurrentUser() user: UserWithoutPassword) {
     return user;
   }
 }

@@ -1,5 +1,5 @@
 <div class="flex flex-col md:flex-row items-center gap-6 w-full min-w-0">
-  <div class="relative w-40 h-40 flex-shrink-0">
+  <div class="relative w-40 h-40 shrink-0">
     <canvas #chartCanvas></canvas>
     <div
       class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-2"
@@ -15,7 +15,7 @@
     @for (item of categoryBreakdown(); track item.category) {
       <div class="grid grid-cols-[auto_1fr_auto_auto] items-center gap-x-2 text-sm">
         <span
-          class="w-2 h-2 rounded-full flex-shrink-0"
+          class="w-2 h-2 rounded-full shrink-0"
           [style.background-color]="item.color"
         ></span>
         <span class="text-gray-700 truncate">{{ item.category }}</span>

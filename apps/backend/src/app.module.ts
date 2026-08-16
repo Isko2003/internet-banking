@@ -14,6 +14,7 @@ import { UserTransfersModule } from './user-transfers/user-transfers.module';
 import { PaymentsModule } from './payments/payments.module';
 import { PaymentProvidersModule } from './payment-providers/payment-providers.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { OtpModule } from './otp/otp.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     PaymentsModule,
     PaymentProvidersModule,
     NotificationsModule,
+    OtpModule,
   ],
   controllers: [AppController],
   providers: [AppService],

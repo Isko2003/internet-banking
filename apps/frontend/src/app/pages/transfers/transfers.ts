@@ -120,7 +120,6 @@ export class Transfers {
     this.submitError.set(null);
 
     const values = this.transferForm.value;
-    const debitAccount = this.selectedDebitAccount();
 
     this.transferService
       .transferMoney({
@@ -128,12 +127,7 @@ export class Transfers {
         creditAccountId: values.creditAccountId!,
         amount: values.amount!,
         comment: values.comment || '',
-        currency: debitAccount!.currency,
-        fee: this.fee(),
-        finalAmount: this.finalAmount(),
         exchangeRate: this.exchangeRate() ?? undefined,
-        status: 'completed',
-        date: new Date().toISOString().split('T')[0],
       })
       .subscribe({
         next: (result) => {
