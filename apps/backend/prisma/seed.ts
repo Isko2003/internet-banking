@@ -143,7 +143,7 @@ async function main() {
     });
   }
 
-  // fixing lint errors
+  // fixing lint errorss
 
   console.log(`✅ ${providers.length} payment provider seed edildi`);
 }
