@@ -29,8 +29,6 @@
     "@angular/cli": "^22.0.6",
     "@angular/compiler-cli": "^22.0.0",
     "@eslint/js": "^10.0.1",
-    "@rollup/rollup-win32-x64-msvc": "^4.60.2",
-    "@tailwindcss/oxide-win32-x64-msvc": "^4.3.3",
     "@tailwindcss/postcss": "^4.1.12",
     "angular-eslint": "22.1.0",
     "autoprefixer": "^10.5.4",
