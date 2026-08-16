@@ -9,19 +9,25 @@ export class TransactionService {
   private http = inject(HttpClient);
 
   getTransactions(): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(`${environment.apiUrl}/transactions`);
+    return this.http
+      .get<PaginatedResult<Transaction>>(`${environment.apiUrl}/transactions`, {
+        params: { limit: 1000 },
+      })
+      .pipe(map((res) => res.data));
   }
 
   getRecent(limit = 5): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(
-      `${environment.apiUrl}/transactions?_sort=date&_order=desc&_limit=${limit}`,
-    );
+    return this.http.get<Transaction[]>(`${environment.apiUrl}/transactions/recent`, {
+      params: { limit },
+    });
   }
 
   getTransactionByAccId(accountId: number): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(
-      `${environment.apiUrl}/transactions?accountId=${accountId}&_sort=date&_order=desc`,
-    );
+    return this.http
+      .get<PaginatedResult<Transaction>>(`${environment.apiUrl}/transactions`, {
+        params: { accountId, limit: 1000 },
+      })
+      .pipe(map((res) => res.data));
   }
 
   getPaginated(params: {
@@ -32,10 +38,10 @@ export class TransactionService {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
   }): Observable<PaginatedResult<Transaction>> {
-    let httpParams = new HttpParams().set('_page', params.page).set('_limit', params.limit);
+    let httpParams = new HttpParams().set('page', params.page).set('limit', params.limit);
 
-    if (params.sort) httpParams = httpParams.set('_sort', params.sort);
-    if (params.order) httpParams = httpParams.set('_order', params.order);
+    if (params.sort) httpParams = httpParams.set('sort', params.sort);
+    if (params.order) httpParams = httpParams.set('order', params.order);
 
     Object.keys(params).forEach((key) => {
       if (
@@ -47,17 +53,9 @@ export class TransactionService {
       }
     });
 
-    return this.http
-      .get<Transaction[]>(`${environment.apiUrl}/transactions`, {
-        params: httpParams,
-        observe: 'response',
-      })
-      .pipe(
-        map((response) => ({
-          data: response.body || [],
-          totalCount: Number(response.headers.get('X-Total-Count')) || 0,
-        })),
-      );
+    return this.http.get<PaginatedResult<Transaction>>(`${environment.apiUrl}/transactions`, {
+      params: httpParams,
+    });
   }
 
   getTransactionById(id: string): Observable<Transaction> {

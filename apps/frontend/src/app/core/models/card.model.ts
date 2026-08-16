@@ -6,7 +6,7 @@ export interface Card {
   type: 'debit' | 'credit' | 'virtual';
   paymentSystem: 'Visa' | 'Mastercard';
   expiry: string;
-  status: 'active' | 'blocked' | 'expired' | 'pending activation';
+  status: 'active' | 'blocked' | 'expired' | 'pending_activation';
   holderName: string;
   balance: number;
   contactless: boolean;

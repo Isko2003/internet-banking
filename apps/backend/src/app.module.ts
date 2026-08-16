@@ -8,6 +8,12 @@ import { UsersModule } from './users/users.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { CardsModule } from './cards/cards.module';
 import { TransactionsModule } from './transactions/transactions.module';
+import { TransfersModule } from './transfers/transfers.module';
+import { TemplatesModule } from './templates/templates.module';
+import { UserTransfersModule } from './user-transfers/user-transfers.module';
+import { PaymentsModule } from './payments/payments.module';
+import { PaymentProvidersModule } from './payment-providers/payment-providers.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -20,6 +26,12 @@ import { TransactionsModule } from './transactions/transactions.module';
     AccountsModule,
     CardsModule,
     TransactionsModule,
+    TransfersModule,
+    TemplatesModule,
+    UserTransfersModule,
+    PaymentsModule,
+    PaymentProvidersModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
