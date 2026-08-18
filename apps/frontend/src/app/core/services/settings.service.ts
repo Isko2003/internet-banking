@@ -32,12 +32,10 @@ export class SettingsService {
     const previousSettings = this.settings();
     this.settings.update((prev) => (prev ? { ...prev, ...updates } : prev));
 
-    this.http
-      .patch<UserSettings>(`${environment.apiUrl}/users/me/settings`, updates)
-      .subscribe({
-        error: () => {
-          this.settings.set(previousSettings);
-        },
-      });
+    this.http.patch<UserSettings>(`${environment.apiUrl}/users/me/settings`, updates).subscribe({
+      error: () => {
+        this.settings.set(previousSettings);
+      },
+    });
   }
 }

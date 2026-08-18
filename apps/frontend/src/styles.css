@@ -1,19 +1,47 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-navy: #1B2A4B;
-  --color-navy-light: #2A3F6B;
-  --color-navy-dark: #121D33;
-  --color-mint: #00B8A9;
-  --color-mint-light: #E6FBF9;
-  --color-expense: #E4572E;
+  --color-navy: #1b2a4b;
+  --color-navy-light: #2a3f6b;
+  --color-navy-dark: #121d33;
+  --color-mint: #00b8a9;
+  --color-mint-light: #e6fbf9;
+  --color-expense: #e4572e;
 
-  --font-display: "Space Grotesk", sans-serif;
-  --font-body: "Inter", sans-serif;
+  --color-page: #f5f6f8;
+  --color-card: #ffffff;
+  --color-line: #e5e7eb;
+  --color-line-light: #f3f4f6;
+  --color-ink: #1b2a4b;
+  --color-ink-muted: #4b5563;
+  --color-ink-faint: #9ca3af;
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+
+.dark {
+  --color-page: #121d33;
+  --color-card: #1b2a4b;
+  --color-line: #2a3f6b;
+  --color-line-light: #24365e;
+  --color-ink: #f5f6f8;
+  --color-ink-muted: #a8b3c7;
+  --color-ink-faint: #6b7a9c;
+
+  color-scheme: dark;
 }
 
 body {
   font-family: var(--font-body);
+  background-color: var(--color-page);
+  color: var(--color-ink);
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 button {
   cursor: pointer;

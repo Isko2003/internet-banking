@@ -1,12 +1,14 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8">
   <div class="w-full max-w-md bg-white rounded-lg shadow-md p-8">
     <h1 class="text-2xl font-bold text-blue-600 mb-6 text-center">MyBank</h1>
-    <p class="text-center text-gray-500 mb-6">Yeni hesab yarat</p>
+    <p class="text-center text-ink-faint-500 mb-6">Yeni hesab yarat</p>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
       <div class="grid grid-cols-2 gap-3">
         <div>
-          <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">Ad</label>
+          <label for="firstName" class="block text-sm font-medium text-ink-faint-700 mb-1"
+            >Ad</label
+          >
           <input
             type="text"
             formControlName="firstName"
@@ -19,7 +21,9 @@
         </div>
 
         <div>
-          <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Soyad</label>
+          <label for="lastName" class="block text-sm font-medium text-ink-faint-700 mb-1"
+            >Soyad</label
+          >
           <input
             type="text"
             formControlName="lastName"
@@ -33,7 +37,7 @@
       </div>
 
       <div>
-        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <label for="email" class="block text-sm font-medium text-ink-faint-700 mb-1">Email</label>
         <input
           type="email"
           formControlName="email"
@@ -53,7 +57,7 @@
       </div>
 
       <div>
-        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefon</label>
+        <label for="phone" class="block text-sm font-medium text-ink-faint-700 mb-1">Telefon</label>
         <input
           type="tel"
           formControlName="phone"
@@ -74,7 +78,9 @@
       </div>
 
       <div>
-        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Şifrə</label>
+        <label for="password" class="block text-sm font-medium text-ink-faint-700 mb-1"
+          >Şifrə</label
+        >
         <input
           type="password"
           formControlName="password"
@@ -97,7 +103,7 @@
       </div>
 
       <div>
-        <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1"
+        <label for="confirmPassword" class="block text-sm font-medium text-ink-faint-700 mb-1"
           >Şifrənin təkrarı</label
         >
         <input
@@ -120,7 +126,7 @@
       <button
         type="submit"
         [disabled]="isLoading()"
-        class="w-full bg-blue-600 text-white py-2 rounded-md font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        class="w-full bg-blue-600 text-ink-faint py-2 rounded-md font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         @if (isLoading()) {
           <span
@@ -130,7 +136,7 @@
         {{ isLoading() ? 'Yüklənir...' : 'Qeydiyyatdan keç' }}
       </button>
 
-      <p class="text-sm text-center text-gray-600">
+      <p class="text-sm text-center text-ink-faint-600">
         Artıq hesabın var? <a routerLink="/login" class="text-blue-600 hover:underline">Daxil ol</a>
       </p>
     </form>

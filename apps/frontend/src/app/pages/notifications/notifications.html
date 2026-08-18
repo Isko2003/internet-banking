@@ -1,6 +1,6 @@
 <div class="flex flex-col gap-4 font-body">
   <div class="flex items-center justify-between">
-    <h1 class="font-display text-2xl font-bold text-navy">Bildirişlər</h1>
+    <h1 class="font-display text-2xl font-bold text-ink">Bildirişlər</h1>
 
     @if (unreadCount() > 0) {
       <button (click)="onMarkAllAsRead()" class="text-sm text-mint hover:underline">
@@ -9,11 +9,11 @@
     }
   </div>
 
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex flex-wrap gap-3">
+  <div class="bg-card rounded-xl border border-line-light shadow-sm p-4 flex flex-wrap gap-3">
     <select
       [ngModel]="typeFilter()"
       (ngModelChange)="typeFilter.set($event)"
-      class="px-3 py-2 border border-gray-200 rounded-md text-sm"
+      class="px-3 py-2 border border-line rounded-md text-sm"
     >
       <option value="all">Bütün Bildirişlər</option>
       <option value="transaction">Tranzaksiya</option>
@@ -25,7 +25,7 @@
     <select
       [ngModel]="readFilter()"
       (ngModelChange)="readFilter.set($event)"
-      class="px-3 py-2 border border-gray-200 rounded-md text-sm"
+      class="px-3 py-2 border border-line rounded-md text-sm"
     >
       <option value="all">Hamısı</option>
       <option value="unread">Oxunmamış</option>
@@ -34,26 +34,26 @@
   </div>
 
   @if (filteredNotifications().length === 0) {
-    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-8 text-center">
-      <p class="text-sm text-gray-400">Bildiriş tapılmadı</p>
+    <div class="bg-card rounded-xl border border-line-light shadow-sm p-8 text-center">
+      <p class="text-sm text-ink-faint">Bildiriş tapılmadı</p>
     </div>
   } @else {
     <div class="flex flex-col gap-3">
       @for (notification of filteredNotifications(); track notification.id) {
         <div
-          class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-start justify-between gap-3"
+          class="bg-card rounded-xl border border-line-light shadow-sm p-4 flex items-start justify-between gap-3"
         >
           <div class="flex items-start gap-3 flex-1">
             <span
               class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
               [class.bg-mint]="!notification.read"
-              [class.bg-gray-300]="notification.read"
+              [class.bg-line]="notification.read"
             ></span>
             <div class="flex-1">
-              <p class="text-sm text-gray-700" [class.font-medium]="!notification.read">
+              <p class="text-sm text-ink-muted" [class.font-medium]="!notification.read">
                 {{ notification.message }}
               </p>
-              <p class="text-xs text-gray-400 mt-0.5">{{ notification.date }}</p>
+              <p class="text-xs text-ink-faint mt-0.5">{{ notification.date }}</p>
             </div>
           </div>
 
@@ -68,7 +68,7 @@
             }
             <button
               (click)="onDelete(notification.id)"
-              class="text-xs text-gray-400 hover:text-expense"
+              class="text-xs text-ink-faint hover:text-expense"
             >
               Sil
             </button>

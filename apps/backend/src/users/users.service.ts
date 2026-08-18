@@ -2,14 +2,7 @@ import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-export class UpdateUserSettingsDto {
-  language?: 'az' | 'en';
-  theme?: 'light' | 'dark';
-  notificationsEnabled?: boolean;
-  balanceHidden?: boolean;
-  inactivityTimeoutMinutes?: number;
-  twoFactorEnabled?: boolean;
-}
+import { UpdateUserSettingsDto } from './dto/update-user-settings.dto';
 
 @Injectable()
 export class UsersService {

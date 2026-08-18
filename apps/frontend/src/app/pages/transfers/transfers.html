@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-4 font-body max-w-lg">
   @if (completedTransfer(); as transfer) {
     <div
-      class="bg-white rounded-xl border border-gray-100 shadow-sm p-8 text-center flex flex-col items-center gap-4"
+      class="bg-card rounded-xl border border-line-light shadow-sm p-8 text-center flex flex-col items-center gap-4"
     >
       <div class="w-16 h-16 rounded-full bg-mint-light flex items-center justify-center">
         <svg class="w-8 h-8 text-mint" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -14,8 +14,8 @@
         </svg>
       </div>
 
-      <h2 class="font-display text-xl font-bold text-navy">Köçürmə uğurla tamamlandı</h2>
-      <p class="text-sm text-gray-500">
+      <h2 class="font-display text-xl font-bold text-ink">Köçürmə uğurla tamamlandı</h2>
+      <p class="text-sm text-ink-faint">
         {{ transfer.amount }} {{ transfer.currency }} Kocuruldu.
         @if (transfer.fee > 0) {
           (komissiya: {{ transfer.fee }} {{ transfer.currency }})
@@ -33,31 +33,31 @@
         <button
           (click)="onSaveAsTemplate()"
           [disabled]="templateSaved()"
-          class="px-4 py-2 text-sm border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50"
+          class="px-4 py-2 text-sm border border-line rounded-md text-ink-muted hover:bg-page"
         >
           {{ templateSaved() ? 'Saxlanıldı ✓' : 'Şablon kimi saxla' }}
         </button>
 
-        <button (click)="onNewTransfer()" class="px-4 py-2 text-sm texxt-gray-500 hover:text-navy">
+        <button (click)="onNewTransfer()" class="px-4 py-2 text-sm text-ink-faint hover:text-ink">
           Yeni Kocurme
         </button>
       </div>
     </div>
   } @else {
-    <h1 class="font-display text-2xl font-bold text-navy">Hesablar arası köçürmə</h1>
+    <h1 class="font-display text-2xl font-bold text-ink">Hesablar arası köçürmə</h1>
 
     <form
       [formGroup]="transferForm"
-      class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4"
+      class="bg-card rounded-xl border border-line-light shadow-sm p-6 flex flex-col gap-4"
       (ngSubmit)="onSubmit()"
     >
       <div>
-        <label for="debitAccountId" class="block text-sm font-medium text-gray-700 mb-1"
+        <label for="debitAccountId" class="block text-sm font-medium text-ink-muted mb-1"
           >Debit hesab (haradan)</label
         >
         <select
           formControlName="debitAccountId"
-          class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+          class="w-full px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
         >
           <option [ngValue]="null">Seçin</option>
           @for (account of accounts(); track account.id) {
@@ -69,12 +69,12 @@
       </div>
 
       <div>
-        <label for="creditAccountId" class="block text-sm font-medium text-gray-700 mb-1"
+        <label for="creditAccountId" class="block text-sm font-medium text-ink-muted mb-1"
           >Credit hesab (haraya)</label
         >
         <select
           formControlName="creditAccountId"
-          class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+          class="w-full px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
         >
           <option [ngValue]="null">Seçin</option>
           @for (account of accounts(); track account.id) {
@@ -92,20 +92,20 @@
       }
 
       <div>
-        <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">Məbləğ</label>
+        <label for="amount" class="block text-sm font-medium text-ink-muted mb-1">Məbləğ</label>
         <input
           type="number"
           formControlName="amount"
           placeholder="Meblegi daxil edin"
-          class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+          class="w-full px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
         />
       </div>
 
       <div>
-        <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">Şərh</label>
+        <label for="comment" class="block text-sm font-medium text-ink-muted mb-1">Şərh</label>
         <input
           formControlName="comment"
-          class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+          class="w-full px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
         />
       </div>
 
@@ -116,27 +116,27 @@
       }
 
       @if (transferForm.pending) {
-        <p class="text-sm text-gray-400">Balans yoxlanılır...</p>
+        <p class="text-sm text-ink-faint">Balans yoxlanılır...</p>
       }
 
       @if (currenciesDiffer()) {
         @if (exchangeRate()) {
-          <div class="text-sm text-gray-600 bg-gray-50 rounded-md px-3 py-2">
+          <div class="text-sm text-ink-muted bg-page rounded-md px-3 py-2">
             Məzənnə: 1 {{ selectedDebitAccount()?.currency }} = {{ exchangeRate() }}
             {{ selectedCreditAccount()?.currency }}
           </div>
         } @else {
-          <p class="text-sm text-gray-400">Məzənnə yüklənir...</p>
+          <p class="text-sm text-ink-faint">Məzənnə yüklənir...</p>
         }
       }
 
       @if (formValues()?.amount) {
-        <div class="flex flex-col gap-1 text-sm border-t border-gray-100 pt-3">
-          <div class="flex justify-between text-gray-500">
+        <div class="flex flex-col gap-1 text-sm border-t border-line-light pt-3">
+          <div class="flex justify-between text-ink-faint">
             <span>Komissiya</span>
             <span>{{ fee() }} {{ selectedDebitAccount()?.currency }}</span>
           </div>
-          <div class="flex justify-between font-semibold text-navy">
+          <div class="flex justify-between font-semibold text-ink">
             <span>Yekun məbləğ</span>
             <span>{{ finalAmount() }} {{ selectedCreditAccount()?.currency }}</span>
           </div>

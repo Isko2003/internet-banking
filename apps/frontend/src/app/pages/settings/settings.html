@@ -1,16 +1,16 @@
 <div class="flex flex-col gap-4 font-body max-w-xl">
-  <h1 class="font-display text-2xl font-bold text-navy">Parametrlər</h1>
+  <h1 class="font-display text-2xl font-bold text-ink">Parametrlər</h1>
 
   @if (!settings()) {
-    <p>Yuklenir...</p>
+    <p class="text-ink-muted">Yuklenir...</p>
   } @else {
-    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col gap-5">
+    <div class="bg-card rounded-xl border border-line-light shadow-sm p-6 flex flex-col gap-5">
       <div class="flex items-center justify-between">
-        <span class="text-sm text-gray-700">Dil</span>
+        <span class="text-sm text-ink-muted">Dil</span>
         <select
           [ngModel]="settings()!.language"
           (ngModelChange)="onLanguageChange($event)"
-          class="px-3 py-2 border border-gray-200 rounded-md text-sm"
+          class="px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
         >
           <option value="az">Azərbaycan</option>
           <option value="en">English</option>
@@ -18,26 +18,26 @@
       </div>
 
       <div class="flex items-center justify-between">
-        <span class="text-sm text-gray-700">Tema</span>
+        <span class="text-sm text-ink-muted">Tema</span>
         <select
           [ngModel]="settings()!.theme"
           (ngModelChange)="onThemeChange($event)"
-          class="px-3 py-2 border border-gray-200 rounded-md text-sm"
+          class="px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
         >
           <option value="light">Light</option>
           <option value="dark">Dark</option>
         </select>
       </div>
 
-      <hr class="border-gray-100" />
+      <hr class="border-line-light" />
 
       <div class="flex items-center justify-between">
-        <span class="text-sm text-gray-700">Bildirişlər aktiv</span>
+        <span class="text-sm text-ink-muted">Bildirişlər aktiv</span>
         <button
           (click)="onToggle('notificationsEnabled')"
           class="w-11 h-6 rounded-full transition-colors relative"
           [class.bg-mint]="settings()!.notificationsEnabled"
-          [class.bg-gray-300]="!settings()!.notificationsEnabled"
+          [class.bg-line]="!settings()!.notificationsEnabled"
         >
           <span
             class="absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform"
@@ -48,12 +48,12 @@
       </div>
 
       <div class="flex items-center justify-between">
-        <span class="text-sm text-gray-700">Balans Gizli</span>
+        <span class="text-sm text-ink-muted">Balans Gizli</span>
         <button
           (click)="onToggle('balanceHidden')"
           class="w-11 h-6 rounded-full transition-colors relative"
           [class.bg-mint]="settings()!.balanceHidden"
-          [class.bg-gray-300]="!settings()!.balanceHidden"
+          [class.bg-line]="!settings()!.balanceHidden"
         >
           <span
             class="absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform"
@@ -64,12 +64,12 @@
       </div>
 
       <div class="flex items-center justify-between">
-        <span class="text-sm text-gray-700">Iki addimli dogrulama</span>
+        <span class="text-sm text-ink-muted">Iki addimli dogrulama</span>
         <button
           (click)="onToggle('twoFactorEnabled')"
           class="w-11 h-6 rounded-full transition-colors relative"
           [class.bg-mint]="settings()!.twoFactorEnabled"
-          [class.bg-gray-300]="!settings()!.twoFactorEnabled"
+          [class.bg-line]="!settings()!.twoFactorEnabled"
         >
           <span
             class="absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform"
@@ -79,13 +79,13 @@
         </button>
       </div>
 
-      <hr class="border-gray-100" />
+      <hr class="border-line-light" />
       <div class="flex items-center justify-between">
-        <span class="text-sm text-gray-700">Qeyri-aktivlik vaxtı (dəqiqə)</span>
+        <span class="text-sm text-ink-muted">Qeyri-aktivlik vaxtı (dəqiqə)</span>
         <select
           [ngModel]="settings()!.inactivityTimeoutMinutes"
           (ngModelChange)="onInactivityTimeoutChange($event)"
-          class="px-3 py-2 border border-gray-200 rounded-md text-sm"
+          class="px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
         >
           <option [ngValue]="5">5</option>
           <option [ngValue]="15">15</option>

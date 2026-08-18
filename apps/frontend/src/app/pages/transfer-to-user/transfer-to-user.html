@@ -1,17 +1,17 @@
 <div class="flex flex-col gap-4 font-body max-w-lg">
-  <h1 class="font-display text-2xl font-bold text-navy">Başqa istifadəçiyə köçürmə</h1>
+  <h1 class="font-display text-2xl font-bold text-ink">Başqa istifadəçiyə köçürmə</h1>
   @if (step() === 'form') {
     <form
       [formGroup]="transferUserForm"
-      class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4"
+      class="bg-card rounded-xl border border-line-light shadow-sm p-6 flex flex-col gap-4"
     >
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="debitAccountId"
+        <label class="block text-sm font-medium text-ink-muted mb-1" for="debitAccountId"
           >Debit hesab</label
         >
         <select
           formControlName="debitAccountId"
-          class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+          class="w-full px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
         >
           <option [ngValue]="null">Secin</option>
           @for (account of accounts(); track account.id) {
@@ -35,7 +35,7 @@
 
       @if (transferUserForm.value.recipientType === 'card') {
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1" for="cardNumber"
+          <label class="block text-sm font-medium text-ink-muted mb-1" for="cardNumber"
             >Kart nömrəsi</label
           >
           @if (
@@ -64,56 +64,56 @@
             formControlName="recipientIdentifier"
             (input)="onCardNumberInput($event)"
             placeholder="0000 0000 0000 0000"
-            class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+            class="w-full px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
             maxlength="19"
           />
           @if (transferUserForm.value.recipientIdentifier) {
-            <p class="text-xs text-gray-400 mt-1">
+            <p class="text-xs text-ink-faint mt-1">
               {{ detectBank(transferUserForm.value.recipientIdentifier!) }}
             </p>
           }
         </div>
       } @else {
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1" for="iban">IBAN</label>
+          <label class="block text-sm font-medium text-ink-muted mb-1" for="iban">IBAN</label>
           <input
             formControlName="recipientIdentifier"
             placeholder="AZ00XXXX00000000000000000000"
-            class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+            class="w-full px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
             maxlength="34"
           />
         </div>
       }
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="recipientName"
+        <label class="block text-sm font-medium text-ink-muted mb-1" for="recipientName"
           >Alıcının adı</label
         >
         <input
           formControlName="recipientName"
           placeholder="Alıcının adı"
-          class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+          class="w-full px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
         />
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="amount">Məbləğ</label>
+        <label class="block text-sm font-medium text-ink-muted mb-1" for="amount">Məbləğ</label>
         <input
           formControlName="amount"
           type="number"
           placeholder="Məbləği daxil edin"
-          class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+          class="w-full px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
         />
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="purpose"
+        <label class="block text-sm font-medium text-ink-muted mb-1" for="purpose"
           >Ödəniş məqsədi</label
         >
         <input
           formControlName="purpose"
           placeholder="Məsələn, hədiyyə, borc qaytarma"
-          class="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+          class="w-full px-3 py-2 border border-line rounded-md text-sm bg-card text-ink"
         />
       </div>
 
@@ -123,12 +123,12 @@
       </label>
 
       @if (formValues()?.amount) {
-        <div class="flex flex-col gap-1 text-sm border-t border-gray-100 pt-3">
-          <div class="flex justify-between text-gray-500">
+        <div class="flex flex-col gap-1 text-sm border-t border-line-light pt-3">
+          <div class="flex justify-between text-ink-faint">
             <span>Komissiya</span>
             <span>{{ fee() }} AZN</span>
           </div>
-          <div class="flex justify-between font-semibold text-navy">
+          <div class="flex justify-between font-semibold text-ink">
             <span>Yekun məbləğ</span>
             <span>{{ finalAmount() }} AZN</span>
           </div>
@@ -147,9 +147,9 @@
   } @else if (step() === 'otp') {
     <form
       [formGroup]="otpForm"
-      class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4"
+      class="bg-card rounded-xl border border-line-light shadow-sm p-6 flex flex-col gap-4"
     >
-      <p class="text-sm text-gray-500">6 rəqəmli kodu daxil edin</p>
+      <p class="text-sm text-ink-faint">6 rəqəmli kodu daxil edin</p>
 
       <app-otp-input formControlName="otp" />
 
@@ -160,7 +160,7 @@
       }
 
       @if (resendCooldown() > 0) {
-        <p class="text-xs text-gray-400">Yenidən göndər ({{ resendCooldown() }}s)</p>
+        <p class="text-xs text-ink-faint">Yenidən göndər ({{ resendCooldown() }}s)</p>
       } @else {
         <button type="button" (click)="onResendOtp()" class="text-xs text-mint hover:underline">
           Yenidən göndər
@@ -172,7 +172,7 @@
           type="button"
           (click)="onBack()"
           [disabled]="isVerifying()"
-          class="text-sm text-gray-500"
+          class="text-sm text-ink-faint"
         >
           Geri
         </button>
@@ -189,7 +189,7 @@
   } @else if (step() === 'success') {
     @if (completedTransfer(); as transfer) {
       <div
-        class="bg-white rounded-xl border border-gray-100 shadow-sm p-8 text-center flex flex-col items-center gap-4"
+        class="bg-card rounded-xl border border-line-light shadow-sm p-8 text-center flex flex-col items-center gap-4"
       >
         <div class="w-16 h-16 rounded-full bg-mint-light flex items-center justify-center">
           <svg class="w-8 h-8 text-mint" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -202,8 +202,8 @@
           </svg>
         </div>
 
-        <h2 class="font-display text-xl font-bold text-navy">Köçürmə uğurla tamamlandı</h2>
-        <p class="text-sm text-gray-500">
+        <h2 class="font-display text-xl font-bold text-ink">Köçürmə uğurla tamamlandı</h2>
+        <p class="text-sm text-ink-faint">
           {{ transfer.amount }} {{ transfer.currency }}, {{ transfer.recipientName }} adına
           köçürüldü
         </p>
@@ -215,9 +215,10 @@
           >
             Əməliyyata bax
           </a>
+
           <a
             routerLink="/dashboard"
-            class="px-4 py-2 text-sm border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50"
+            class="px-4 py-2 text-sm border border-line rounded-md text-ink-muted hover:bg-page"
           >
             Ana səhifəyə qayıt
           </a>

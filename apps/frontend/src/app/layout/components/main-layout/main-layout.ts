@@ -1,9 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
 import { Sidebar } from '../sidebar/sidebar';
-import { Toast } from "../../../shared/components/toast/toast";
+import { Toast } from '../../../shared/components/toast/toast';
+import { SettingsService } from '../../../core/services/settings.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -12,9 +13,14 @@ import { Toast } from "../../../shared/components/toast/toast";
   styleUrl: './main-layout.css',
 })
 export class MainLayout {
+  private settingsService = inject(SettingsService);
   sidebarOpen = signal(true);
 
+  constructor() {
+    this.settingsService.loadSettings();
+  }
+
   toggleSidebar() {
-    this.sidebarOpen.update(v => !v)
+    this.sidebarOpen.update((v) => !v);
   }
 }
