@@ -6,6 +6,8 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { createHash } from 'crypto';
+import ms from 'ms';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -72,7 +74,16 @@ export class AuthService {
     return this.buildAuthResponse(user);
   }
 
-  private buildAuthResponse(user: User) {
+  private hashToken(token: string): string {
+    return createHash('sha256').update(token).digest('hex');
+  }
+
+  /**
+   * accessToken imzalayır, yeni refreshToken yaradıb onun hash-ini DB-də saxlayır.
+   * (Xam refresh token heç vaxt DB-yə yazılmır — yalnız hash-i, belə ki DB sızsa
+   * belə token-lər ordan birbaşa istifadə oluna bilməsin.)
+   */
+  private async buildAuthResponse(user: User) {
     const payload: JwtPayload = { sub: user.id, email: user.email };
 
     const accessToken = this.jwtService.sign(payload, {
@@ -80,9 +91,21 @@ export class AuthService {
       expiresIn: process.env.JWT_EXPIRES_IN as StringValue,
     });
 
+    const refreshExpiresIn = process.env.JWT_REFRESH_EXPIRES_IN as StringValue;
+
     const refreshToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_REFRESH_SECRET,
-      expiresIn: process.env.JWT_REFRESH_EXPIRES_IN as StringValue,
+      expiresIn: refreshExpiresIn,
+    });
+
+    const expiresAt = new Date(Date.now() + ms(refreshExpiresIn));
+
+    await this.prisma.refreshToken.create({
+      data: {
+        userId: user.id,
+        tokenHash: this.hashToken(refreshToken),
+        expiresAt,
+      },
     });
 
     const safeUser: Omit<User, 'password'> & { password?: string } = {
@@ -94,22 +117,59 @@ export class AuthService {
   }
 
   async refresh(refreshToken: string) {
+    let payload: JwtPayload;
+
     try {
-      const payload = this.jwtService.verify<JwtPayload>(refreshToken, {
+      payload = this.jwtService.verify<JwtPayload>(refreshToken, {
         secret: process.env.JWT_REFRESH_SECRET,
       });
-
-      const user = await this.prisma.user.findUnique({
-        where: { id: payload.sub },
-      });
-
-      if (!user) {
-        throw new UnauthorizedException();
-      }
-
-      return this.buildAuthResponse(user);
     } catch {
       throw new UnauthorizedException('Yanlış refresh token');
     }
+
+    const tokenHash = this.hashToken(refreshToken);
+    const storedToken = await this.prisma.refreshToken.findUnique({
+      where: { tokenHash },
+    });
+
+    if (
+      !storedToken ||
+      storedToken.revoked ||
+      storedToken.expiresAt < new Date()
+    ) {
+      throw new UnauthorizedException('Yanlış refresh token');
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: payload.sub },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    await this.prisma.refreshToken.update({
+      where: { tokenHash },
+      data: { revoked: true },
+    });
+
+    return this.buildAuthResponse(user);
+  }
+
+  async logout(userId: number, refreshToken: string) {
+    const tokenHash = this.hashToken(refreshToken);
+
+    const storedToken = await this.prisma.refreshToken.findUnique({
+      where: { tokenHash },
+    });
+
+    if (storedToken && storedToken.userId === userId) {
+      await this.prisma.refreshToken.update({
+        where: { tokenHash },
+        data: { revoked: true },
+      });
+    }
+
+    return { message: 'Çıxış edildi' };
   }
 }

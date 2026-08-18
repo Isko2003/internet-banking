@@ -15,6 +15,7 @@ import { PaymentsModule } from './payments/payments.module';
 import { PaymentProvidersModule } from './payment-providers/payment-providers.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { OtpModule } from './otp/otp.module';
+import { ExchangeRatesModule } from './exchange-rates/exchange-rates.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { OtpModule } from './otp/otp.module';
     PaymentProvidersModule,
     NotificationsModule,
     OtpModule,
+    ExchangeRatesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
