@@ -1,13 +1,15 @@
 import { HttpErrorResponse, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, switchMap, throwError } from 'rxjs';
-import { AuthService } from '../services/auth.service';
+import { catchError, finalize, Observable, shareReplay, switchMap, throwError } from 'rxjs';
+import { AuthResponse, AuthService } from '../services/auth.service';
 
 function withAuthHeader<T>(req: HttpRequest<T>, token: string): HttpRequest<T> {
   return req.clone({
     setHeaders: { Authorization: `Bearer ${token}` },
   });
 }
+
+let refreshInProgress$: Observable<AuthResponse> | null = null;
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
@@ -20,7 +22,16 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(authorizedReq).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && !isAuthRoute && authService.getRefreshToken()) {
-        return authService.refreshToken().pipe(
+        if (!refreshInProgress$) {
+          refreshInProgress$ = authService.refreshToken().pipe(
+            shareReplay(1),
+            finalize(() => {
+              refreshInProgress$ = null;
+            }),
+          );
+        }
+
+        return refreshInProgress$.pipe(
           switchMap((res) => next(withAuthHeader(req, res.accessToken))),
           catchError((refreshError) => throwError(() => refreshError)),
         );

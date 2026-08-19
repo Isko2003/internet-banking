@@ -167,18 +167,6 @@ export class TransfersService {
         },
       });
 
-      await tx.transaction.create({
-        data: {
-          accountId: debitAccount.id,
-          type: 'expense',
-          amount,
-          currency: debitAccount.currency,
-          category: 'transfer',
-          description: dto.comment || `Köçürmə (${creditAccount.name})`,
-          status: 'completed',
-        },
-      });
-
       const debitTransaction = await tx.transaction.create({
         data: {
           accountId: debitAccount.id,

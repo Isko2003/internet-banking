@@ -17,9 +17,9 @@ export class ExchangeRateService {
     this.refreshTrigger$,
   ]).pipe(
     switchMap(([base]) =>
-      this.http.get<ExchangeRateResponse>(`${environment.apiUrl}/rates?base=${base}`)
+      this.http.get<ExchangeRateResponse>(`${environment.apiUrl}/rates?base=${base}`),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   getRates(base: string): Observable<ExchangeRateResponse> {

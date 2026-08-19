@@ -8,7 +8,7 @@ export class ExchangeRatesController {
   constructor(private exchangeRatesService: ExchangeRatesService) {}
 
   @Get()
-  getRates(@Query('base') base?: string) {
+  async getRates(@Query('base') base?: string) {
     return this.exchangeRatesService.getRates(base ?? 'AZN');
   }
 }
